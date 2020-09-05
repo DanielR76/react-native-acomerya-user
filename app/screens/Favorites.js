@@ -1,13 +1,13 @@
 import React from "react";
 import {View,Text} from "react-native";
 
-export default function Restaurants(){
+export default function Favorites(){
 
 return (
 
 <View>
 
-<Text>Restaurants</Text>
+<Text>Favorites</Text>
 
 </View>
 

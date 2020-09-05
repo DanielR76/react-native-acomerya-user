@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AComerYa",
-    "slug": "AComerYa",
+    "name": "reactnative",
+    "slug": "reactnative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,11 +17,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "android": {},
     "description": ""
   }
 }
