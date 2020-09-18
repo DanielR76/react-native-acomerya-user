@@ -1,16 +1,16 @@
 import React from "react";
-import {View,Text} from "react-native";
+import { View, Text } from "react-native";
 
-export default function Search(){
+export default function Search() {
 
-return (
+    return (
 
-<View>
+        <View>
 
-<Text>Search....</Text>
+            <Text>Search....</Text>
 
-</View>
+        </View>
 
-);
+    );
 
 }

@@ -1,16 +1,16 @@
 import React from "react";
-import {View,Text} from "react-native";
+import { View, Text } from "react-native";
 
-export default function Restaurants(){
+export default function Restaurants() {
 
-return (
+    return (
 
-<View>
+        <View>
 
-<Text>Restaurants</Text>
+            <Text>Restaurants</Text>
 
-</View>
+        </View>
 
-);
+    );
 
 }

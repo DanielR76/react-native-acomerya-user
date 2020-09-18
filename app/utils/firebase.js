@@ -1,14 +1,17 @@
 import firebase from "firebase/app";
+//import 'firebase/firestore'
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDu_WflKM1aqYjIAV3Z_CuC7P810MspvFY",
-    authDomain: "acomerya-native.firebaseapp.com",
-    databaseURL: "https://acomerya-native.firebaseio.com",
-    projectId: "acomerya-native",
-    storageBucket: "acomerya-native.appspot.com",
-    messagingSenderId: "861205142453",
-    appId: "1:861205142453:web:90b7615e8ba3793613d7fc",
+    apiKey: "AIzaSyBzdGz1BYTCIZyRpxUsu0GdCmR7_RpbYmo",
+    authDomain: "acomerya-app.firebaseapp.com",
+    databaseURL: "https://acomerya-app.firebaseio.com",
+    projectId: "acomerya-app",
+    storageBucket: "acomerya-app.appspot.com",
+    messagingSenderId: "42823629619",
+    appId: "1:42823629619:web:946d2b4bfd6ba1653d5c46"
 };
 
-export const firebApp = firebase.initializeApp(firebaseConfig);
+//const fb = firebase.initializeApp(firebaseConfig);
+//export const db = fb.firestore();
+export const firebaseapp = firebase.initializeApp(firebaseConfig)
