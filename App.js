@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import Navigation from "./app/navigations/Navigation"
+import Navigation from "./app/navigations/Navigation";
+import { firebaseapp } from "./app/utils/firebase"
 
 export default function App() {
 

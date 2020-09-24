@@ -5,6 +5,8 @@ import { Icon } from "react-native-elements"
 import RestaurantsStack from "../navigations/RestaurantsStack";
 import FavoriteStack from "./FavoriteStack";
 import TopRestaurantsStack from "./TopRestaurantsStack";
+import ReservationStack from "./ReservationStack"; 
+import RequestOnYourTableStack from "./RequestOnYourTableStack";
 import SearchStack from "./SearchStack";
 import AccountStack from "./AccountStack";
 
@@ -27,6 +29,8 @@ export default function Navigation() {
                 })}
             >
                 <Tab.Screen name="restaurants" component={RestaurantsStack} options={{ title: "Restaurantes" }} />
+                <Tab.Screen name="Reservation" component={ ReservationStack } options={{ title:"Reservas"}}/ >
+                <Tab.Screen name="RequestOnYourTable" component={ RequestOnYourTableStack } options={{ title:"Solicita a tu mesa"}}/ >
                 <Tab.Screen name="favorites" component={FavoriteStack} options={{ title: "Favoritos" }} />
                 <Tab.Screen name="top-restaurants" component={TopRestaurantsStack} options={{ title: "Top 5 R" }} />
                 <Tab.Screen name="search" component={SearchStack} options={{ title: "Buscar" }} />
@@ -56,7 +60,13 @@ function screenOptions(route, color) {
         case "account":
             iconName = "home-outline"
             break;
-
+            case "Reservation":
+            iconName = "silverware-fork-knife"
+            break;
+            case "RequestOnYourTable":
+                iconName = "barcode-scan"
+                break;
+    
         default:
             break;
     }

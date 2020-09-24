@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-//import 'firebase/firestore'
-
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/storage'
 
 const firebaseConfig = {
     apiKey: "AIzaSyBzdGz1BYTCIZyRpxUsu0GdCmR7_RpbYmo",
@@ -10,8 +10,15 @@ const firebaseConfig = {
     storageBucket: "acomerya-app.appspot.com",
     messagingSenderId: "42823629619",
     appId: "1:42823629619:web:946d2b4bfd6ba1653d5c46"
+
 };
 
-//const fb = firebase.initializeApp(firebaseConfig);
-//export const db = fb.firestore();
-export const firebaseapp = firebase.initializeApp(firebaseConfig)
+const firebaseApp = firebase.initializeApp(firebaseConfig)
+const db = firebaseApp.firestore()
+const storage = firebase.storage()
+
+export { db, storage }
+
+
+
+
