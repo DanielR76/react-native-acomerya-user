@@ -1,7 +1,7 @@
-import React,{useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // import { View, Text } from "react-native";
 import { StyleSheet, View, ScrollView, Text, Image } from "react-native";
-import { Button, Input} from "react-native-elements";
+import { Button, Input } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "../utils/firebase";
 import "firebase/firestore";
@@ -21,31 +21,28 @@ export default function RequestOnYourTable() {
     //funcion que permite traer los platos
 
     return (
-<ScrollView style={styles.viewBody} >
-<View style={styles.view}>
-<Text>Digita el siguiente codigo para que veas nuestro menu.</Text><br></br>
-<Input></Input>
-<Button title="Ver menu" onPress={() => navigation.navigate("RequestOnYourTable_platos")}></Button><br></br>
-</View>
-</ScrollView>      
+        <ScrollView style={styles.viewBody} >
+            <View style={styles.view}>
+                <Text>Digita el siguiente codigo para que veas nuestro menu.</Text><br></br>
+                <Input></Input>
+                <Button title="Ver menu" onPress={() => navigation.navigate("RequestOnYourTable_platos")}></Button><br></br>
+            </View>
+        </ScrollView>
     );
 }
 
-   
-
-
 const styles = StyleSheet.create({
     viewBody: {
-marginLeft: 30, 
-marginRight: 30,
+        marginLeft: 30,
+        marginRight: 30,
     }
-    ,titulo: {
+    , titulo: {
         fontWeight: "bold",
         fontSize: 19,
         marginBottom: 10,
         textAlign: "center"
     }
-    ,view:{
+    , view: {
         flex: 1,
         alignItems: "center"
     }

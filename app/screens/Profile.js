@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
+import React, { Component } from 'react';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-export default class TopRestaurants extends Component {
+export default class Profile extends Component {
 
     constructor(props) {
         super(props);
@@ -13,8 +13,7 @@ export default class TopRestaurants extends Component {
     render() {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Cart food</Text>
-
+                <Text>Profile</Text>
             </View>
         );
     }
