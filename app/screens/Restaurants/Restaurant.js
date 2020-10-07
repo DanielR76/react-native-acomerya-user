@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Button,
+} from "react-native";
 import { Loading } from "../../components/Loading";
+import { useNavigation } from "@react-navigation/native";
 import Carousel from "../../components/Restaurants/Carousel";
 import { firebaseapp } from "../../utils/firebase";
 import firebase from "firebase//app";
@@ -11,11 +19,11 @@ const screenWidth = Dimensions.get("window").width;
 export default function Restaurant(props) {
   const { navigation, route } = props;
   const { id, nombreRestaurante } = route.params;
-  const [restaurant, setRestaurant] = useState(null);
   const [dish, setDish] = useState([]);
   const [dataAddress, setdataAddress] = useState(null);
   const [dataNameRestaurant, setNameRestaurant] = useState(null);
   const [dataPhone, setdataPhone] = useState(null);
+  const [dataEmail, setdataEmail] = useState(null);
 
   navigation.setOptions({ title: nombreRestaurante });
   const getRestaurantById = async () => {
@@ -29,11 +37,12 @@ export default function Restaurant(props) {
         const dataAddress = response.data().address;
         const dataNameRestaurant = response.data().nameRestaurant;
         const dataPhone = response.data().phone;
+        const dataEmail = response.data().email;
         data.id = response.id;
-        setRestaurant(data);
         setdataAddress(dataAddress);
         setNameRestaurant(dataNameRestaurant);
         setdataPhone(dataPhone);
+        setdataEmail(dataEmail);
         getImagesByDish(dataIduser);
       });
   };
@@ -77,11 +86,26 @@ export default function Restaurant(props) {
         <Text style={styles.textInformationContact}>
           Información de contacto
         </Text>
-        <Text>{dataAddress}</Text>
-        <Text>{dataPhone}</Text>
+        <Text style={styles.textInformationAddress}>{dataAddress}</Text>
+        <Text style={styles.textInformationEmail}>{dataEmail}</Text>
+        <Text style={styles.textInformationPhone}>{dataPhone}</Text>
+      </View>
+      <View style={styles.containerButtonReservation}>
+        <CreateReservation />
       </View>
     </ScrollView>
   );
+
+  function CreateReservation() {
+    const navigation = useNavigation();
+    return (
+      <Button
+        buttonStyle={styles.buttonReservation}
+        title="Reservar"
+        onPress={() => navigation.navigate("Reservation")}
+      />
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -94,8 +118,7 @@ const styles = StyleSheet.create({
     height: 25,
     marginLeft: 30,
     textAlign: "center",
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 19,
   },
   containerTextNameRestaurant: {
     width: 295,
@@ -107,7 +130,7 @@ const styles = StyleSheet.create({
   },
   containerInformationContact: {
     width: 295,
-    height: 149,
+    height: 200,
     marginTop: 15,
     marginLeft: 61,
     borderRadius: 10,
@@ -120,6 +143,37 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     textAlign: "center",
     fontSize: 16,
-    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
+  textInformationAddress: {
+    width: 183,
+    height: 40,
+    marginLeft: 30,
+    textAlign: "center",
+    fontSize: 15,
+  },
+  textInformationPhone: {
+    width: 183,
+    height: 40,
+    marginLeft: 30,
+    textAlign: "center",
+    fontSize: 15,
+  },
+  textInformationEmail: {
+    width: 220,
+    height: 40,
+    marginLeft: 20,
+    textAlign: "center",
+    fontSize: 15,
+  },
+  buttonReservation: {
+    color: "#ED923D",
+    borderRadius: 10,
+  },
+  containerButtonReservation: {
+    width: 295,
+    height: 60,
+    marginLeft: 61,
+    padding: 24,
   },
 });

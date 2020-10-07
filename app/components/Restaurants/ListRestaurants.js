@@ -55,7 +55,7 @@ function Restaurant(props) {
       <View style={styles.viewRestaurants}>
         <View style={styles.viewRestaurantsImage}>
           <Image
-            resizeMode="cover"
+            resizeMode={"cover"}
             PlaceholderContent={<ActivityIndicator color="fff" />}
             source={
               imageRestaurant
@@ -99,17 +99,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   viewRestaurantsImage: {
-    marginLeft: 65,
+    marginLeft: 22,
   },
   imageRestaurant: {
-    width: 274,
-    height: 142,
+    width: 370,
+    height: 200,
     borderRadius: 10,
+    overflow: "hidden",
   },
   textRestaurant: {
     width: 183,
     height: 25,
-    marginLeft: 15,
+    marginLeft: 60,
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",

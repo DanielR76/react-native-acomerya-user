@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     marginLeft: 95,
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "normal",
   },
   containerNameRestaurant: {
     padding: 18,
