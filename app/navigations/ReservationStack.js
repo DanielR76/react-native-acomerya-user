@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import Reservation from "../screens/Restaurants/Reservation";
 const Stack = createStackNavigator();
 
 export default function ReservationStack() {
