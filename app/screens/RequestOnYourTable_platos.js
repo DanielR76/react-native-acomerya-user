@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, Text, Image } from "react-native";
 import { db } from "../utils/firebase";
 import "firebase/firestore";
 import ListPlatos from "../screens/ListPlatos";
+import { FlatList } from "react-native-gesture-handler";
 
 
 export default function RequestOnYourTable_platos() {
@@ -25,11 +26,10 @@ export default function RequestOnYourTable_platos() {
         getDishes()
     }, [])
 
-
-    //console.log(dish);
     return (
         <View>
             <ListPlatos dish={dish} />
         </View>
     );
+
 }

@@ -6,11 +6,20 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Cart from './Cart';
+import { ScrollView } from 'react-native-gesture-handler';
 
 var { height, width } = Dimensions.get("window");
 export default function ListPlatos(props) {
     const { dish } = props;
     const navigation = useNavigation();
+
+    const [add, setAdd] = useState(1);
+
+
+    // const cartElement = (element) => {
+    //     console.log(element);
+    // }
+
 
     return (
         <View>
@@ -47,31 +56,39 @@ function Dish(props) {
         });
     };
 
+
+    // const cartElement = (element) => {
+    //     console.log(element);
+    // }
+
     return (
-        <TouchableOpacity style={styles.divFood}>
-            <Image
-                PlaceholderContent={<ActivityIndicator color="fff" />}
-                style={styles.vimageDishes}
-                resizeMode="contain"
-                source={imagePath ? { uri: imagePath } : require("../../assets/img/imgj.jpg")
-                }
-            />
-            <View style={styles.viewPlatosImage}>
-                <Text style={styles.dishesName}>{dishName}</Text>
-                <Text>{description}</Text>
-                <Text style={styles.dishPrice}>{price}</Text>
-            </View>
-            <TouchableOpacity
-                style={styles.tobuttonCart}
+        <ScrollView>
+            <TouchableOpacity onPress={goDish} style={styles.divFood}>
+                <Image
+                    PlaceholderContent={<ActivityIndicator color="fff" />}
+                    style={styles.vimageDishes}
+                    resizeMode="contain"
+                    source={imagePath ? { uri: imagePath } : require("../../assets/img/imgj.jpg")
+                    }
+                />
+                <View style={styles.viewPlatosImage}>
+                    <Text style={styles.dishesName}>{dishName}</Text>
+                    <Text>{description}</Text>
+                    <Text style={styles.dishPrice}>{price}</Text>
+                </View>
+                <TouchableOpacity
+                    style={styles.tobuttonCart}
                 //  onPress={() => this.onClickAddCart(dish)}
                 //onPress={() => navigation.navigate("RequestOnYourTable_platos")}
-                onPress={goDish}
-            >
-                <Text style={styles.textbuttonCart}>Add Cart</Text>
-                <View style={{ width: 10 }}></View>
-                <Icon name="ios-add-circle" size={30} color={"white"}></Icon>
+
+                >
+                    <Text style={styles.textbuttonCart}>Add Cart</Text>
+                    <View style={{ width: 10 }}></View>
+                    <Icon name="ios-add-circle" size={30} color={"white"}></Icon>
+                </TouchableOpacity>
             </TouchableOpacity>
-        </TouchableOpacity>
+        </ScrollView>
+
     )
 }
 
