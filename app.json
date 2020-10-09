@@ -13,16 +13,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "android": {},
+    "android": {
+      "permissions": ["CAMERA_ROLL"]
+    },
     "description": ""
   }
 }

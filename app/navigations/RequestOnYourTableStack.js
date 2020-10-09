@@ -11,8 +11,8 @@ export default function RequestOnYourTableStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="RequestOnYourTable" component={RequestOnYourTable} options={{ title: "Solicita a tu mesa " }} />
-        <Stack.Screen name="RequestOnYourTable_platos" component={RequestOnYourTable_platos} options={{ title: "¡ Selecciona tu plato! " }} />
-        <Stack.Screen name="dish" component={Dish} />
-    </Stack.Navigator>
+            <Stack.Screen name="RequestOnYourTable_platos" component={RequestOnYourTable_platos} options={{ title: "¡ Selecciona tu plato! " }} />
+            <Stack.Screen name="dish" component={Dish} />
+        </Stack.Navigator>
     )
 }

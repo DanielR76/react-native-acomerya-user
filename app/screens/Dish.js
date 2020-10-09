@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 //import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { StyleSheet, ScrollView, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native'
-import { firebaseApp } from "../utils/firebase";
-import firebase from "firebase/app";
-import "firebase/firestore";
 import Loading from "../components/Loading";
 import Carousel from "../components/Carousel";
 import { Image, Button } from "react-native-elements";
@@ -11,9 +8,10 @@ import { Image, Button } from "react-native-elements";
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { remove } from 'lodash';
+import { firebaseapp } from "../utils/firebase";
+import firebase, { firestore } from "firebase//app";
+import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 
-
-const db = firebase.firestore(firebaseApp);
 var { height, width } = Dimensions.get("window");
 
 export default function Dish(props) {
