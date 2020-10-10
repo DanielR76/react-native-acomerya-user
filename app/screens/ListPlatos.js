@@ -44,6 +44,10 @@ function Dish(props) {
     const { dish, navigation } = props;
     const { id, imagePath, dishName, price, description, cant } = dish.item;
 
+    const cartElement = (element) => {
+        console.log(element);
+    }
+
     const goDish = () => {
         // console.log("ok11");
         // console.log(navigation);
@@ -52,14 +56,14 @@ function Dish(props) {
             dishName,
             imagePath,
             price,
-            description
-        });
+            description,
+            test: { cartElement }
+        },
+        );
+
     };
 
 
-    // const cartElement = (element) => {
-    //     console.log(element);
-    // }
 
     return (
         <ScrollView>

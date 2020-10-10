@@ -16,88 +16,21 @@ var { height, width } = Dimensions.get("window");
 
 export default function Dish(props) {
     const { navigation, route, elementProps } = props;
-    const { id, dishName, imagePath, price } = route.params;
-    //const [dish, setDish] = useState("");
+    const { id, dishName, imagePath, price, test } = route.params;
 
+    const [dish, setDish] = useState([]);
 
-
-    // const addListCart = dataCart.map((item, index) => {
-    //     return (
-    //         <View> <Text>{item.id}</Text></View>
-    //     );
-    // });
-
-
-
-
-    const onClickAddCart = async (data) => {
-
-        const itemcart = [];
-
-        // dataCart = async () => {
-
-        //     await AsyncStorage.setItem(
-
-        //     )
-        // }
-
-
-
-        // AsyncStorage.setItem(
-        //     'cart',
-        //     JSON.stringify(dataCart),
-        //     () => {
-        //         AsyncStorage.mergeItem(
-        //             'cart',
-        //             JSON.stringify(itemcart),
-        //             () => {
-        //                 AsyncStorage.getItem('cart', (err, result) => {
-        //                     console.log(result);
-        //                 });
-        //             }
-        //         );
-        //     }
-        // );
-
-        AsyncStorage.getItem('cart').then((dataCart) => {
-            if (dataCart !== null) {
-                const cart = JSON.parse(dataCart)
-                cart.push(itemcart)
-
-                //AsyncStorage.setItem('cart', JSON.stringify(cart));
-            }
-            // else {
-            //     const cart = []
-            //     cart.push(itemcart)
-            //     AsyncStorage.setItem('cart', JSON.stringify(cart));
-            // }
-            alert("Add Cart")
+    useEffect(() => {
+        let test = route.params
+        setDish({
+            ...test,
+            quantity: 0
         })
-            .catch((err) => {
-                alert(err)
-            })
-    }
+    }, [route.params])
 
-
+    //console.log(route.params)
 
     navigation.setOptions({ title: dishName });
-
-    // if (!dish) return <Loading isVisible={true} text="Cargando..." />
-
-
-    const dataCart = [];
-    //const [dataCart, setDataCart] = useState();
-
-    const [add, setAdd] = useState(1);
-    dataCart.push({
-        id,
-        dishName,
-        imagePath,
-        price,
-        quantity: add
-    });
-
-    // const added = () => { setAdd(add + 1) }
 
 
     const onPressRemove = () => {
@@ -108,17 +41,20 @@ export default function Dish(props) {
     };
 
     const onPressAdded = () => {
-
         setAdd(add + 1)
     };
 
-    // const elementPropsFuntion = () => {
-    //     props.elementProps(dataCart)
-    // };
+    const [add, setAdd] = useState(0);
 
+    const onClickAddCart = async (data) => {
+        //test('hola')
+        setDish({
+            ...dish,
+            quantity: add
+        })
+    }
 
-
-
+    console.log(dish)
 
     return (
 
@@ -128,59 +64,59 @@ export default function Dish(props) {
                 <Text style={{ fontSize: 20, color: "gray", fontWeight: "bold" }}>Cart food</Text>
                 <View style={{ height: 10 }} />
                 <View style={{ backgroundColor: "transparent", flex: 1 }} />
-                {
+                {/*       {
                     dataCart.map((item, i) => {
-                        return (
-                            <View>
-                                <View style={{ width: width - 20, margin: 10, backgroundColor: "transparent", flexDirection: "row", borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10 }}></View>
-                                <Image
-                                    style={{ width: width / 3, height: width / 3, }}
-                                    resizeMode="cover"
-                                    PlaceholderContent={<ActivityIndicator color="fff" />}
-                                    source={item.imagePath ? { uri: item.imagePath } : require("../../assets/img/imgj.jpg")
-                                    }
-                                />
-                                <View style={{ backgroundColor: "transparent", flex: 1, justifyContent: 'space-between' }}>
-                                    <View>
-                                        <Text style={{ fontSize: 20, fontWeight: "bold" }}>item.description</Text>
-                                        <Text>{item.dishName}</Text>
-                                    </View>
+                        return ( */}
+                <View>
+                    <View style={{ width: width - 20, margin: 10, backgroundColor: "transparent", flexDirection: "row", borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10 }}></View>
+                    <Image
+                        style={{ width: width / 3, height: width / 3, }}
+                        resizeMode="cover"
+                        PlaceholderContent={<ActivityIndicator color="fff" />}
+                        source={imagePath ? { uri: imagePath } : require("../../assets/img/imgj.jpg")
+                        }
+                    />
+                    <View style={{ backgroundColor: "transparent", flex: 1, justifyContent: 'space-between' }}>
+                        <View>
+                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>description</Text>
+                            <Text>{dishName}</Text>
+                        </View>
 
-                                    <View style={{ backgroundColor: "transparent", flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        <Text style={{ fontWeight: 'bold', color: "#33c37d", fontSize: 20, }}>{item.price}</Text>
+                        <View style={{ backgroundColor: "transparent", flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ fontWeight: 'bold', color: "#33c37d", fontSize: 20, }}>{price}</Text>
 
-                                        <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                            <TouchableOpacity onPress={onPressRemove}>
-                                                <Icon name="ios-remove-circle" size={20} color={"#33c37d"}></Icon>
-                                            </TouchableOpacity>
-                                            <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{item.quantity}</Text>
-                                            <TouchableOpacity onPress={onPressAdded}>
-                                                <Icon name="ios-add-circle" size={20} color={"#33c37d"}></Icon>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </View>
-
-                                <View style={{ height: 20 }} />
-                                <TouchableOpacity onPress={onClickAddCart(item)} style={{
-                                    backgroundColor: "#33c37d", width: width - 40,
-                                    alignItems: 'center',
-                                    padding: 10, borderRadius: 5,
-                                }}
-                                >
-                                    <Text style={{
-                                        fontSize: 24, fontWeight: 'bold', color: "white",
-                                    }}>
-                                        Agregar al Carrito
-                            </Text>
+                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                <TouchableOpacity onPress={onPressRemove}>
+                                    <Icon name="ios-remove-circle" size={20} color={"#33c37d"}></Icon>
                                 </TouchableOpacity>
-
+                                <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{add}</Text>
+                                <TouchableOpacity onPress={onPressAdded}>
+                                    <Icon name="ios-add-circle" size={20} color={"#33c37d"}></Icon>
+                                </TouchableOpacity>
                             </View>
+                        </View>
+                    </View>
+
+                    <View style={{ height: 20 }} />
+                    <TouchableOpacity onPress={onClickAddCart} style={{
+                        backgroundColor: "#33c37d", width: width - 40,
+                        alignItems: 'center',
+                        padding: 10, borderRadius: 5,
+                    }}
+                    >
+                        <Text style={{
+                            fontSize: 24, fontWeight: 'bold', color: "white",
+                        }}>
+                            Agregar al Carrito
+                            </Text>
+                    </TouchableOpacity>
+
+                </View>
 
 
 
-                        )
-                    })}
+                {/*       )
+                    })} */}
 
             </View>
 
