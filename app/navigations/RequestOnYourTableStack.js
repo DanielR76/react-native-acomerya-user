@@ -22,10 +22,7 @@ export default function RequestOnYourTableStack() {
         component={RequestOnYourTable} 
         options={{ title: "Solicita a tu mesa "}}
          />
-        <Stack.Screen name="RequestOnYourTable_platos" 
-        component={RequestOnYourTable_platos} 
-        options={{ title: "¡ Selecciona tu plato! " }}
-         />
+      
         <Stack.Screen 
         name="dish" 
         component={Dish} 

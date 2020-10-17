@@ -14,6 +14,8 @@ import AccountStack from "./app/navigations/AccountStack";
 import NavigationAccount from "./app/navigations/NavigationAccount";
 import * as firebase from "firebase/app";
 import { decode, encode } from "base-64";
+import ListPlatos from './app/screens/ListPlatos'
+import RequestOnYourTable_platos from './app/screens/RequestOnYourTable_platos'
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -41,28 +43,23 @@ export default function App() {
     });
   }, []);
 
+
   return (
 
     <NavigationContainer>
-      {/*!LoginIn &&*/ !userCode ? (
+      {!LoginIn  ? (
         <Tab.Navigator>
           <Tab.Screen
             name="account"
             component={AccountStack}
             options={{ title: "Cuenta" }}
           />
-          <Tab.Screen
-              name="Cart"
-              component={Cart}
-              options={{ title: "carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
-            />  
         </Tab.Navigator >
       ) : (
           <Tab.Navigator
           //initialRouteName="RequestOnYourTableStack"
             tabBarOptions={{
               activeTintColor: '#e91e63',
-
               //showLabel: false
             }}>
             <Tab.Screen
@@ -76,12 +73,16 @@ export default function App() {
               component={RequestOnYourTableStack}
               options={{ title: "Codigo" }}
             />
-            
-
-                 
-             
+            <Tab.Screen
+            name="Cart"
+            component={Cart}
+            options={{ title: "carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
+          />  
+          <Stack.Screen name="RequestOnYourTable_platos" 
+        component={RequestOnYourTable_platos} 
+        options={{ title: "Platos " }}
+         />
           </Tab.Navigator>
-        
         )}
 
     </NavigationContainer>
