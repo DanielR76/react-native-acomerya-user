@@ -1,40 +1,60 @@
-import React, { useState, useEffect } from 'react';
-//import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Alert } from 'react-native';
 import { StyleSheet, ScrollView, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native'
 import Loading from "../components/Loading";
-import Carousel from "../components/Carousel";
 import { Image, Button } from "react-native-elements";
-//import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { remove } from 'lodash';
 import { firebaseapp } from "../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
+import Toast from "react-native-easy-toast";
+import { isLoading } from 'expo-font';
+import { useFocusEffect } from '@react-navigation/native';
 
 var { height, width } = Dimensions.get("window");
 
 export default function Dish(props) {
-    const { navigation, route, elementProps } = props;
-    const { id, dishName, imagePath, price, test } = route.params;
+    const { navigation, route } = props;
+    const { id, dishName, imagePath, price, idRestaurant } = route.params;
+    const toastRef = useRef();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [dish, setDish] = useState([]);
+    const [add, setAdd] = useState(0);
 
-    useEffect(() => {
-        let test = route.params
-        setDish({
-            ...test,
-            quantity: 0
-        })
-    }, [route.params])
+    //const [dish, setDish] = useState([route.params]);
+    const [listDish, setListDish] = useState([route.params]);
 
-    //console.log(route.params)
+    const pedidoState = props => {
+        const inicialState = {
+            dishes: [],
+            platillo: null,
+        }
+    }
+    const dishes = {
+        ...route.params,
+        quantity: add
+    }
 
-    navigation.setOptions({ title: dishName });
+    const almacenarPedido = pedido => {
+        pedido = [pedido]
+    }
+
+
+
+    // useEffect(() => {
+    //     let test = route.params
+    //     setDish({
+    //         ...test,
+    //         quantity: 0
+
+    //     })
+    // }, [route.params])
+
+    //  console.log(route.params)
+
 
 
     const onPressRemove = () => {
-        // const remove = () => { setAdd(add - 1) }
         if (add > 1) {
             setAdd(add - 1)
         }
@@ -44,24 +64,41 @@ export default function Dish(props) {
         setAdd(add + 1)
     };
 
-    const [add, setAdd] = useState(0);
 
-    const onClickAddCart = async (data) => {
-        //test('hola')
-        setDish({
-            ...dish,
-            quantity: add
-        })
+    // const onClickAddCart = async (data) => {
+    //     setDish({
+    //         ...dish,
+    //         quantity: add
+    //     })
+
+    // }
+
+    // const carrito = "agua"
+
+    // cartElement.push({
+    //     ...carrito
+    // })
+    const goCart = () => {
+        navigation.navigate("Cart",/*Option = { tabBarLabel: 'hhhhhh' },*/ {
+            id,
+            dishName,
+            imagePath,
+            price,
+            idRestaurant,
+            //test: { cartElement }
+            //cartElement
+            dishes
+        }
+        );
     }
-
-    console.log(dish)
+    navigation.setOptions({ title: "Agregar al carrito" });
 
     return (
 
-        <view>
+        <View>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ height: 20 }} />
-                <Text style={{ fontSize: 20, color: "gray", fontWeight: "bold" }}>Cart food</Text>
+                <Text style={{ fontSize: 20, color: "gray", fontWeight: "bold" }}>{dishName}</Text>
                 <View style={{ height: 10 }} />
                 <View style={{ backgroundColor: "transparent", flex: 1 }} />
                 {/*       {
@@ -83,7 +120,7 @@ export default function Dish(props) {
                         </View>
 
                         <View style={{ backgroundColor: "transparent", flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontWeight: 'bold', color: "#33c37d", fontSize: 20, }}>{price}</Text>
+                            <Text style={{ fontWeight: 'bold', color: "#33c37d", fontSize: 20, }}>{route.params.price}</Text>
 
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <TouchableOpacity onPress={onPressRemove}>
@@ -98,11 +135,13 @@ export default function Dish(props) {
                     </View>
 
                     <View style={{ height: 20 }} />
-                    <TouchableOpacity onPress={onClickAddCart} style={{
-                        backgroundColor: "#33c37d", width: width - 40,
-                        alignItems: 'center',
-                        padding: 10, borderRadius: 5,
-                    }}
+                    <TouchableOpacity
+                        onPress={goCart}
+                        style={{
+                            backgroundColor: "#33c37d", width: width - 40,
+                            alignItems: 'center',
+                            padding: 10, borderRadius: 5,
+                        }}
                     >
                         <Text style={{
                             fontSize: 24, fontWeight: 'bold', color: "white",
@@ -110,7 +149,9 @@ export default function Dish(props) {
                             Agregar al Carrito
                             </Text>
                     </TouchableOpacity>
-
+                    <br></br>
+                    <br></br>
+                    <br></br>
                 </View>
 
 
@@ -121,26 +162,11 @@ export default function Dish(props) {
             </View>
 
             <View style={{ height: 10 }} />
-        </view>
+
+        </View>
     )
 
 }
-
-
-
-// const goDish = () => {
-//     // console.log("ok11");
-//     // console.log(navigation);
-//     navigation.navigate("dish", {
-//         id,
-//         dishName,
-//         imagePath,
-//         price,
-//         description
-//     });
-// };
-
-
 const styles = StyleSheet.create({
     viewBody: {
         flex: 1,

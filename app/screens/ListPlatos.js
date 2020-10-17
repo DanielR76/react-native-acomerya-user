@@ -3,23 +3,17 @@ import { StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, 
 import { Image } from "react-native-elements";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Cart from './Cart';
 import { ScrollView } from 'react-native-gesture-handler';
+
 
 var { height, width } = Dimensions.get("window");
 export default function ListPlatos(props) {
     const { dish } = props;
     const navigation = useNavigation();
 
-    const [add, setAdd] = useState(1);
-
-
-    // const cartElement = (element) => {
-    //     console.log(element);
-    // }
-
+    // const [add, setAdd] = useState(1);
 
     return (
         <View>
@@ -42,28 +36,28 @@ export default function ListPlatos(props) {
 
 function Dish(props) {
     const { dish, navigation } = props;
-    const { id, imagePath, dishName, price, description, cant } = dish.item;
+    const { id, imagePath, dishName, price, description, idRestaurant } = dish.item;
 
-    const cartElement = (element) => {
-        console.log(element);
+    // const cartElement = () => {
+    // }
+    const pedido = {
+        ...dish.index,
     }
 
     const goDish = () => {
-        // console.log("ok11");
-        // console.log(navigation);
         navigation.navigate("dish", {
             id,
             dishName,
             imagePath,
             price,
             description,
-            test: { cartElement }
-        },
+            idRestaurant,
+            //test: { cartElement }
+            //cartElement
+        }
         );
 
     };
-
-
 
     return (
         <ScrollView>
@@ -91,6 +85,7 @@ function Dish(props) {
                     <Icon name="ios-add-circle" size={30} color={"white"}></Icon>
                 </TouchableOpacity>
             </TouchableOpacity>
+
         </ScrollView>
 
     )

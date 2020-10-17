@@ -1,33 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import { View, Text } from "react-native";
 import { StyleSheet, View, ScrollView, Text, Image } from "react-native";
-import { Button, Input } from "react-native-elements";
+import { Button, Input , Container} from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import { db } from "../utils/firebase";
-import "firebase/firestore";
+import { firebaseapp } from "../utils/firebase";
+import firebase, { firestore } from "firebase//app";
+import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
+import Toast from "react-native-easy-toast";
 
-// const db = firebase.firestore(firebaseApp);
 
-export default function RequestOnYourTable() {
+export default function RequestOnYourTable(props) {
     const navigation = useNavigation();
-    // const [restaurants, setRestaurants] = useState([]);
-    // const [totalRestaurants, setTotalRestaurants] = useState(0);
-    // useEffect(() => { 
-    //     db.collection("dishDocument").get().then((snap)=> {
-    //         setTotalRestaurants(snap.size)
-    //     })
-    // }, [])
+    const [codeInput, setCodeInput] = useState("")
+    const toastRef = useRef()
+    //const [codeUser, setCodeUser ] = useState("")
 
-    //funcion que permite traer los platos
+    const getCode = () => {
+        let code
+        if (!codeInput) {
+            toastRef.current.show("No has ingresado ningun codigo")
+        } else {
+            db.collection("codesDocument").where("code", "==", parseInt(codeInput)).get().then((response) => {
+                if (response.size) {
+                    response.forEach((doc) => {
+                        code = doc.data().idRestaurant;
+                    })                   
+                    navigation.navigate("RequestOnYourTable_platos", {
+                        code
+                    });
+                } else {
+                    toastRef.current.show("Por favor valida el codigo ingresado")
+                }
+            });
+        }
+    }
 
     return (
-        <ScrollView style={styles.viewBody} >
-            <View style={styles.view}>
-                <Text>Digita el siguiente codigo para que veas nuestro menu.</Text><br></br>
-                <Input></Input>
-                <Button title="Ver menu" onPress={() => navigation.navigate("RequestOnYourTable_platos")}></Button><br></br>
+        <View style={styles.view}>           
+        <View>
+                <Text>Digita el código para sincronizarte con el restaurante¡</Text><br></br>
+                <Input
+                    onChange={(e) => setCodeInput(e.nativeEvent.text)}
+                    placeholder="Digita aqui tu codigo" />
+                
+                <Button title="Ver menu" onPress={getCode} style={styles.boton} >  </Button>
+                
             </View>
-        </ScrollView>
+            <View>
+                <Toast ref={toastRef} position="center" opacity={0.9} />
+            </View>
+            </View>
+
     );
 }
 
@@ -46,9 +69,19 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center"
     }
+    , contenido:{
+        marginHorizontal: '2.5%',
+        flex:1 ,
+        flexDirection:'column',
+        justifyContent:'center',
+
+    },
+    boton :{
+        backgroundColor:'#FADAOO'
+    },
+    botonTexto:{
+textTransform: 'uppercase',
+fontWeight:'bold',
+color:'#000'
+    }
 });
-
-
-
-
-
