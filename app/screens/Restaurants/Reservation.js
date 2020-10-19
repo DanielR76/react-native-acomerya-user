@@ -2,11 +2,12 @@ import React, { useRef } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-easy-toast";
-import ReservationCreate from "../../components/Restaurants/ReservationCreate";
+import CreateReservation from "../../components/Restaurants/ReservationCreate";
 
-export default function Reservation() {
+export default function Reservation(props) {
   const toastRef = useRef();
-
+  const { route } = props;
+  const { idUser } = route.params;
   return (
     <KeyboardAwareScrollView>
       <Image
@@ -15,7 +16,7 @@ export default function Reservation() {
         style={styles.logo}
       />
       <View style={styles.viewForm}>
-        <ReservationCreate toastRef={toastRef} />
+        <CreateReservation toastRef={toastRef} idUser={idUser} />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </KeyboardAwareScrollView>

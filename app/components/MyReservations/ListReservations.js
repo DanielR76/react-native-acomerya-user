@@ -11,7 +11,7 @@ import {
 import { Image } from "react-native-elements";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
-export default function ListRestaurants(props) {
+export default function ListReservation(props) {
   const { restaurants, handleLoadMore, isLoading } = props;
   const navigation = useNavigation();
   return (
@@ -39,35 +39,29 @@ export default function ListRestaurants(props) {
 
 function Restaurant(props) {
   const { restaurant, navigation } = props;
-  const { id, idUser, imagePath, nameRestaurant,phone } = restaurant.item;
+  const { id, idUser, imagePath, nameRestaurant,name,status,date} = restaurant.item;
   //Array para pasar imagenes del restaurante
-  const imageRestaurant = imagePath[0];
-  //console.log(nameRestaurant)
+  //const imageRestaurant = imagePath[0];
+  const fecha = date.toDate().toString()
   const goRestaurant = () => {
     navigation.navigate("restaurant", {
       id,
       idUser,
       nameRestaurant,
-      phone,
     });
   };
 
   return (
+      
     <TouchableOpacity onPress={goRestaurant}>
       <View style={styles.viewRestaurants}>
         <View style={styles.viewRestaurantsImage}>
-          <Image
-            resizeMode={"cover"}
-            PlaceholderContent={<ActivityIndicator color="fff" />}
-            source={
-              imageRestaurant
-                ? { uri: imageRestaurant }
-                : require("../../../assets/favicon.png")
-            }
-            style={styles.imageRestaurant}
-          />
+        
           <View style={styles.containerTextName}>
-            <Text style={styles.textRestaurant}>{nameRestaurant}</Text>
+            <Text style={styles.textRestaurant}>{fecha}</Text>
+          </View>
+          <View >
+            <Text style={styles.textRestaurant}>Reserva {status}</Text>
           </View>
         </View>
       </View>
@@ -85,7 +79,7 @@ function FooterList(props) {
   } else {
     return (
       <View style={styles.notFoundRestaurants}>
-        <Text> No quedan restaurantes por cargar</Text>
+        <Text> No quedan reservas por cargar</Text>
       </View>
     );
   }

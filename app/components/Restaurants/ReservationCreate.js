@@ -1,130 +1,123 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
-import { validateEmail } from "../../utils/validations";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
 const db = firebase.firestore(firebaseapp);
 
-export default function RegisterFormRestaurant(props) {
-  const { toastRef } = props;
+export default function CreateReservation(props) {
+  const { toastRef,  idUser ,dataNameRestaurant,phone} = props;
   const [formData, setFormData] = useState(defaultFormValue());
   const [loading, setLoading] = useState(false);
-  //  const [restaurantName, setrestaurantName] = useState("");
-  //const [restaurantAdress, setrestaurantAdress] = useState("");
-  //const [restaurantPhone, setrestaurantPhone] = useState("");
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
   const navigation = useNavigation();
+
+  console.log(dataNameRestaurant)
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
+
   const onSubmit = () => {
-    if (
-      isEmpty(formData.email) ||
-      isEmpty(formData.password) ||
-      isEmpty(formData.repeatPassword)
-    ) {
+    if (isEmpty(formData.quantity) || isEmpty(formData.summary)) {
       toastRef.current.show("Todos los campos son obligatorios");
-    } else if (!validateEmail(formData.email)) {
-      toastRef.current.show("El email no es correcto");
-    } else if (formData.password !== formData.repeatPassword) {
-      toastRef.current.show("Las contraseñas tienen que ser iguales");
-    } else if (size(formData.password) < 6) {
-      toastRef.current.show(
-        "La contraseña tiene que tener mas de  6 caracteres"
-      );
+    } else if (size(formData.quantity) < 1) {
+      toastRef.current.show("Tienes que dejarnos una observación");
     } else {
-      setLoading(false);
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(formData.email, formData.password)
-        .then(() => {
-          console.log(formData);
-          db.collection("restaurantsDocument").add({
-            idUser: firebase.auth().currentUser.uid,
-            nameRestaurant: formData.nameRestaurant,
-            phone: formData.phone,
-            address: formData.address,
-            email: formData.email,
-            imagePath: [],
-          });
-          setLoading(false);
-          navigation.navigate("account");
-        })
-        .catch(() => {
-          setLoading(false);
-          toastRef.current.show("El email ya esta en uso");
-        });
+      setCreateRestaurant();
     }
+  };
+
+  const setCreateRestaurant = async () => {
+    setLoading(false);
+
+    db.collection("reservationDocument").add({
+      idRestaurant: idUser,
+      idUser: firebase.auth().currentUser.uid,
+      name:firebase.auth().currentUser.email,
+      date: date,
+      quantity: formData.quantity,
+      requestNumber: "5",
+      status: "pendiente",
+      summary: formData.summary,
+      nameRestaurant: nameRestaurant,
+    });
+    setLoading(false);
+    navigation.navigate("restaurants");
+  };
+
+  const onChange1 = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+   
   };
   const onChange = (e, type) => {
     setFormData({ ...formData, [type]: e.nativeEvent.text });
   };
+
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.txTitleReg}>{`¡Danos tus datos!`}</Text>
-
+      <Text style={styles.txTitleReg}>{`¡Reserva Ya!`}</Text>
+      <View >
+      <Button onPress={showDatepicker} title="Fecha" />
+      </View>
+      <View >
+      <Button onPress={showTimepicker} title="Hora" />
+      </View>
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange1}
+        
+        />
+      )}
       <Input
-        placeholder="Nombre del restaurante"
+        placeholder="Cantidad"
         containerstyle={styles.inputForm}
-        onChange={(e) => onChange(e, "nameRestaurant")}
-        // password="true"
-        // SecureTextEntry="true"
-      />
-
-      <Input
-        placeholder="Telefono del restaurante"
-        containerstyle={styles.inputForm}
-        onChange={(e) => onChange(e, "phone")}
-        // password="true"
-        // SecureTextEntry="true"
-      />
-
-      <Input
-        placeholder="Dirección"
-        containerstyle={styles.inputForm}
-        onChange={(e) => onChange(e, "address")}
-        // password="true"
-        // SecureTextEntry="true"
-      />
-      <Input
-        placeholder="Correo electronico"
-        containerstyle={styles.inputForm}
-        onChange={(e) => onChange(e, "email")}
+        onChange={(e) => onChange(e, "quantity")}
+        
       />
       <Input
-        placeholder="Contraseña"
+        placeholder="Observaciones"
         containerstyle={styles.inputForm}
-        onChange={(e) => onChange(e, "password")}
-        //    password="true"
-        //  SecureTextEntry="true"
+        onChange={(e) => onChange(e, "summary")}
+        
       />
-      <Input
-        placeholder="Repetir contraseña"
-        containerstyle={styles.inputForm}
-        onChange={(e) => onChange(e, "repeatPassword")}
-        // password="true"
-        // SecureTextEntry="true"
-      />
-
       <Button
-        title="Unirse"
+        title="Crear reserva"
         containerstyle={styles.btnContainerStyles}
         buttonStyle={styles.btnRegister}
         onPress={onSubmit}
       />
-      <Loading isVisible={loading} text="Creando cuenta" />
+      <Loading isVisible={loading} text="Creando Reserva" />
     </View>
   );
 }
 function defaultFormValue() {
   return {
-    nameRestaurant: "",
-    address: "",
-    phone: "",
-    email: "",
-    password: "",
-    repeatPassword: "",
+    date: "",
+    quantity: "",
+    summary: "",
   };
 }
 const styles = StyleSheet.create({

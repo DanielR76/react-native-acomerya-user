@@ -3,10 +3,12 @@ import { StyleSheet, View } from "react-native";
 import { Input, Icon, Button, Text } from "react-native-elements";
 import { isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
-import * as firebase from "firebase";
-import { firebaseapp } from "../../utils/firebase";
 import { validateEmail } from "../../utils/validations";
 import Loading from "../Loading";
+import { firebaseapp } from "../../utils/firebase";
+import firebase, { firestore } from "firebase//app";
+import "firebase/firestore";
+const db = firebase.firestore(firebaseapp);
 
 export default function LoginForm(props) {
   const { toastRef } = props;
@@ -17,25 +19,53 @@ export default function LoginForm(props) {
     setFormData({ ...formData, [type]: e.nativeEvent.text });
   };
 
-  const onSubmit = () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
     if (isEmpty(formData.email) || isEmpty(formData.password)) {
       toastRef.current.show("Todos los campos son obligatorios");
     } else if (!validateEmail(formData.email)) {
       toastRef.current.show("El email no es correcto");
     } else {
       setLoading(true);
-      firebase
+      await firebase
         .auth()
         .signInWithEmailAndPassword(formData.email, formData.password)
         .then(() => {
           setLoading(false);
+          const user = firebase.auth().currentUser;
+          getUserById(user.uid);
         })
         .catch(() => {
           setLoading(false);
           toastRef.current.show("Email o password incorrecto");
+          /*  setValues({
+            ...values,
+            password: "",
+          }); */
         });
     }
   };
+
+  const getUserById = async (id) => {
+    await db
+      .collection("usersDocument")
+      .where("idUser", "==", id)
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.size) {
+          querySnapshot.forEach((doc) => {
+            console.log(`Si existe en la BD ${doc.id}`);
+          });
+        } else {
+          console.log("no existe en tabla");
+          alert("no existe en tabla");
+        }
+      })
+      .catch((error) => {
+        console.log(`este es el error ${error}`);
+      });
+  };
+
   return (
     <View style={styles.formContainer}>
       <Text style={styles.txTitle}>{`¡Inicia sesión!`}</Text>

@@ -11,21 +11,23 @@ import { Loading } from "../../components/Loading";
 import { useNavigation } from "@react-navigation/native";
 import Carousel from "../../components/Restaurants/Carousel";
 import { firebaseapp } from "../../utils/firebase";
-import firebase from "firebase//app";
+import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
 const db = firebase.firestore(firebaseapp);
+
 const screenWidth = Dimensions.get("window").width;
 
 export default function Restaurant(props) {
   const { navigation, route } = props;
-  const { id, nombreRestaurante } = route.params;
+  const { id, idUser, nameRestaurant,imagePath,phone } = route.params;
   const [dish, setDish] = useState([]);
   const [dataAddress, setdataAddress] = useState(null);
   const [dataNameRestaurant, setNameRestaurant] = useState(null);
   const [dataPhone, setdataPhone] = useState(null);
   const [dataEmail, setdataEmail] = useState(null);
-
-  navigation.setOptions({ title: nombreRestaurante });
+  //const [dataIduser, setDataIduser] = useState(null);
+console.log(dataNameRestaurant)
+  navigation.setOptions({ title: nameRestaurant });
   const getRestaurantById = async () => {
     await db
       .collection("restaurantsDocument")
@@ -43,6 +45,7 @@ export default function Restaurant(props) {
         setNameRestaurant(dataNameRestaurant);
         setdataPhone(dataPhone);
         setdataEmail(dataEmail);
+        // setDataIduser(dataIduser);
         getImagesByDish(dataIduser);
       });
   };
@@ -96,13 +99,22 @@ export default function Restaurant(props) {
     </ScrollView>
   );
 
-  function CreateReservation() {
+  function CreateReservation(props) {
     const navigation = useNavigation();
+    //const { restaurant } = props;
+    // const { id } = restaurant.item;
     return (
       <Button
         buttonStyle={styles.buttonReservation}
         title="Reservar"
-        onPress={() => navigation.navigate("Reservation")}
+        onPress={() =>
+          navigation.navigate("Reservation", {
+            idUser,
+            nameRestaurant,
+            imagePath,
+            phone,
+          })
+        }
       />
     );
   }
