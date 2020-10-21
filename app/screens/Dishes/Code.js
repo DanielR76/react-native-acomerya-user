@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 
     },
     boton :{
-        backgroundColor:'#FADAOO'
+        backgroundColor:'#FFFF'
     },
     botonTexto:{
 textTransform: 'uppercase',

@@ -6,26 +6,25 @@ import {
   ScrollView,
   Dimensions,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { Loading } from "../../components/Loading";
+import { Image } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import Carousel from "../../components/Restaurants/Carousel";
 import { firebaseapp } from "../../utils/firebase";
-import firebase from "firebase//app";
+import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
 const db = firebase.firestore(firebaseapp);
+
 const screenWidth = Dimensions.get("window").width;
 
 export default function Restaurant(props) {
   const { navigation, route } = props;
-  const { id, nombreRestaurante } = route.params;
+  const { id, idUser, nameRestaurant,imagePath,phone ,address, email,imageRestaurant} = route.params;
   const [dish, setDish] = useState([]);
-  const [dataAddress, setdataAddress] = useState(null);
-  const [dataNameRestaurant, setNameRestaurant] = useState(null);
-  const [dataPhone, setdataPhone] = useState(null);
-  const [dataEmail, setdataEmail] = useState(null);
-
-  navigation.setOptions({ title: nombreRestaurante });
+  
+  navigation.setOptions({ title: nameRestaurant });
   const getRestaurantById = async () => {
     await db
       .collection("restaurantsDocument")
@@ -34,15 +33,7 @@ export default function Restaurant(props) {
       .then((response) => {
         const data = response.data();
         const dataIduser = response.data().idUser;
-        const dataAddress = response.data().address;
-        const dataNameRestaurant = response.data().nameRestaurant;
-        const dataPhone = response.data().phone;
-        const dataEmail = response.data().email;
         data.id = response.id;
-        setdataAddress(dataAddress);
-        setNameRestaurant(dataNameRestaurant);
-        setdataPhone(dataPhone);
-        setdataEmail(dataEmail);
         getImagesByDish(dataIduser);
       });
   };
@@ -78,17 +69,29 @@ export default function Restaurant(props) {
 
   return (
     <ScrollView vertical style={styles.viewBody}>
+      
       <Carousel arrayImages={arrayImages} height={199} width={screenWidth} />
+      
+      <Image
+            resizeMode={"cover"}
+            PlaceholderContent={<ActivityIndicator color="fff" />}
+            source={
+              imageRestaurant
+                ? { uri: imageRestaurant }
+                : require("../../../assets/favicon.png")
+            }
+            style={styles.imageRestaurant}
+          />
       <View style={styles.containerTextNameRestaurant}>
-        <Text style={styles.textNameRestaurant}>{dataNameRestaurant}</Text>
+        <Text style={styles.textNameRestaurant}>{nameRestaurant}</Text>
       </View>
       <View style={styles.containerInformationContact}>
         <Text style={styles.textInformationContact}>
           Información de contacto
         </Text>
-        <Text style={styles.textInformationAddress}>{dataAddress}</Text>
-        <Text style={styles.textInformationEmail}>{dataEmail}</Text>
-        <Text style={styles.textInformationPhone}>{dataPhone}</Text>
+        <Text style={styles.textInformationAddress}>{address}</Text>
+        <Text style={styles.textInformationEmail}>{email}</Text>
+        <Text style={styles.textInformationPhone}>{phone}</Text>
       </View>
       <View style={styles.containerButtonReservation}>
         <CreateReservation />
@@ -98,11 +101,18 @@ export default function Restaurant(props) {
 
   function CreateReservation() {
     const navigation = useNavigation();
+   
     return (
       <Button
         buttonStyle={styles.buttonReservation}
         title="Reservar"
-        onPress={() => navigation.navigate("Reservation")}
+        onPress={() =>
+          navigation.navigate("Reservation", {
+            idUser,
+            nameRestaurant,
+            imageRestaurant,
+          })
+        }
       />
     );
   }

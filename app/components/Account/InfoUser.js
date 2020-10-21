@@ -4,15 +4,12 @@ import { Avatar } from "react-native-elements";
 
 export default function InfoUser(props) {
   const {
-    userInfo: { photoURL, displayName, email },
+    userInfo: {email },
   } = props;
 
   return (
     <View style={styles.viewUserInfo}>
       <View>
-        <Text style={styles.displayName}>
-          {displayName ? displayName : "Anonimo"}
-        </Text>
         <Text>{email ? email : "Social Login"}</Text>
       </View>
     </View>

@@ -1,14 +1,21 @@
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Reservation from "../screens/Restaurants/Reservation";
+import MyReservation from "../screens/Reservations/MyReservations";
+import EditReservation from "../screens/Reservations/IntReservation";
 const Stack = createStackNavigator();
 
 export default function ReservationStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Reservation"
-        component={Reservation}
-        options={{ title: "reservas" }}
+       <Stack.Screen
+        name="MyReservations"
+        component={MyReservation}
+        options={{ title: "Mis Reservas" }}
+      />
+       <Stack.Screen
+        name="EditReservation"
+        component={EditReservation}
+        options={{ title: "Editar reserva" }}
       />
     </Stack.Navigator>
   );

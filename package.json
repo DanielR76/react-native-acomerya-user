@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.0",
+    "@react-native-community/datetimepicker": "2.4.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "~5.2.6",
     "@react-navigation/native": "~5.1.5",
@@ -24,6 +25,7 @@
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+    "react-native-datepicker": "^1.7.2",
     "react-native-easy-toast": "~1.2.0",
     "react-native-element": "^1.2.1",
     "react-native-elements": "~1.2.7",

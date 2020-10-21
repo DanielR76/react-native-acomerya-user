@@ -19,7 +19,8 @@ export default function RegisterForm(props) {
     if (
       isEmpty(formData.email) ||
       isEmpty(formData.password) ||
-      isEmpty(formData.repeatPassword)
+      isEmpty(formData.repeatPassword)||
+      isEmpty(formData.name)
     ) {
       toastRef.current.show("Todos los campos son obligatorios");
     } else if (!validateEmail(formData.email)) {
@@ -38,6 +39,7 @@ export default function RegisterForm(props) {
         .then(() => {
           db.collection("usersDocument").add({
             idUser: firebase.auth().currentUser.uid,
+            name: formData.name,
             email: formData.email,
             password: formData.password,
           });
@@ -60,6 +62,11 @@ export default function RegisterForm(props) {
         placeholder="Correo electronico"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "email")}
+      />
+      <Input
+        placeholder="Nombre"
+        containerstyle={styles.inputForm}
+        onChange={(e) => onChange(e, "name")}
       />
       <Input
         placeholder="Contraseña"
@@ -88,6 +95,7 @@ export default function RegisterForm(props) {
 function defaultFormValue() {
   return {
     email: "",
+    name:"",
     password: "",
     repeatPassword: "",
   };

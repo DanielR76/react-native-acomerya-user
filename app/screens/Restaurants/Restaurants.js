@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, Text } from "react-native";
-import { firebaseapp } from "../../utils/firebase";
 import ListRestaurants from "../../components/Restaurants/ListRestaurants";
 import { useFocusEffect } from "@react-navigation/native";
+import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
 const db = firebase.firestore(firebaseapp);
 
-export default function Restaurants(props) {
-  const { navigation } = props;
+export default function Restaurants() {
   const [restaurants, setRestaurants] = useState([]);
   const [totalRestaurants, setTotalRestaurants] = useState(0);
   const [startRestaurants, setStartRestaurants] = useState(null);
