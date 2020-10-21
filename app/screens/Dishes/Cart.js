@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, ScrollView, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native'
 import { Image, Button } from "react-native-elements";
 import Dish from "./Dish"
-import { firebaseapp } from "../utils/firebase";
+import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
-import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
+import "firebase/firestore"; 
+const db = firebase.firestore(firebaseapp);
 
 var { height, width } = Dimensions.get("window");
 
-export default function Cart(props) {
+export default function Cart (props) {
     const { navigation, route } = props;
     const { id, dishName, imagePath, price, idRestaurant, dishes } = route.params;
 
+// const storeDish=()=>{
+//  const resuul
+
+// }
     const addBD = () => {
         const payload = {
             dishes,
@@ -34,7 +39,7 @@ export default function Cart(props) {
                         style={{ width: width / 3, height: width / 3, }}
                         resizeMode="cover"
                         PlaceholderContent={<ActivityIndicator color="fff" />}
-                        source={imagePath ? { uri: imagePath } : require("../../assets/img/imgj.jpg")
+                        source={imagePath ? { uri: imagePath } : require("./../../../assets/img/imgj.jpg")
                         }
                     />
                     <View style={{ backgroundColor: "transparent", flex: 1, justifyContent: 'space-between' }}>
@@ -66,7 +71,7 @@ export default function Cart(props) {
 
             </View>
 
-            <View style={{ height: 10 }} />
+   
 
         </View>
     )

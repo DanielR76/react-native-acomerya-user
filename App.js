@@ -8,14 +8,14 @@ import Login from "./app/screens/Account/Login";
 import Register from "./app/screens/Account/Register";
 import RegisterRestaurant from "./app/screens/Account/RegisterRestaurant";
 import RestaurantsStack from "./app/navigations/RestaurantsStack";
-import RequestOnYourTableStack from "./app/navigations/RequestOnYourTableStack";
-import Cart from "./app/screens/Cart"
+import DishStack from "./app/navigations/DishStack";
+import CodeStack from "./app/navigations/CodeStack";
+import Cart from "./app/screens/Dishes/Cart"
 import AccountStack from "./app/navigations/AccountStack";
 import NavigationAccount from "./app/navigations/NavigationAccount";
 import * as firebase from "firebase/app";
 import { decode, encode } from "base-64";
-import ListPlatos from './app/screens/ListPlatos'
-import RequestOnYourTable_platos from './app/screens/RequestOnYourTable_platos'
+import Dishes from './app/screens/Dishes/Dishes'
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -47,7 +47,7 @@ export default function App() {
   return (
 
     <NavigationContainer>
-      {!LoginIn  ? (
+      {LoginIn  ? (
         <Tab.Navigator>
           <Tab.Screen
             name="account"
@@ -66,11 +66,10 @@ export default function App() {
               name="restaurants"
               component={RestaurantsStack}
               options={{ title: "Restaurantes" }}
-
             />
             <Tab.Screen
-              name="RequestOnYourTable"
-              component={RequestOnYourTableStack}
+              name="Code"
+              component={DishStack}
               options={{ title: "Codigo" }}
             />
             <Tab.Screen
@@ -78,8 +77,9 @@ export default function App() {
             component={Cart}
             options={{ title: "carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
           />  
-          <Stack.Screen name="RequestOnYourTable_platos" 
-        component={RequestOnYourTable_platos} 
+          <Tab.Screen 
+          name="Dishes" 
+        component={Dishes} 
         options={{ title: "Platos " }}
          />
           </Tab.Navigator>

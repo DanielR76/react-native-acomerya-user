@@ -3,17 +3,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View, ScrollView, Text, Image } from "react-native";
 import { Button, Input , Container} from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import { firebaseapp } from "../utils/firebase";
+import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import Toast from "react-native-easy-toast";
 
 
-export default function RequestOnYourTable(props) {
+export default function Code (props) {
     const navigation = useNavigation();
     const [codeInput, setCodeInput] = useState("")
     const toastRef = useRef()
-    //const [codeUser, setCodeUser ] = useState("")
 
     const getCode = () => {
         let code
@@ -25,7 +24,7 @@ export default function RequestOnYourTable(props) {
                     response.forEach((doc) => {
                         code = doc.data().idRestaurant;
                     })                   
-                    navigation.navigate("RequestOnYourTable_platos", {
+                    navigation.navigate("Dishes", {
                         code
                     });
                 } else {
@@ -34,6 +33,7 @@ export default function RequestOnYourTable(props) {
             });
         }
     }
+
 
     return (
         <View style={styles.view}>           

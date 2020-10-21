@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import RequestOnYourTable from "../screens/RequestOnYourTable";
-import RequestOnYourTable_platos from "../screens/RequestOnYourTable_platos";
-import Dish from "../screens/Dish";
-import Cart from "../screens/Cart"
+import Code from "../screens/Dishes/Code";
+import Dish from "../screens/Dishes/Dish";
+import Cart from "../screens/Dishes/Cart"
+import Dishes from "../screens/Dishes/Dishes";
 
 const Stack = createStackNavigator();
 
@@ -18,13 +18,12 @@ export default function RequestOnYourTableStack() {
         }
         }}>
       <Stack.Screen
-        name="RequestOnYourTable" 
-        component={RequestOnYourTable} 
-        options={{ title: "Solicita a tu mesa "}}
+        name="Code" 
+        component={Code} 
+        options={{ title: "Enlaza con tu restaurante favorito. "}}
          />
-      
         <Stack.Screen 
-        name="dish" 
+        name="Dish" 
         component={Dish} 
         />
         </Stack.Navigator>

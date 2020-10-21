@@ -1,122 +1,107 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native'
-import { Image } from "react-native-elements";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { firebaseapp } from "./../../utils/firebase";
+import firebase, { firestore } from "firebase/app";
+import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
+import { Image } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/Ionicons';
-import Cart from './Cart';
-import { ScrollView } from 'react-native-gesture-handler';
-
 
 var { height, width } = Dimensions.get("window");
-export default function ListPlatos(props) {
-    const { dish } = props;
-    const navigation = useNavigation();
 
-    // const [add, setAdd] = useState(1);
+export default function Dishes(props) {
+    const { navigation, route } = props;
+    const { code } = route.params;
+
+    //funcion que permite traer todos los platos de un restaurante en especifico
+    const [dishes, setDishes] = useState([])
+    const getDishes = async () => {
+        db.collection("dishDocument").where("idRestaurant",
+            "==", code /*firebase.auth().currentUser.uid*/)
+            .onSnapshot(querySnapshot => {
+                const state = []
+                querySnapshot.forEach((doc) => {
+                    state.push({
+                        ...doc.data(),
+                        id: doc.id
+                    })
+                })
+                setDishes(state)
+            })
+    }
+    useEffect(() => {
+        getDishes()
+    }, [])
+    
 
     return (
         <View>
-            {size(dish) > 0 ? (
+                {size(dishes) > 0 ? (                    
                 <FlatList
-                    data={dish}
-                    numColumns={2}
-                    renderItem={(dish) => <Dish dish={dish} navigation={navigation} />}
-                    keyExtractor={(item, index) => index.toString()}
-                />
-            ) : (
-                    <View style={styles.loaderDishes}>
-                        <ActivityIndicator size="large"></ActivityIndicator>
-                        <Text> Cargando menu</Text>
-                    </View>
-                )}
-        </View>
+                        data={dishes}
+                       numColumns={2}
+                        renderItem={(dish) => <Dish dish={dish} navigation={navigation}/> }
+                        keyExtractor={(item, index) => index.toString()}
+                    />              
+                ) : (
+                        <View style={styles.loaderDishes}>
+                            <ActivityIndicator size="large"></ActivityIndicator>
+                            <Text> Cargando menu</Text>
+                        </View>
+                    )}
+            </View>
     );
+
 }
 
 function Dish(props) {
     const { dish, navigation } = props;
     const { id, imagePath, dishName, price, description, idRestaurant } = dish.item;
-
-    // const cartElement = () => {
-    // }
+   
     const pedido = {
         ...dish.index,
     }
-
     const goDish = () => {
-        navigation.navigate("dish", {
+        navigation.navigate("Dish", {
             id,
             dishName,
             imagePath,
             price,
             description,
-            idRestaurant,
-            //test: { cartElement }
-            //cartElement
+            idRestaurant,           
         }
         );
-
     };
 
     return (
-        <ScrollView>
             <TouchableOpacity onPress={goDish} style={styles.divFood}>
                 <Image
                     PlaceholderContent={<ActivityIndicator color="fff" />}
                     style={styles.vimageDishes}
                     resizeMode="contain"
-                    source={imagePath ? { uri: imagePath } : require("../../assets/img/imgj.jpg")
+                    source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
                     }
                 />
                 <View style={styles.viewPlatosImage}>
                     <Text style={styles.dishesName}>{dishName}</Text>
-                    <Text>{description}</Text>
+                    <Text style={styles.dishDescription}>{description.substr(0,60)}..</Text>
                     <Text style={styles.dishPrice}>{price}</Text>
                 </View>
                 <TouchableOpacity
                     style={styles.tobuttonCart}
                 //  onPress={() => this.onClickAddCart(dish)}
                 //onPress={() => navigation.navigate("RequestOnYourTable_platos")}
-
                 >
-                    <Text style={styles.textbuttonCart}>Add Cart</Text>
+                    <Text style={styles.textbuttonCart}>Agregar</Text>
                     <View style={{ width: 10 }}></View>
                     <Icon name="ios-add-circle" size={30} color={"white"}></Icon>
                 </TouchableOpacity>
             </TouchableOpacity>
 
-        </ScrollView>
-
     )
 }
-
-// onClickAddCart(data){
-//     const itemcart = {
-//         food: data,
-//         quantity: 1,
-//         price: data.price
-//     }
-
-//     AsyncStorage.getItem('cart').then((datacart) => {
-//         if (datacart !== null) {
-//             // We have data!!
-//             const cart = JSON.parse(datacart)
-//             cart.push(itemcart)
-//             AsyncStorage.setItem('cart', JSON.stringify(cart));
-//         }
-//         else {
-//             const cart = []
-//             cart.push(itemcart)
-//             AsyncStorage.setItem('cart', JSON.stringify(cart));
-//         }
-//         alert("Add Cart")
-//     })
-//         .catch((err) => {
-//             alert(err)
-//         })
-// }
-
 const styles = StyleSheet.create({
     loaderDishes: {
         marginTop: 10,
@@ -179,9 +164,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
 
     }
+    ,dishDescription:{
+        paddingTop:2,
+        color:"grey",
+        
+
+    }
 }
 )
-
-
-
-
