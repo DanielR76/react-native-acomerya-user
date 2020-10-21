@@ -4,7 +4,6 @@ import Account from "../screens/Account/Account";
 import Login from "../screens/Account/Login";
 import Register from "../screens/Account/Register";
 import RegisterRestaurant from "../screens/Account/RegisterRestaurant";
-import { Avatar, Icon } from "react-native-elements";
 const Stack = createStackNavigator();
 
 export default function AccountStack() {

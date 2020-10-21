@@ -14,9 +14,6 @@ export default function RegisterFormRestaurant(props) {
   const { toastRef } = props;
   const [formData, setFormData] = useState(defaultFormValue());
   const [loading, setLoading] = useState(false);
-  //  const [restaurantName, setrestaurantName] = useState("");
-  //const [restaurantAdress, setrestaurantAdress] = useState("");
-  //const [restaurantPhone, setrestaurantPhone] = useState("");
   const navigation = useNavigation();
   const onSubmit = () => {
     if (

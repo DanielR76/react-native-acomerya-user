@@ -24,7 +24,7 @@ export default function ListReservation(props) {
           )}
           keyExtractor={(item, index) => index.toString()}
           onEndReachedThreshold={0.5}
-          onEndReached={handleLoadMore}
+          //onEndReached={handleLoadMore}
           ListFooterComponent={<FooterList isLoading={isLoading} />}
         />
       ) : (
@@ -39,15 +39,13 @@ export default function ListReservation(props) {
 
 function Restaurant(props) {
   const { restaurant, navigation } = props;
-  const { id, idUser, imagePath, nameRestaurant,name,status,date} = restaurant.item;
-  //Array para pasar imagenes del restaurante
-  //const imageRestaurant = imagePath[0];
+  const { id, idUser, imageRestaurant, nameRestaurant,name,status,date} = restaurant.item;
   const fecha = date.toDate().toString()
   const goRestaurant = () => {
-    navigation.navigate("restaurant", {
+    navigation.navigate("EditReservation", {
       id,
       idUser,
-      nameRestaurant,
+  
     });
   };
 
@@ -56,7 +54,19 @@ function Restaurant(props) {
     <TouchableOpacity onPress={goRestaurant}>
       <View style={styles.viewRestaurants}>
         <View style={styles.viewRestaurantsImage}>
-        
+        <Image
+            resizeMode={"cover"}
+            PlaceholderContent={<ActivityIndicator color="fff" />}
+            source={
+              imageRestaurant
+                ? { uri: imageRestaurant }
+                : require("../../../assets/favicon.png")
+            }
+            style={styles.imageRestaurant}
+          />
+        <View>
+            <Text style={styles.textRestaurant}>{nameRestaurant}</Text>
+          </View>
           <View style={styles.containerTextName}>
             <Text style={styles.textRestaurant}>{fecha}</Text>
           </View>

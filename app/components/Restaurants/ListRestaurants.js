@@ -39,16 +39,20 @@ export default function ListRestaurants(props) {
 
 function Restaurant(props) {
   const { restaurant, navigation } = props;
-  const { id, idUser, imagePath, nameRestaurant,phone } = restaurant.item;
+  const { id, idUser, imagePath, nameRestaurant,phone, address, email } = restaurant.item;
   //Array para pasar imagenes del restaurante
   const imageRestaurant = imagePath[0];
-  //console.log(nameRestaurant)
+
+  // Pasar por pros los campos del restaurante
   const goRestaurant = () => {
     navigation.navigate("restaurant", {
       id,
       idUser,
       nameRestaurant,
       phone,
+      address,
+      email,
+      imageRestaurant,
     });
   };
 

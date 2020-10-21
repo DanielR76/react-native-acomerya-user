@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-easy-toast";
-import CreateReservation from "../../components/Restaurants/ReservationCreate";
+import EditReservation from "../../components/MyReservations/EditReservation";
 
 export default function Reservation(props) {
   const toastRef = useRef();
@@ -17,7 +17,7 @@ export default function Reservation(props) {
         style={styles.logo}
       />
       <View style={styles.viewForm}>
-        <CreateReservation toastRef={toastRef} idUser={idUser} nameRestaurant = {nameRestaurant} imageRestaurant={imageRestaurant} />
+        <EditReservation toastRef={toastRef} idUser={idUser} nameRestaurant = {nameRestaurant} imageRestaurant={imageRestaurant} />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </KeyboardAwareScrollView>

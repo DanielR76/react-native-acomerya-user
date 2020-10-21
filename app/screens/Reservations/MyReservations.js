@@ -16,46 +16,38 @@ export default function MyReservations() {
   
     useFocusEffect(
       useCallback(() => {
-        getRestaurantsDocuments()
-        getRestaurantsAllDocuments()
+        db.collection("reservationDocument")
+        .get()
+        .then((snap) => {
+          setTotalRestaurants(snap.size);
+        });
+        const resultRestaurants = [];
+            db.collection("reservationDocument")
+           .where("idUser", "==", firebase.auth().currentUser.uid)
+          //.orderBy("quantity", "desc")
+         // .limit(limitRestaurants)
+         .onSnapshot((response) => {
+            setStartRestaurants(response.docs[response.docs.length - 1]);
+            response.forEach((doc) => {
+              const restaurant = doc.data();
+              restaurant.id = doc.id;
+              resultRestaurants.push(restaurant);
+            });
+            setRestaurants(resultRestaurants);
+          
+          });
       }, [])
     );
   
-    const resultRestaurants = [];
-    const getRestaurantsAllDocuments= async () => {
-      await
-    db.collection("reservationDocument")
-      .orderBy("quantity", "desc")
-      .limit(limitRestaurants)
-      .get()
-      .then((response) => {
-        setStartRestaurants(response.docs[response.docs.length - 1]);
-        response.forEach((doc) => {
-          const restaurant = doc.data();
-          restaurant.id = doc.id;
-          resultRestaurants.push(restaurant);
-        });
-        setRestaurants(resultRestaurants);
-      });
-    }
-    const getRestaurantsDocuments= async () => {
-      await
-    db.collection("reservationDocument")
-      .get()
-      .then((snap) => {
-        setTotalRestaurants(snap.size);
-      });
-    }
-    const handleLoadMore = () => {
+    /* const handleLoadMore =  () => {
       const resultRestaurants = [];
       restaurants.length < totalRestaurants && setIsLoading(true);
-      db.collection("reservationDocument")
-        .orderBy("quantity", "desc")
-        .startAfter(startRestaurants.data().quantity)
-        .limit(limitRestaurants)
-       // .where("idUser", "==", firebase.auth().currentUser.uid)
-        .get()
-        .then((response) => {
+       db.collection("reservationDocument")
+      .where("idUser", "==", firebase.auth().currentUser.uid)
+       // .orderBy("quantity", "desc")
+        //.startAfter(startRestaurants.data().quantity)
+        //.limit(limitRestaurants)   
+        .onSnapshot((response) => {
           if (response.docs.length > 0) {
             setStartRestaurants(response.docs[response.docs.length - 1]);
           } else {
@@ -68,13 +60,14 @@ export default function MyReservations() {
           });
           setRestaurants([...restaurants, ...resultRestaurants]);
         });
-    };
+        console.log(restaurants)
+    }; */
  
     return (
       <View>
         <ListReservations
           restaurants={restaurants}
-          handleLoadMore={handleLoadMore}
+         // handleLoadMore={handleLoadMore}
           isLoading={isLoading}
         />
       </View>

@@ -16,39 +16,35 @@ export default function Restaurants() {
 
   useFocusEffect(
     useCallback(() => {
-      getRestaurantsDocuments()
-      getRestaurantsAllDocuments()
+      db.collection("restaurantsDocument")
+        .get()
+        .then((snap) => {
+          setTotalRestaurants(snap.size);
+        });
+
+      const resultRestaurants = [];
+
+      db.collection("restaurantsDocument")
+        .orderBy("phone", "desc")
+        .limit(limitRestaurants)
+        .get()
+        .then((response) => {
+          setStartRestaurants(response.docs[response.docs.length - 1]);
+
+          response.forEach((doc) => {
+            const restaurant = doc.data();
+            restaurant.id = doc.id;
+            resultRestaurants.push(restaurant);
+          });
+          setRestaurants(resultRestaurants);
+        });
     }, [])
   );
 
-  const resultRestaurants = [];
-  const getRestaurantsAllDocuments= async () => {
-    await
-  db.collection("restaurantsDocument")
-    .orderBy("phone", "desc")
-    .limit(limitRestaurants)
-    .get()
-    .then((response) => {
-      setStartRestaurants(response.docs[response.docs.length - 1]);
-      response.forEach((doc) => {
-        const restaurant = doc.data();
-        restaurant.id = doc.id;
-        resultRestaurants.push(restaurant);
-      });
-      setRestaurants(resultRestaurants);
-    });
-  }
-  const getRestaurantsDocuments= async () => {
-    await
-  db.collection("restaurantsDocument")
-    .get()
-    .then((snap) => {
-      setTotalRestaurants(snap.size);
-    });
-  }
   const handleLoadMore = () => {
     const resultRestaurants = [];
     restaurants.length < totalRestaurants && setIsLoading(true);
+
     db.collection("restaurantsDocument")
       .orderBy("phone", "desc")
       .startAfter(startRestaurants.data().phone)
@@ -60,6 +56,7 @@ export default function Restaurants() {
         } else {
           setIsLoading(false);
         }
+
         response.forEach((doc) => {
           const restaurant = doc.data();
           restaurant.id = doc.id;

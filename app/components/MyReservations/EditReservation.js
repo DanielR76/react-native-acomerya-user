@@ -88,7 +88,6 @@ export default function CreateReservation(props) {
           is24Hour={true}
           display="default"
           onChange={onChange1}
-        
         />
       )}
       <Input
@@ -111,7 +110,7 @@ export default function CreateReservation(props) {
       />
       <Loading isVisible={loading} text="Creando Reserva" />
     </View>
-  );
+  )
 }
 function defaultFormValue() {
   return {
