@@ -25,13 +25,6 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 export default function App() {
   const [LoginIn, setLoginIn] = useState(null);
-  const [userCode, setUserCode] = useState(null);
-
-  useEffect(() => {
-    const userCode = async()=>await AsyncStorage.getItem('keyCode', (a,b)=>console.log(b + a)); 
-    setUserCode()
-  console.log(userCode)
-  }, []);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Alert } from 'react-native';
-import { StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from 'react-native'
 import Loading from "../../components/Loading";
 import { Image, Button } from "react-native-elements";
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -26,7 +26,6 @@ export default function Dish (props) {
     const [dish, setDish] = useState();
 
 
-    console.log(props)
 useEffect(() => {
     db.collection("dishDocument").where("idRestaurant", "==",idRestaurant).get().then((response) => {
         response.forEach((doc) => {
@@ -36,6 +35,8 @@ useEffect(() => {
         })   
     });
 }, [])
+
+
 
 const [listDish, setListDish] = useState([route.params]);
 
@@ -74,6 +75,26 @@ const [listDish, setListDish] = useState([route.params]);
         }
         );
     }
+
+    const addCart =  () => {
+       AsyncStorage.getItem("cart").then(dataCart=>{     
+        console.log(dishes)
+            if(dataCart !== null){
+                const cart = JSON.parse(dataCart)
+                cart.push(dishes)
+                AsyncStorage.setItem('cart', JSON.stringify(cart));
+                console.log(dataCart)
+            }else{ 
+                console.log(dishes)
+                const cart = []
+                cart.push(dishes)  
+                AsyncStorage.setItem('cart', JSON.stringify(cart));
+            }
+            console.log(JSON.parse(dataCart))
+            goCart()
+        })  
+        }
+
     navigation.setOptions({ title: "Agregar al carrito" });
 
 if(!dish) return <Loading isVisible={true} text="Cargando..."/>
@@ -130,7 +151,7 @@ if(!dish) return <Loading isVisible={true} text="Cargando..."/>
                     
                     <View style={{ height: 20 }} />
                     <TouchableOpacity
-                        onPress={goCart}
+                        onPress={addCart}
                         style={{
                             backgroundColor: "#33c37d", width: width - 40,
                             alignItems: 'center',

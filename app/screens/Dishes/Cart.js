@@ -4,6 +4,7 @@ import { Image, Button } from "react-native-elements";
 import Dish from "./Dish"
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
+import { size } from "lodash";
 import "firebase/firestore"; 
 const db = firebase.firestore(firebaseapp);
 
@@ -13,17 +14,22 @@ export default function Cart (props) {
     const { navigation, route } = props;
     const { id, dishName, imagePath, price, idRestaurant, dishes } = route.params;
 
-// const storeDish=()=>{
-//  const resuul
-
-// }
-    const addBD = () => {
-        const payload = {
-            dishes,
-            createOrder: new Date(),
-        };
-        db.collection("requestsDocument").doc().set(payload).then();
+    const initialStateValues = {
+        idRestaurant: "123456",
+        idUser: "654321",
+        status: "active",
+        table: "Mesa 1",
+        totalPrice: null
     }
+    const [dishCart, setDishCart] = useState(initialStateValues)
+
+    const addBD = () => {
+setDishCart({ ...dishCart, dishes:"hola" 
+})      
+        db.collection("requestsDocument").doc().set(dishCart).then();
+    }
+
+    
     navigation.setOptions({ title: "Carrito" });
     return (
 
@@ -66,13 +72,8 @@ export default function Cart (props) {
                             ¡Confirma tu orden!
                             </Text>
                     </TouchableOpacity>
-
                 </View>
-
             </View>
-
-   
-
         </View>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 // import { View, Text } from "react-native";
-import { StyleSheet, View, ScrollView, Text, Image } from "react-native";
+import { StyleSheet, View, Text} from "react-native";
 import { Button, Input , Container} from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { firebaseapp } from "../../utils/firebase";
@@ -26,6 +26,7 @@ export default function Code (props) {
                     })                   
                     navigation.navigate("Dishes", {
                         code
+                        
                     });
                 } else {
                     toastRef.current.show("Por favor valida el codigo ingresado")
@@ -34,7 +35,8 @@ export default function Code (props) {
         }
     }
 
-
+  global.codeValue=5;
+  
     return (
         <View style={styles.view}>           
         <View>
