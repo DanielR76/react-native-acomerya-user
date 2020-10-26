@@ -1,32 +1,33 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Code from "../screens/Dishes/Code";
-import Dish from "../screens/Dishes/Dish";
-import Cart from "../screens/Dishes/Cart"
 import Dishes from "../screens/Dishes/Dishes";
+import Dish from "../screens/Dishes/Dish";
 
 const Stack = createStackNavigator();
 
 export default function RequestOnYourTableStack() {
-    return (
-      <Stack.Navigator screenOptions={{
-        headerStyle:{
-          backgroundColor:'#efd3d3'
-        },
-        headerTitleStyle:{
-          fontWeight:'bold'
-        }
-        }}>
+  return (
+    <Stack.Navigator screenOptions={{
+      headerStyle: {
+        backgroundColor: '#efd3d3'
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold'
+      }
+    }}>
       <Stack.Screen
-        name="Code" 
-        component={Code} 
-        options={{ title: "Enlaza con tu restaurante favorito. "}}
-         />
-        <Stack.Screen 
-        name="Dish" 
-        component={Dish} 
-        />
-        </Stack.Navigator>
-    )}
+        name="Dishes"
+        component={Dishes}
+        options={{ title: "Selecciona tu plato. " }}
+      />
+      <Stack.Screen
+        name="Dish"
+        component={Dish}
+      />
+    </Stack.Navigator>
 
-    
+
+  )
+}
+
+

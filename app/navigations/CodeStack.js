@@ -9,20 +9,21 @@ const Stack = createStackNavigator();
 
 export default function CodeStack() {
     return (
-      <Stack.Navigator screenOptions={{
-        headerStyle:{
-          backgroundColor:'#efd3d3'
-        },
-        headerTitleStyle:{
-          fontWeight:'bold'
-        }
+        <Stack.Navigator screenOptions={{
+            headerStyle: {
+                backgroundColor: '#efd3d3'
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold'
+            }
         }}>
-      <Stack.Screen
-        name="Code" 
-        component={Code} 
-        options={{ title: "Enlaza con tu restaurante favorito. "}}
-         />
+            <Stack.Screen
+                name="Code"
+                component={Code}
+                options={{ title: "Enlaza con tu restaurante favorito. " }}
+            />
         </Stack.Navigator>
-    )}
+    )
+}
 
-    
+
