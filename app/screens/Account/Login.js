@@ -52,22 +52,22 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   viewContainer: {
-    marginRight: 40,
-    marginLeft: 40,
+    marginRight: 80,
+    marginLeft: 80,
   },
 
   btnRegisterClient: {
     color: "#ED923D",
     fontWeight: "bold",
-    marginTop: 40,
-    marginLeft: 145,
+    marginTop: -120,
+    marginLeft: 170,
     marginRight: 50,
   },
   btnRegisterRestaurant: {
     color: "black",
     fontWeight: "bold",
     marginTop: 30,
-    marginLeft: 80,
+    marginLeft: 105,
     marginRight: 50,
   },
 });

@@ -38,9 +38,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#f2f2f2",
   },
   btnCloseSession: {
+    width: "30%",
+    marginLeft:140,
     marginTop: 30,
     borderRadius: 0,
-    backgroundColor: "#fff",
+    backgroundColor: "#ED923D",
     borderTopWidth: 1,
     borderTopColor: "#e3e3e3",
     borderBottomWidth: 1,
@@ -49,6 +51,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   btnCloseSessionText: {
-    color: "#00a680",
+    color: "white",
   },
 });

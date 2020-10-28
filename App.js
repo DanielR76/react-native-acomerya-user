@@ -25,7 +25,6 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 export default function App() {
   const [LoginIn, setLoginIn] = useState(null);
-
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       !user ? setLoginIn(false) : setLoginIn(true);
@@ -41,7 +40,9 @@ export default function App() {
           <Tab.Screen
             name="account"
             component={AccountStack}
-            options={{ title: "Cuenta" }}
+            options={{ title: "Cuenta" }, {
+              tabBarVisible: false
+            }}
           />
         </Tab.Navigator >
       ) : (

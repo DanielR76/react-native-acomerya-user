@@ -4,7 +4,7 @@ import { Avatar } from "react-native-elements";
 
 export default function InfoUser(props) {
   const {
-    userInfo: {email },
+    userInfo: {email},
   } = props;
 
   return (

@@ -10,7 +10,7 @@ export default function ReservationStack() {
        <Stack.Screen
         name="MyReservations"
         component={MyReservation}
-        options={{ title: "Mis Reservas" }}
+        options={{ title: "Visualiza tus reservas" }}
       />
        <Stack.Screen
         name="EditReservation"

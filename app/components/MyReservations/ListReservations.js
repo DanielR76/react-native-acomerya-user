@@ -30,31 +30,40 @@ export default function ListReservation(props) {
       ) : (
         <View style={styles.loaderRestaurants}>
           <ActivityIndicator size="large" />
-          <Text>Cargando Restaurantes</Text>
+          <Text>Cargando Reservas</Text>
         </View>
       )}
     </SafeAreaView>
   );
 }
 
+
+
 function Restaurant(props) {
   const { restaurant, navigation } = props;
-  const { id, idUser, imageRestaurant, nameRestaurant,name,status,date} = restaurant.item;
+  const { idRestaurant,quantity,summary, idUser, imageRestaurant, nameRestaurant,status,date,id} = restaurant.item;
   const fecha = date.toDate().toString()
+  const date1 = date.toDate()
+  
+ 
   const goRestaurant = () => {
     navigation.navigate("EditReservation", {
       id,
+      idRestaurant,
       idUser,
-  
+      nameRestaurant,
+      date1,
+      quantity,
+      summary,
+      status,
     });
   };
 
   return (
-      
     <TouchableOpacity onPress={goRestaurant}>
       <View style={styles.viewRestaurants}>
         <View style={styles.viewRestaurantsImage}>
-        <Image
+           <Image
             resizeMode={"cover"}
             PlaceholderContent={<ActivityIndicator color="fff" />}
             source={
@@ -64,16 +73,38 @@ function Restaurant(props) {
             }
             style={styles.imageRestaurant}
           />
-        <View>
-            <Text style={styles.textRestaurant}>{nameRestaurant}</Text>
-          </View>
-          <View style={styles.containerTextName}>
-            <Text style={styles.textRestaurant}>{fecha}</Text>
-          </View>
-          <View >
-            <Text style={styles.textRestaurant}>Reserva {status}</Text>
-          </View>
         </View>
+        <View>
+          <View style={styles.containerTextName}>
+            <Text style={styles.textNameRestaurant}>{nameRestaurant}</Text>
+            <Text style={styles.textFecha}>{fecha}</Text>
+          </View>
+
+           {status == "pendiente" ? (
+             <View style={styles.viewContainerPending}>
+          <Text  style={styles.textStatus}>Reserva {status}</Text>
+              </View>
+          )
+          : (status == "rechazado")?
+          (
+            <View style={styles.viewContainerRejected}>
+            <Text  style={styles.textStatus}>Reserva {status}</Text>
+            </View>
+          )
+          : (status == "aceptado")?
+          (
+            <View style={styles.viewContainerStateAcepted}>
+            <Text  style={styles.textStatus}>Reserva {status}</Text>
+            </View>
+          )
+          :
+          (
+            <View style={styles.viewContainerStateCanceled}>
+            <Text  style={styles.textStatus}>Reserva {status}</Text>
+            </View>
+          )
+          } 
+          </View>     
       </View>
     </TouchableOpacity>
   );
@@ -101,25 +132,117 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   viewRestaurants: {
-    flexDirection: "row",
+    width: 340,
+    height: 150,
+    marginTop: 20,
+    marginLeft: 25,
     borderRadius: 10,
+    padding: 35,
+    backgroundColor: "#FFF6F6",
+  },
+  viewContainerStateAcepted: {
+    width: 318,
+    height: 15,
+    marginTop: -50,
+    marginLeft: -15,
+    borderRadius: 10,
+    padding: 15,
+    backgroundColor: "#63C852",
+  },
+  viewContainerRejected: {
+    width: 318,
+    height: 15,
+    marginTop: -50,
+    marginLeft: -15,
+    borderRadius: 10,
+    padding: 15,
+    backgroundColor: "#D3454D",
+  },
+  viewContainerPending: {
+    width: 318,
+    height: 15,
+    marginTop: -50,
+    marginLeft: -15,
+    borderRadius: 10,
+    padding: 15,
+    backgroundColor: "#ED923D",
+  },
+  viewContainerStateCanceled: {
+    width: 318,
+    height: 15,
+    marginTop: -50,
+    marginLeft: -15,
+    borderRadius: 10,
+    padding: 15,
+    backgroundColor: "#BDB4B4",
   },
   viewRestaurantsImage: {
-    marginLeft: 22,
+    marginLeft: -15,
+    marginTop: -15,
   },
   imageRestaurant: {
-    width: 370,
-    height: 200,
+    width: 150,
+    height: 100,
     borderRadius: 10,
     overflow: "hidden",
   },
-  textRestaurant: {
+  textNameRestaurant: {
     width: 183,
     height: 25,
-    marginLeft: 60,
-    textAlign: "center",
-    fontSize: 18,
+    marginLeft: 126,
+    marginTop: -120,
+    //textAlign: "center",
+    fontSize: 14,
     fontWeight: "bold",
+  },
+  textFecha: {
+    width: 130,
+    height: 35,
+    marginLeft: 125,
+    //marginTop: -200,
+    //textAlign: "center",
+    fontSize: 14,
+   // fontWeight: "bold",
+  },
+  textStatus: {
+    width: 200,
+    height: 30,
+    marginLeft: 85,
+    marginTop: -10,
+    //textAlign: "center",
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "white",
+  },
+  textStatus1: {
+    width: 200,
+    height: 30,
+    marginLeft: 90,
+    marginTop: -30,
+    //textAlign: "center",
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "red",
+  },
+  textStatus2: {
+    width: 200,
+    height: 30,
+    marginLeft: 90,
+    marginTop: -30,
+    //textAlign: "center",
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "green",
+  },
+  textStatus3: {
+    width: 200,
+    height: 30,
+    marginLeft: 90,
+    marginTop: -30,
+    //textAlign: "center",
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "yellow",
   },
   containerTextName: {
     padding: 24,
@@ -129,4 +252,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: "center",
   },
-});
+  });
