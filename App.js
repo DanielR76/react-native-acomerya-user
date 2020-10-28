@@ -30,7 +30,7 @@ export default function App() {
   useEffect(() => {
     const userCode = async()=>await AsyncStorage.getItem('keyCode', (a,b)=>console.log(b + a)); 
     setUserCode()
-  console.log(userCode)
+  //console.log(userCode)
   }, []);
 
   useEffect(() => {
@@ -48,7 +48,9 @@ export default function App() {
           <Tab.Screen
             name="account"
             component={AccountStack}
-            options={{ title: "Cuenta" }}
+            options={{ title: "Cuenta" }, {
+              tabBarVisible: false
+            }}
           />
         </Tab.Navigator >
       ) : (

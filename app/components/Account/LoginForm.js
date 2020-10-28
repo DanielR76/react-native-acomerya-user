@@ -79,14 +79,16 @@ export default function LoginForm(props) {
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "password")}
       />
+     
       <Button
         tittle="Iniciar sesion"
         containerStyle={styles.btnContainerLogin}
         buttonStyle={styles.btnLogin}
         onPress={onSubmit}
       />
+    
       <Loading isVisible={loading} text="iniciando sesion" />
-    </View>
+      </View>
   );
 }
 
@@ -98,21 +100,24 @@ function defaultFormValue() {
 }
 const styles = StyleSheet.create({
   formContainer: {
-    flex: 1,
+    flex: 80,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 100,
+    marginRight: 80,
+    marginLeft: 80,
   },
   inputForm: {
     width: "100%",
     marginTop: 20,
   },
   btnContainerLogin: {
-    marginTop: 60,
-    width: "20%",
+    marginTop: 100,
+    width: "50%",
+    height: 200,
   },
   btnLogin: {
-    backgroundColor: "#ED923D",
+     backgroundColor: "#ED923D",
   },
   txTitle: {
     //color: 'black',

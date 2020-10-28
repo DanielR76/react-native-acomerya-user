@@ -5,6 +5,7 @@ import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
@@ -75,6 +76,9 @@ export default function CreateReservation(props) {
     <View style={styles.formContainer}>
       <Text style={styles.txTitleReg}>{`¡Reserva Ya!`}</Text>
       <View >
+      <Text style={styles.txTitleReg}>{nameRestaurant}</Text>
+      </View> 
+      <View >
       <Button onPress={showDatepicker} title="Fecha" />
       </View>
       <View >
@@ -88,7 +92,6 @@ export default function CreateReservation(props) {
           is24Hour={true}
           display="default"
           onChange={onChange1}
-        
         />
       )}
       <Input
@@ -97,11 +100,10 @@ export default function CreateReservation(props) {
         onChange={(e) => onChange(e, "quantity")}
         
       />
-      <Input
+      <AutoGrowingTextInput
         placeholder="Observaciones"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "summary")}
-        
       />
       <Button
         title="Crear reserva"

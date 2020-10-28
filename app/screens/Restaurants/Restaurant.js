@@ -15,6 +15,7 @@ import Carousel from "../../components/Restaurants/Carousel";
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
+import LinearGradient  from "expo-linear-gradient"
 const db = firebase.firestore(firebaseapp);
 
 const screenWidth = Dimensions.get("window").width;
@@ -25,12 +26,16 @@ export default function Restaurant(props) {
   const [dish, setDish] = useState([]);
   
   navigation.setOptions({ title: nameRestaurant });
+
+  useEffect(() => {
+    getRestaurantById();
+  }, []);
+
   const getRestaurantById = async () => {
     await db
       .collection("restaurantsDocument")
       .doc(id)
-      .get()
-      .then((response) => {
+      .onSnapshot((response) => {
         const data = response.data();
         const dataIduser = response.data().idUser;
         data.id = response.id;
@@ -42,6 +47,7 @@ export default function Restaurant(props) {
     await db
       .collection("dishDocument")
       .where("idRestaurant", "==", id)
+      .where("status", "==", true)
       .onSnapshot((querySnapshot) => {
         const state = [];
         querySnapshot.forEach((doc) => {
@@ -54,10 +60,7 @@ export default function Restaurant(props) {
       });
   };
 
-  useEffect(() => {
-    getRestaurantById();
-  }, []);
-
+ 
   // Llamar platos del restaurante e la pantalla de informacion
 
   const arrayImages = [];
@@ -101,11 +104,10 @@ export default function Restaurant(props) {
 
   function CreateReservation() {
     const navigation = useNavigation();
-   
     return (
       <Button
-        buttonStyle={styles.buttonReservation}
         title="Reservar"
+        buttonStyle={styles.buttonReservation}
         onPress={() =>
           navigation.navigate("Reservation", {
             idUser,
@@ -177,13 +179,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonReservation: {
-    color: "#ED923D",
-    borderRadius: 10,
+    backgroundColor: "#ED923D",
   },
   containerButtonReservation: {
     width: 295,
     height: 60,
     marginLeft: 61,
     padding: 24,
+    marginTop:-6,
   },
 });
