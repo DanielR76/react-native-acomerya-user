@@ -1,67 +1,143 @@
-import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, ScrollView, Text, View, FlatList, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native'
-import { Image, Button } from "react-native-elements";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { StyleSheet, ScrollView, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from 'react-native'
+import { Image, Icon } from "react-native-elements";
 import Dish from "./Dish"
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import { size } from "lodash";
-import "firebase/firestore"; 
+import "firebase/firestore";
+import { useFocusEffect } from "@react-navigation/native";
+//import Icon from 'react-native-vector-icons/Ionicons';
+
 const db = firebase.firestore(firebaseapp);
 
 var { height, width } = Dimensions.get("window");
 
-export default function Cart (props) {
+export default function Cart(props) {
     const { navigation, route } = props;
-    const { id, dishName, imagePath, price, idRestaurant, dishes } = route.params;
+    const [add, setAdd] = useState(1);
+
+    //funcion que envia el pedido a la base de datos
+    const addBD = () => {
+        db.collection("requestsDocument").doc().set(dishCart).then();
+        AsyncStorage.removeItem("cart")
+    }
+    const onPressRemove = (idx) => {
+        // let arr = dishCart
+        // console.log(arr)
+        if (add > 1) {
+            setAdd(add - 1)
+        }
+    };
+
+    const onPressAdded = () => {
+        setAdd(add + 1)
+    };
 
     const initialStateValues = {
-        idRestaurant: "123456",
-        idUser: "654321",
-        status: "active",
-        table: "Mesa 1",
-        totalPrice: null
+        dishes: [],
+        idRestaurant: 'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2',
+        table: 'mesa 4',
+        idUser: 'kwOZtSWxX9VdsXw0fVsSB30JVP43'/*firebase.auth().currentUser.uid*/,
+        status: 'active',
+        totalPrice: '',
+        quantity: 1,
     }
+
     const [dishCart, setDishCart] = useState(initialStateValues)
+    useFocusEffect(
+        useCallback(() => {
+            AsyncStorage.getItem('cart').then((cart) => {
+                if (cart !== null) {
+                    const dishes = JSON.parse(cart)
+                    setDishCart({ ...dishCart, dishes: dishes })
 
-    const addBD = () => {
-setDishCart({ ...dishCart, dishes:"hola" 
-})      
-        db.collection("requestsDocument").doc().set(dishCart).then();
+                }
+            })
+                .catch((err) => {
+                    alert(err)
+                })
+        }, [],
+        ))
+
+    const deleteCartItem = (idx) => {
+        let arr = dishCart.dishes.map((item, index) => {
+            if (idx == index) {
+            }
+            return { ...item }
+        })
+        arr.splice(idx, 1)
+        setDishCart({ ...dishCart, dishes: arr })
     }
 
-    
+    //console.log(dishCart)
+
+
+    // const onChangeQual = (index, type) => {
+    //     const dataCarr = [dishCart]
+    //     let cantd = dataCarr[index].quantity;
+    //     console.log(cantd)
+    //     if (type) {
+    //         cantd = cantd + 1
+    //         dataCarr[index].quantity = cantd
+    //         setDishCart({ dishCart: dataCarr })
+    //     }
+    //     else if (type == false && cantd >= 2) {
+    //         cantd = cantd - 1
+    //         dataCarr[index].quantity = cantd
+    //         // setDishCart({ dishCart: dataCarr })
+    //     }
+    //     else if (type == false && cantd == 1) {
+    //         // dataCarr.splice(index, 1)
+    //         //setDishCart({ dishCart: dataCarr })
+    //     }
+    // }
+
     navigation.setOptions({ title: "Carrito" });
     return (
+        <ScrollView>
+            <View>
+                {
+                    dishCart.dishes.map((item, index) => {
+                        return (
 
-        <View>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <View style={{ height: 20 }} />
-                <Text style={{ fontSize: 20, color: "gray", fontWeight: "bold" }}>{dishName}</Text>
-                <View style={{ height: 10 }} />
-                <View style={{ backgroundColor: "transparent", flex: 1 }} />
+                            <View key={index} style={styles.viewDishes}>
+                                <View style={styles.viewDishesImage}>
+                                    <Image
+                                        style={{ width: width / 3, height: width / 3, }}
+                                        resizeMode="cover"
+                                        PlaceholderContent={<ActivityIndicator color="fff" />}
+                                        source={item.imagePath ? { uri: item.imagePath } : require("./../../../assets/img/imgj.jpg")
+                                        }
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={styles.dishesName} >{item.dishName}</Text>
+                                    <Text style={styles.dishesName} >{item.addition}</Text>
+                                    <Text>${item.totalPrice + parseInt(item.price)}</Text>
+                                </View>
+                                <View style={{ marginTop: 10, position: "absolute", right: 10 }}>
+                                    <Icon onPress={() => deleteCartItem(index)} type="material-community" name="delete-outline" size={20} color={"#33c37d"}></Icon>
+                                </View>
+
+                                <View style={{ flexDirection: "row", alignItems: "center", right: 10 }}>
+                                    <TouchableOpacity onPress={() => onPressRemove(index)}>
+                                        <Icon type="material-community" name="minus-circle-outline" size={20} color={"#33c37d"}></Icon>
+                                    </TouchableOpacity>
+                                    <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{dishCart.quantity}</Text>
+                                    <TouchableOpacity onPress={() => onPressAdded(index)}>
+                                        <Icon type="material-community" name="plus-circle-outline" size={20} color={"#33c37d"}></Icon>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )
+                    })
+                }
                 <View>
-                    <View style={{ width: width - 20, margin: 10, backgroundColor: "transparent", flexDirection: "row", borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10 }}></View>
-                    <Image
-                        style={{ width: width / 3, height: width / 3, }}
-                        resizeMode="cover"
-                        PlaceholderContent={<ActivityIndicator color="fff" />}
-                        source={imagePath ? { uri: imagePath } : require("./../../../assets/img/imgj.jpg")
-                        }
-                    />
-                    <View style={{ backgroundColor: "transparent", flex: 1, justifyContent: 'space-between' }}>
-                        <View>
-                            <Text>{dishName}</Text>
-                        </View>
-
-                        <View style={{ backgroundColor: "transparent", flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontWeight: 'bold', color: "#33c37d", fontSize: 20, }}>{route.params.price}</Text>
-                        </View>
-                    </View>
-                    <View style={{ height: 20 }} />
                     <TouchableOpacity
                         onPress={addBD}
                         style={{
-                            backgroundColor: "#33c37d", width: width - 40,
+                            backgroundColor: "#33c37d",
                             alignItems: 'center',
                             padding: 10, borderRadius: 5,
                         }}
@@ -71,27 +147,24 @@ setDishCart({ ...dishCart, dishes:"hola"
                         }}>
                             ¡Confirma tu orden!
                             </Text>
+
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </ScrollView >
     )
 }
 const styles = StyleSheet.create({
-    viewBody: {
-        flex: 1,
-        backgroundColor: "#fff",
-    },
-    viewPlatosImage: {
-        marginRight: 15
-    }
-    , viewPlatos: {
+    viewDishes: {
         flexDirection: "row",
-        marginBottom: 10
+        margin: 10,
+        backgroundColor: "#FFF6F6",
+        borderRadius: 10,
     }
-    , vimageDishes: {
-        width: 80,
-        height: 80,
-
+    , viewDishesImage: {
+        marginRight: 15,
+    }
+    , dishesName: {
+        fontWeight: 'bold',
     }
 })

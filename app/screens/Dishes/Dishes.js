@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { firebaseapp } from "./../../utils/firebase";
@@ -6,52 +6,80 @@ import firebase, { firestore } from "firebase/app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
 import { Image } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 var { height, width } = Dimensions.get("window");
 
 export default function Dishes(props) {
     const { navigation, route } = props;
-    const { code } = route.params;
+    //const { code } = route.params;
+
+
 
     //funcion que permite traer todos los platos de un restaurante en especifico
     const [dishes, setDishes] = useState([])
-    const getDishes = async () => {
-        db.collection("dishDocument").where("idRestaurant",
-            "==", code /*firebase.auth().currentUser.uid*/)
-            .onSnapshot(querySnapshot => {
-                const state = []
-                querySnapshot.forEach((doc) => {
-                    state.push({
-                        ...doc.data(),
-                        id: doc.id
+    useFocusEffect(
+        useCallback(() => {
+            var code = global.codeValue
+            db.collection("dishDocument").where("idRestaurant",
+                "==", code /*'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2'*/)
+                .onSnapshot(querySnapshot => {
+                    const state = []
+                    querySnapshot.forEach((doc) => {
+                        state.push({
+                            ...doc.data(),
+                            id: doc.id
+                        })
                     })
+                    setDishes(state)
                 })
-                setDishes(state)
-            })
-    }
-    useEffect(() => {
-        getDishes()
-    }, [])
-    
+
+        }, [])
+    )
+
+    // //funcion que permite traer todos los platos de un restaurante en especifico
+    // const [dishes, setDishes] = useState([])
+    // const [count, setCount] = useState(global.codeValue)
+    // // console.log(count)
+    // const getDishes = async () => {
+    //     // let codeVale = global.codeVale;
+    //     console.log(count)
+    //     db.collection("dishDocument").where("idRestaurant",
+    //         "==", count /*'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2'*/)
+    //         .onSnapshot(querySnapshot => {
+    //             const state = []
+    //             querySnapshot.forEach((doc) => {
+    //                 state.push({
+    //                     ...doc.data(),
+    //                     id: doc.id
+    //                 })
+    //             })
+    //             setDishes(state)
+    //         })
+    // }
+    // useEffect(() => {
+    //     getDishes()
+    // }, [])
+
+
 
     return (
         <View>
-                {size(dishes) > 0 ? (                    
+            {size(dishes) > 0 ? (
                 <FlatList
-                        data={dishes}
-                       numColumns={2}
-                        renderItem={(dish) => <Dish dish={dish} navigation={navigation}/> }
-                        keyExtractor={(item, index) => index.toString()}
-                    />              
-                ) : (
-                        <View style={styles.loaderDishes}>
-                            <ActivityIndicator size="large"></ActivityIndicator>
-                            <Text> Cargando menu</Text>
-                        </View>
-                    )}
-            </View>
+                    data={dishes}
+                    //numColumns={2}
+                    renderItem={(dish) => <Dish dish={dish} navigation={navigation} />}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            ) : (
+                    <View style={styles.loaderDishes}>
+                        <ActivityIndicator size="large"></ActivityIndicator>
+                        <Text> Cargando menu</Text>
+                    </View>
+                )}
+        </View>
     );
 
 }
@@ -59,46 +87,39 @@ export default function Dishes(props) {
 function Dish(props) {
     const { dish, navigation } = props;
     const { id, imagePath, dishName, price, description, idRestaurant } = dish.item;
-   
-    const pedido = {
-        ...dish.index,
-    }
+
     const goDish = () => {
         navigation.navigate("Dish", {
             id,
-            dishName,
-            imagePath,
-            price,
-            description,
-            idRestaurant,           
+            idRestaurant,
         }
         );
     };
 
+
     return (
-            <TouchableOpacity onPress={goDish} style={styles.divFood}>
+        <View style={styles.viewDishes}>
+            <View style={styles.viewDishesImage}>
                 <Image
+                    resizeMode="cover"
                     PlaceholderContent={<ActivityIndicator color="fff" />}
                     style={styles.vimageDishes}
-                    resizeMode="contain"
                     source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
                     }
                 />
-                <View style={styles.viewPlatosImage}>
-                    <Text style={styles.dishesName}>{dishName}</Text>
-                    <Text style={styles.dishDescription}>{description.substr(0,60)}..</Text>
-                    <Text style={styles.dishPrice}>{price}</Text>
-                </View>
-                <TouchableOpacity
-                    style={styles.tobuttonCart}
-                //  onPress={() => this.onClickAddCart(dish)}
-                //onPress={() => navigation.navigate("RequestOnYourTable_platos")}
-                >
-                    <Text style={styles.textbuttonCart}>Agregar</Text>
-                    <View style={{ width: 10 }}></View>
-                    <Icon name="ios-add-circle" size={30} color={"white"}></Icon>
+            </View>
+            <View>
+                <Text style={styles.dishesName}>{dishName}</Text>
+                <Text style={styles.dishPrice}>{price}</Text>
+                <Text style={styles.dishDescription}>{description.substr(0, 60)}...</Text>
+            </View>
+            <View style={{ marginTop: 5, position: "absolute", right: 0 }}>
+                <TouchableOpacity onPress={goDish}>
+                    <Text >Agregar</Text>
+                    <Icon name="ios-add-circle" size={15} color={"white"}></Icon>
                 </TouchableOpacity>
-            </TouchableOpacity>
+            </View>
+        </View>
 
     )
 }
@@ -108,46 +129,35 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         alignItems: "center",
     }
-    , viewPlatos: {
+    , viewDishes: {
         flexDirection: "row",
-        marginBottom: 10
+        margin: 10,
+        backgroundColor: "#FFF6F6",
+        borderRadius: 10,
     }
-    , viewPlatosImage: {
-        height: ((width / 2) - 20) - 90,
-        width: ((width / 2) - 20) - 10,
-        backgroundColor: 'transparent',
+    , viewDishesImage: {
+        marginRight: 15,
+
     }
     , vimageDishes: {
-        width: ((width / 2) - 20) - 10,
-        height: ((width / 2) - 20) - 30,
-        backgroundColor: 'transparent',
-        // position: 'absolute',
-        top: -45,
-
+        width: 80,
+        height: 80
     }
     , dishesName: {
         fontWeight: 'bold',
-        fontSize: 12,
-        textAlign: 'center',
-
     }
     , dishPrice: {
-        fontSize: 12,
-        color: 'green',
+        paddingTop: 12,
+        color: 'grey',
     }
-    , divFood: {
-        width: (width / 2) - 20,
-        padding: 10,
-        borderRadius: 10,
-        marginTop: 55,
-        marginBottom: 5,
-        marginLeft: 10,
-        alignItems: 'center',
-        elevation: 8,
-        shadowOpacity: 0.3,
-        shadowRadius: 50,
-        backgroundColor: 'white',
-
+    , dishDescription: {
+        paddingTop: 2,
+        color: "grey",
+        width: 300,
+    }
+    , viewPlatos: {
+        flexDirection: "row",
+        marginBottom: 10
     }
     , tobuttonCart: {
         width: (width / 2) - 40,
@@ -159,16 +169,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     }
     , textbuttonCart: {
-        fontSize: 15,
         color: "white",
         fontWeight: "bold",
-
     }
-    ,dishDescription:{
-        paddingTop:2,
-        color:"grey",
-        
 
-    }
 }
 )

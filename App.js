@@ -6,12 +6,14 @@ import RestaurantsStack from "./app/navigations/RestaurantsStack";
 import DishStack from "./app/navigations/DishStack";
 import CodeStack from "./app/navigations/CodeStack";
 import Cart from "./app/screens/Dishes/Cart"
+import Code from "./app/screens/Dishes/Code"
 import AccountStack from "./app/navigations/AccountStack";
 import PerfilStack from "./app/navigations/ProfileStack";
 import * as firebase from "firebase/app";
 import ReservationStack from "./app/navigations/ReservationStack";
 import { decode, encode } from "base-64";
 import Dishes from './app/screens/Dishes/Dishes'
+
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -35,7 +37,7 @@ export default function App() {
   return (
 
     <NavigationContainer>
-      {!LoginIn  ? (
+      {!LoginIn ? (
         <Tab.Navigator>
           <Tab.Screen
             name="account"
@@ -46,44 +48,39 @@ export default function App() {
           />
         </Tab.Navigator >
       ) : (
-        <Tab.Navigator>
-          <Tab.Screen
-            name="restaurants"
-            component={RestaurantsStack}
-            options={{ title: "Restaurantes" }}
-          />
-          <Tab.Screen
-            name="perfil"
-            component={PerfilStack}
-            options={{ title: "perfil" }}
-          />
-           <Tab.Screen
-            name="MyReservations"
-            component={ReservationStack}
-            options={{ title: "Mis Reservas" }}
-          />
-          <Tab.Screen
+          <Tab.Navigator>
+            <Tab.Screen
+              name="restaurants"
+              component={RestaurantsStack}
+              options={{ title: "Restaurantes" }}
+            />
+            <Tab.Screen
+              name="perfil"
+              component={PerfilStack}
+              options={{ title: "perfil" }}
+            />
+            <Tab.Screen
+              name="MyReservations"
+              component={ReservationStack}
+              options={{ title: "Mis Reservas" }}
+            />
+            <Tab.Screen
               name="Code"
-              component={DishStack}
+              component={CodeStack}
               options={{ title: "Codigo" }}
             />
             <Tab.Screen
-            name="Cart"
-            component={Cart}
-            options={{ title: "carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
-          />  
-          <Tab.Screen 
-          name="Dishes" 
-        component={Dishes} 
-        options={{ title: "Platos " }}
-         />
-          {/* <Tab.Screen
-              name="RequestOnYourTable"
-              component={RequestOnYourTableStack}
-              options={{ title: "Solicita a tu mesa" }}
-            /> */}
-        </Tab.Navigator>
-      )}
+              name="Dishes"
+              component={DishStack}
+              options={{ title: "Platos " }}
+            />
+            <Tab.Screen
+              name="Cart"
+              component={Cart}
+              options={{ title: "carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
+            />
+          </Tab.Navigator>
+        )}
     </NavigationContainer>
   );
 }
