@@ -1,23 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 // import { View, Text } from "react-native";
 import { StyleSheet, View, Text, AsyncStorage } from "react-native";
 import { Button, Input, Container } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import Toast from "react-native-easy-toast";
-import Dishes from "./Dishes";
-import Dish from "./Dish";
-
 
 export default function Code(props) {
     const navigation = useNavigation();
     const [codeInput, setCodeInput] = useState("")
     const toastRef = useRef()
-
     const [code, setCode] = useState("")
 
+
+
+    global.codeValue = code;
     const getCode = () => {
         //let code
         if (!codeInput) {
@@ -29,8 +28,8 @@ export default function Code(props) {
                     response.forEach((doc) => {
                         setCode(doc.data().idRestaurant);
                     })
+                    AsyncStorage.removeItem("cart")
                     navigation.navigate("Dishes", {
-                        code
                     });
                 } else {
                     toastRef.current.show("Por favor valida el codigo ingresado")
@@ -38,8 +37,6 @@ export default function Code(props) {
             });
         }
     }
-
-    //global.codeValue = code;
 
     return (
 
@@ -49,7 +46,7 @@ export default function Code(props) {
                 <Input
                     onChange={(e) => setCodeInput(e.nativeEvent.text)}
                     placeholder="Digita aqui tu codigo" />
-                <Button title="Ver menu" onPress={getCode} style={styles.boton} code={code}>  </Button>
+                <Button title="Ver menu" onPress={getCode} style={styles.boton}>  </Button>
             </View>
             <View>
                 <Toast ref={toastRef} position="center" opacity={0.9} />

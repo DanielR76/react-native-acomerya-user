@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { firebaseapp } from "./../../utils/firebase";
@@ -6,34 +6,63 @@ import firebase, { firestore } from "firebase/app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
 import { Image } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 var { height, width } = Dimensions.get("window");
 
 export default function Dishes(props) {
-    const { navigation, route, code } = props;
+    const { navigation, route } = props;
     //const { code } = route.params;
+
+
 
     //funcion que permite traer todos los platos de un restaurante en especifico
     const [dishes, setDishes] = useState([])
-    const getDishes = async () => {
-        db.collection("dishDocument").where("idRestaurant",
-            "==", /*code */'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2')
-            .onSnapshot(querySnapshot => {
-                const state = []
-                querySnapshot.forEach((doc) => {
-                    state.push({
-                        ...doc.data(),
-                        id: doc.id
+    useFocusEffect(
+        useCallback(() => {
+            var code = global.codeValue
+            db.collection("dishDocument").where("idRestaurant",
+                "==", code /*'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2'*/)
+                .onSnapshot(querySnapshot => {
+                    const state = []
+                    querySnapshot.forEach((doc) => {
+                        state.push({
+                            ...doc.data(),
+                            id: doc.id
+                        })
                     })
+                    setDishes(state)
                 })
-                setDishes(state)
-            })
-    }
-    useEffect(() => {
-        getDishes()
-    }, [])
+
+        }, [])
+    )
+
+    // //funcion que permite traer todos los platos de un restaurante en especifico
+    // const [dishes, setDishes] = useState([])
+    // const [count, setCount] = useState(global.codeValue)
+    // // console.log(count)
+    // const getDishes = async () => {
+    //     // let codeVale = global.codeVale;
+    //     console.log(count)
+    //     db.collection("dishDocument").where("idRestaurant",
+    //         "==", count /*'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2'*/)
+    //         .onSnapshot(querySnapshot => {
+    //             const state = []
+    //             querySnapshot.forEach((doc) => {
+    //                 state.push({
+    //                     ...doc.data(),
+    //                     id: doc.id
+    //                 })
+    //             })
+    //             setDishes(state)
+    //         })
+    // }
+    // useEffect(() => {
+    //     getDishes()
+    // }, [])
+
+
 
     return (
         <View>
