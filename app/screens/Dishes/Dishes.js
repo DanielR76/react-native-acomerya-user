@@ -7,7 +7,6 @@ import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
 import { Image } from "react-native-elements";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import Icon from 'react-native-vector-icons/Ionicons';
 
 var { height, width } = Dimensions.get("window");
 
@@ -37,39 +36,11 @@ export default function Dishes(props) {
 
         }, [])
     )
-
-    // //funcion que permite traer todos los platos de un restaurante en especifico
-    // const [dishes, setDishes] = useState([])
-    // const [count, setCount] = useState(global.codeValue)
-    // // console.log(count)
-    // const getDishes = async () => {
-    //     // let codeVale = global.codeVale;
-    //     console.log(count)
-    //     db.collection("dishDocument").where("idRestaurant",
-    //         "==", count /*'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2'*/)
-    //         .onSnapshot(querySnapshot => {
-    //             const state = []
-    //             querySnapshot.forEach((doc) => {
-    //                 state.push({
-    //                     ...doc.data(),
-    //                     id: doc.id
-    //                 })
-    //             })
-    //             setDishes(state)
-    //         })
-    // }
-    // useEffect(() => {
-    //     getDishes()
-    // }, [])
-
-
-
     return (
         <View>
             {size(dishes) > 0 ? (
                 <FlatList
                     data={dishes}
-                    //numColumns={2}
                     renderItem={(dish) => <Dish dish={dish} navigation={navigation} />}
                     keyExtractor={(item, index) => index.toString()}
                 />
@@ -81,7 +52,6 @@ export default function Dishes(props) {
                 )}
         </View>
     );
-
 }
 
 function Dish(props) {
@@ -115,12 +85,10 @@ function Dish(props) {
             </View>
             <View style={{ marginTop: 5, position: "absolute", right: 0 }}>
                 <TouchableOpacity onPress={goDish}>
-                    <Text >Agregar</Text>
-                    <Icon name="ios-add-circle" size={15} color={"white"}></Icon>
+                    <Text>Agregar</Text>
                 </TouchableOpacity>
             </View>
         </View>
-
     )
 }
 const styles = StyleSheet.create({

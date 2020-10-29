@@ -42,10 +42,12 @@ export default function Code(props) {
 
         < View style={styles.view} >
             <View>
-                <Text>Digita el código para sincronizarte con el restaurante¡</Text><br></br>
-                <Input
-                    onChange={(e) => setCodeInput(e.nativeEvent.text)}
-                    placeholder="Digita aqui tu codigo" />
+                <Text>Digita el código para sincronizarte con el restaurante¡</Text>
+                <View>
+                    <Input
+                        onChange={(e) => setCodeInput(e.nativeEvent.text)}
+                        placeholder="Digita aqui tu codigo" />
+                </View>
                 <Button title="Ver menu" onPress={getCode} style={styles.boton}>  </Button>
             </View>
             <View>
@@ -56,20 +58,6 @@ export default function Code(props) {
 
     );
 }
-
-// function Dish(props) {
-//     const { code, navigation } = props;
-
-//     const goDishes = () => {
-//         navigation.navigate("Dish", {
-//             code,
-//         }
-//         );
-//     };
-//     return (
-//         <Dishes></Dishes>
-//     )
-// }
 const styles = StyleSheet.create({
     viewBody: {
         marginLeft: 30,

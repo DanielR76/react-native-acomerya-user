@@ -29,7 +29,6 @@
     "react-native-autogrow-textinput": "^5.4.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-easy-toast": "~1.2.0",
-    "react-native-element": "^1.2.1",
     "react-native-elements": "~1.2.7",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-keyboard-aware-scroll-view": "~0.9.1",

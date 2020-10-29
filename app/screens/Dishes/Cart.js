@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { StyleSheet, ScrollView, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from 'react-native'
-import { Image, Icon } from "react-native-elements";
+import { Image } from "react-native-elements";
 import Dish from "./Dish"
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import { size } from "lodash";
 import "firebase/firestore";
 import { useFocusEffect } from "@react-navigation/native";
-//import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 
 const db = firebase.firestore(firebaseapp);
 
@@ -17,22 +17,9 @@ export default function Cart(props) {
     const { navigation, route } = props;
     const [add, setAdd] = useState(1);
 
-    //funcion que envia el pedido a la base de datos
-    const addBD = () => {
-        db.collection("requestsDocument").doc().set(dishCart).then();
-        AsyncStorage.removeItem("cart")
-    }
-    const onPressRemove = (idx) => {
-        // let arr = dishCart
-        // console.log(arr)
-        if (add > 1) {
-            setAdd(add - 1)
-        }
-    };
-
-    const onPressAdded = () => {
-        setAdd(add + 1)
-    };
+    useEffect(() => {
+        initialStateValues
+    }, [])
 
     const initialStateValues = {
         dishes: [],
@@ -45,13 +32,24 @@ export default function Cart(props) {
     }
 
     const [dishCart, setDishCart] = useState(initialStateValues)
+    const deleteCartItem = (idx) => {
+        let arr = dishCart.dishes.map((item, index) => {
+            if (idx == index) {
+                console.log(item)
+            }
+            return { ...item }
+        })
+        arr.splice(idx, 1)
+        console.log(arr)
+        setDishCart({ ...dishCart, dishes: arr })
+    }
+
     useFocusEffect(
         useCallback(() => {
             AsyncStorage.getItem('cart').then((cart) => {
                 if (cart !== null) {
                     const dishes = JSON.parse(cart)
                     setDishCart({ ...dishCart, dishes: dishes })
-
                 }
             })
                 .catch((err) => {
@@ -60,17 +58,32 @@ export default function Cart(props) {
         }, [],
         ))
 
-    const deleteCartItem = (idx) => {
-        let arr = dishCart.dishes.map((item, index) => {
-            if (idx == index) {
-            }
-            return { ...item }
-        })
-        arr.splice(idx, 1)
-        setDishCart({ ...dishCart, dishes: arr })
-    }
+    // useEffect(() => {
+    //     deleteCartItem()
+    // }, [])
 
-    //console.log(dishCart)
+
+    //funcion que envia el pedido a la base de datos
+    const addBD = () => {
+
+        db.collection("requestsDocument").doc().set(dishCart).then();
+        AsyncStorage.removeItem("cart")
+    }
+    const onPressRemove = (idx) => {
+        //const dataCarr = [dishCart]
+        //let cantd = dataCarr[index].quantity;
+        //console.log(cantd)
+        if (add > 1) {
+            setAdd(add - 1)
+        }
+    };
+
+    const onPressAdded = () => {
+
+        // setAdd(add + 1)
+    };
+
+    console.log(dishCart)
 
 
     // const onChangeQual = (index, type) => {
@@ -117,16 +130,25 @@ export default function Cart(props) {
                                     <Text>${item.totalPrice + parseInt(item.price)}</Text>
                                 </View>
                                 <View style={{ marginTop: 10, position: "absolute", right: 10 }}>
-                                    <Icon onPress={() => deleteCartItem(index)} type="material-community" name="delete-outline" size={20} color={"#33c37d"}></Icon>
+                                    <Ionicons
+                                        onPress={() => deleteCartItem(index)}
+                                        name="ios-trash"
+                                        size={20} color={"#33c37d"}
+                                    />
                                 </View>
-
                                 <View style={{ flexDirection: "row", alignItems: "center", right: 10 }}>
                                     <TouchableOpacity onPress={() => onPressRemove(index)}>
-                                        <Icon type="material-community" name="minus-circle-outline" size={20} color={"#33c37d"}></Icon>
+                                        <Ionicons
+                                            name="ios-remove-circle"
+                                            size={20} color={"#33c37d"}
+                                        />
                                     </TouchableOpacity>
                                     <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{dishCart.quantity}</Text>
                                     <TouchableOpacity onPress={() => onPressAdded(index)}>
-                                        <Icon type="material-community" name="plus-circle-outline" size={20} color={"#33c37d"}></Icon>
+                                        <Ionicons
+                                            name="ios-add-circle"
+                                            size={20} color={"#33c37d"}
+                                        />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -147,7 +169,6 @@ export default function Cart(props) {
                         }}>
                             ¡Confirma tu orden!
                             </Text>
-
                     </TouchableOpacity>
                 </View>
             </View>

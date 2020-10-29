@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Alert } from 'react-native';
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage, ScrollView } from 'react-native'
 import Loading from "../../components/Loading";
-import { Image, Icon } from "react-native-elements";
+import { Image } from "react-native-elements";
+import { Ionicons } from '@expo/vector-icons';
 import Toast from "react-native-easy-toast";
 import { isLoading } from 'expo-font';
 import { firebaseapp } from "./../../utils/firebase";
@@ -56,6 +57,7 @@ export default function Dish(props) {
                 AsyncStorage.setItem('cart', JSON.stringify(cart));
             }
             goCart()
+            navigation.goBack();
         })
     }
     const [additions, setAdditions] = useState([])
@@ -115,13 +117,13 @@ export default function Dish(props) {
         //setFinalDish({ ...finalDish, addition: trueAddition, totalPriceAddit})
     }
 
-    console.log(finalDish)
+    //console.log(finalDish)
     navigation.setOptions({ title: "Agregar al carrito" });
 
     if (!dishes) return <Loading isVisible={true} text=" Cargando..." />
     return (
         <ScrollView>
-            <View style={styles.viewDishes}>
+            <View style={styles.viewDishess}>
                 <View >
                     <Image
                         style={{ height: 200, width: 200, borderRadius: 10 }}
@@ -137,13 +139,13 @@ export default function Dish(props) {
                     <Text style={{ fontSize: 15, }}>$ {finalDish.price}</Text>
                 </View>
 
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <View style={{ flex: 1, justifyContent: "center", }}>
                     <Text style={{ fontSize: 12, color: "black", fontWeight: "bold" }}>Ingredientes</Text>
                     <View>
                         {
                             dishIngredient.map((item, index) => {
                                 return (
-                                    <TouchableOpacity onPress={() => addIngredientItem(index)} key={index} style={[styles.touchIngredient, item.isSelectedIngredient ? styles.touchIngredientSelect : styles.touchIngredientNoselect]}>
+                                    <TouchableOpacity onPress={() => addIngredientItem(index)} key={index} style={[/*styles.touchIngredient,*/ item.isSelectedIngredient ? styles.touchIngredientSelect : styles.touchIngredientNoselect]}>
                                         <View>
                                             <View style={{ flex: 1, }}>
                                                 <Text style={{ fontSize: 12 }} >{item.name}</Text>
@@ -166,11 +168,12 @@ export default function Dish(props) {
                                             <Text style={{ fontSize: 12 }}>{item.name}</Text>
                                             <Text style={{ marginTop: 5, fontSize: 12, position: "absolute", right: 45, bottom: 0 }}>{item.price}</Text>
                                             <View style={{ marginTop: 5, position: "absolute", right: 10 }}>
-                                                <Icon
+                                                <Ionicons
                                                     onPress={() => addAdditionItem(index)}
-                                                    type="material-community"
-                                                    name={item.isSelected ? "circle" : "circle-outline"} size={15}
-                                                    color={item.isSelected ? "#33c37d" : "orange"}></Icon>
+                                                    name={item.isSelected ? "ios-checkmark-circle" : "md-checkmark-circle-outline"}
+                                                    size={20}
+                                                    color={item.isSelected ? "oranje" : "orange"}
+                                                />
                                             </View>
                                         </View>
                                     </View>
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         alignItems: "center",
     }
-    , viewDishes: {
+    , viewDishess: {
         flexDirection: "column",
         backgroundColor: "#FFF6F6",
         borderRadius: 10,
@@ -248,12 +251,22 @@ const styles = StyleSheet.create({
         marginBottom: 10
     }
     , touchIngredientSelect: {
-        backgroundColor: "green",
+        marginTop: 5,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        alignContent: "center",
+        backgroundColor: "#33c37d",
         borderColor: "#ff8000",
     }
     , touchIngredientNoselect: {
-        backgroundColor: "#FFFFFF",
+        marginTop: 5,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 12,
         borderColor: "#ff8000",
+        alignContent: "center",
+        backgroundColor: "white",
     }
     , touchIngredient: {
         marginTop: 5,
