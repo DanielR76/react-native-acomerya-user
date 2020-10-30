@@ -28,7 +28,8 @@ export default function Dishes(props) {
                     querySnapshot.forEach((doc) => {
                         state.push({
                             ...doc.data(),
-                            id: doc.id
+                            id: doc.id,
+                            price2: doc.data().price
                         })
                     })
                     setDishes(state)
@@ -36,6 +37,7 @@ export default function Dishes(props) {
 
         }, [])
     )
+    console.log(dishes)
     return (
         <View>
             {size(dishes) > 0 ? (
@@ -78,14 +80,14 @@ function Dish(props) {
                     }
                 />
             </View>
-            <View>
-                <Text style={styles.dishesName}>{dishName}</Text>
-                <Text style={styles.dishPrice}>{price}</Text>
-                <Text style={styles.dishDescription}>{description.substr(0, 60)}...</Text>
+            <View style={styles.containerTextName}>
+                <Text style={styles.textNameDishes}>{dishName}</Text>
+                <Text style={styles.text}>{description.substr(0, 60)}...</Text>
+                <Text style={styles.text}>$ {price}</Text>
             </View>
-            <View style={{ marginTop: 5, position: "absolute", right: 0 }}>
-                <TouchableOpacity onPress={goDish}>
-                    <Text>Agregar</Text>
+            <View>
+                <TouchableOpacity onPress={goDish} style={styles.viewTouch}>
+                    <Text style={styles.textTouch}>Agregar</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -98,47 +100,59 @@ const styles = StyleSheet.create({
         alignItems: "center",
     }
     , viewDishes: {
-        flexDirection: "row",
-        margin: 10,
-        backgroundColor: "#FFF6F6",
+        width: 340,
+        height: 150,
+        marginTop: 20,
+        marginLeft: 25,
         borderRadius: 10,
+        padding: 35,
+        backgroundColor: "#FFF6F6",
+        //flexDirection: "row",
     }
     , viewDishesImage: {
-        marginRight: 15,
+        // marginRight: 15,
+        marginLeft: -15,
+        marginTop: -15,
 
     }
     , vimageDishes: {
-        width: 80,
-        height: 80
+        width: 150,
+        height: 100,
+        borderRadius: 10,
+        overflow: "hidden",
     }
-    , dishesName: {
-        fontWeight: 'bold',
-    }
-    , dishPrice: {
-        paddingTop: 12,
-        color: 'grey',
-    }
-    , dishDescription: {
-        paddingTop: 2,
-        color: "grey",
-        width: 300,
-    }
-    , viewPlatos: {
-        flexDirection: "row",
-        marginBottom: 10
-    }
-    , tobuttonCart: {
-        width: (width / 2) - 40,
-        backgroundColor: "#33c37d",
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5,
-        padding: 5,
-        flexDirection: "row",
-    }
-    , textbuttonCart: {
-        color: "white",
+    , textNameDishes: {
+        width: 183,
+        height: 25,
+        marginLeft: 146,
+        marginTop: -110,
+        fontSize: 14,
         fontWeight: "bold",
+    }
+    , text: {
+        width: 130,
+        height: 35,
+        marginLeft: 145,
+        fontSize: 14,
+    }
+    , viewTouch: {
+        width: 75,
+        height: 10,
+        marginTop: -4,
+        marginLeft: 225,
+        borderRadius: 10,
+        padding: 12,
+        backgroundColor: "#ED923D",
+    }
+    , textTouch: {
+        //width: 200,
+        //height: 10,
+        marginLeft: 10,
+        marginTop: -8,
+        //textAlign: "center",
+        fontSize: 10,
+        fontWeight: "bold",
+        color: "white",
     }
 
 }

@@ -33,7 +33,7 @@ export default function Dish(props) {
     const getDishById = async (id) => {
         const doc = await db.collection('dishDocument').doc(id).get()
         setDishes({ ...doc.data() })
-        setFinalDish({ ...doc.data(), addition: [], priceAddition: '' })
+        setFinalDish({ ...doc.data(), price2: doc.data().price, addition: [], priceAddition: '', quantity: 1 })
         let ingrediente = [...doc.data().ingredient]
         let ingredientArr = ingrediente.map((name) => { return { name, isSelectedIngredient: false } })
         setDishIngredient(ingredientArr)
@@ -78,6 +78,8 @@ export default function Dish(props) {
             })
     }
 
+    console.log(finalDish)
+    console.log(dishes)
     const addIngredientItem = (idx) => {
         let arr = dishIngredient.map((item, index) => {
             if (idx == index) {
@@ -98,7 +100,6 @@ export default function Dish(props) {
         let arr = additions.map((item, index) => {
             if (idx == index) {
                 item.isSelected = !item.isSelected
-
             }
             return { ...item }
         })
@@ -109,8 +110,8 @@ export default function Dish(props) {
             if (item.isSelected) {
                 trueAddition.push(item.name)
                 //totalPrice.push(item.price)
-                let priceAdit = parseInt(item.price);
-                totalPriceAddit = parseInt(totalPriceAddit + priceAdit);
+                /*let priceAdit = item.price /*parseInt(item.price)*/;
+                totalPriceAddit = parseInt(totalPriceAddit + item.price)/*priceAdit/*parseInt(totalPriceAddit + priceAdit)*/;
             }
         })
         setFinalDish({ ...finalDish, addition: trueAddition, priceAddition: totalPriceAddit })
@@ -123,8 +124,8 @@ export default function Dish(props) {
     if (!dishes) return <Loading isVisible={true} text=" Cargando..." />
     return (
         <ScrollView>
-            <View style={styles.viewDishess}>
-                <View >
+            <View >
+                <View style={styles.viewDishess}>
                     <Image
                         style={{ height: 200, width: 200, borderRadius: 10 }}
                         resizeMode="contain"
@@ -172,7 +173,7 @@ export default function Dish(props) {
                                                     onPress={() => addAdditionItem(index)}
                                                     name={item.isSelected ? "ios-checkmark-circle" : "md-checkmark-circle-outline"}
                                                     size={20}
-                                                    color={item.isSelected ? "oranje" : "orange"}
+                                                    color={item.isSelected ? "#ffa500" : "#ffa500"}
                                                 />
                                             </View>
                                         </View>
@@ -183,29 +184,23 @@ export default function Dish(props) {
                 </View>
 
 
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                    <View style={{ flex: 1, }}>
-                        <Text style={{ fontSize: 15, color: "black", fontWeight: "bold" }}>$ {finalDish.priceAddition + parseInt(finalDish.price)}</Text>
+
+                <View style={{ marginTop: 20, flexDirection: "row", marginTop: 20 }}>
+                    <View>
+                        <TouchableOpacity
+                            style={styles.viewTouch}
+                            onPress={addCart}
+                        >
+                            <Text style={styles.textTouch}> Agregar al Carrito </Text>
+                        </TouchableOpacity>
                     </View>
-                </View>
-
-
-
-                <View>
-                    <TouchableOpacity
-                        onPress={addCart}
-                        style={{
-                            backgroundColor: "#33c37d",
-                            alignItems: 'center',
-                            padding: 10, borderRadius: 5,
-                        }}
-                    >
+                    <View>
                         <Text style={{
-                            fontSize: 24, fontWeight: 'bold', color: "white",
-                        }}>
-                            Agregar al Carrito
-                            </Text>
-                    </TouchableOpacity>
+                            fontWeight: 'bold', fontSize: 14,
+                            marginTop: 15,
+                            marginLeft: 30,
+                        }}>$ {finalDish.priceAddition + parseInt(finalDish.price)}</Text>
+                    </View>
                 </View>
             </View>
         </ScrollView>
@@ -256,7 +251,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 12,
         alignContent: "center",
-        backgroundColor: "#33c37d",
+        backgroundColor: "#ffa500",
         borderColor: "#ff8000",
     }
     , touchIngredientNoselect: {
@@ -268,13 +263,24 @@ const styles = StyleSheet.create({
         alignContent: "center",
         backgroundColor: "white",
     }
-    , touchIngredient: {
-        marginTop: 5,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 12,
-        borderColor: "#ff8000",
-        alignContent: "center"
+    , viewTouch: {
+        width: 200,
+        height: 10,
+        // marginTop: 20,
+        marginLeft: 25,
+        borderRadius: 10,
+        padding: 20,
+        backgroundColor: "#ED923D",
+    }
+    , textTouch: {
+        //width: 200,
+        //height: 10,
+        marginLeft: 18,
+        marginTop: -13,
+        //textAlign: "center",
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "white",
     }
 
 }

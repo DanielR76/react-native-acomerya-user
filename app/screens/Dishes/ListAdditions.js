@@ -41,7 +41,7 @@
 //                 const additCart = JSON.parse(additionCart)
 //                 additCart.push(additions)
 //                 AsyncStorage.setItem("additCart", JSON.stringify(additCart))
-              
+
 //             } else {
 //                 const additCart = []
 //                 additCart.push(additions)
@@ -49,7 +49,7 @@
 //             }
 //         })
 //     }
-    
+
 //     useEffect(() => {
 //         addAdditionCart()   
 //     },[])
@@ -111,3 +111,23 @@
 // }
 // )
 
+// onChangeQual(i,type)
+// {
+//   const dataCar = this.state.dataCart
+//   let cantd = dataCar[i].quantity;
+
+//   if (type) {
+//    cantd = cantd + 1
+//    dataCar[i].quantity = cantd
+//    this.setState({dataCart:dataCar})
+//   }
+//   else if (type==false&&cantd>=2){
+//    cantd = cantd - 1
+//    dataCar[i].quantity = cantd
+//    this.setState({dataCart:dataCar})
+//   }
+//   else if (type==false&&cantd==1){
+//    dataCar.splice(i,1)
+//    this.setState({dataCart:dataCar})
+//   } 
+// }

@@ -48,7 +48,9 @@ export default function Code(props) {
                         onChange={(e) => setCodeInput(e.nativeEvent.text)}
                         placeholder="Digita aqui tu codigo" />
                 </View>
-                <Button title="Ver menu" onPress={getCode} style={styles.boton}>  </Button>
+                <View style={{ marginTop: 50 }}>
+                </View>
+                <Button style={{ backgroundColor: "#ED923D" }} title="Ver menu" onPress={getCode}>  </Button>
             </View>
             <View>
                 <Toast ref={toastRef} position="center" opacity={0.9} />
@@ -81,7 +83,13 @@ const styles = StyleSheet.create({
 
     },
     boton: {
-        backgroundColor: '#FFFF'
+        width: 10,
+        height: 10,
+        // marginTop: 20,
+        marginLeft: 25,
+        borderRadius: 10,
+        padding: 20,
+        backgroundColor: "#ED923D"
     },
     botonTexto: {
         textTransform: 'uppercase',
