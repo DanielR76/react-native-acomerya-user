@@ -5,9 +5,8 @@ import { firebaseapp } from "./../../utils/firebase";
 import firebase, { firestore } from "firebase/app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
-import { Image } from "react-native-elements";
+import { Image ,Icon} from "react-native-elements";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-
 var { height, width } = Dimensions.get("window");
 
 export default function Dishes(props) {

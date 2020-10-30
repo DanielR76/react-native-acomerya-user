@@ -140,6 +140,7 @@ export default function Cart(props) {
                                         }
                                     />
                                 </View>
+<<<<<<< HEAD
                                 <View style={styles.containerTextName}>
                                     <Text style={styles.textNameDishes} >{item.dishName}</Text>
                                     <Text style={styles.text} > {(item.price + item.priceAddition)}</Text>
@@ -155,6 +156,25 @@ export default function Cart(props) {
                                         name="ios-trash"
                                         size={20} color={"#ffa500"}
                                     />
+=======
+                                <View>
+                                    <Text style={styles.dishesName} >{item.dishName}</Text>
+                                    <Text style={styles.dishesName} >{item.addition}</Text>
+                                    <Text>${item.totalPrice + parseInt(item.price)}</Text>
+                                </View>
+                                <View style={{ marginTop: 10, position: "absolute", right: 10 }}>
+                                    <Button onPress={() => deleteCartItem(index)}  size={20} color={"#33c37d"}/>
+                                </View>
+
+                                <View style={{ flexDirection: "row", alignItems: "center", right: 10 }}>
+                                    <TouchableOpacity onPress={() => onPressRemove(index)}>
+                                        <Button  size={20} color={"#33c37d"}/>
+                                    </TouchableOpacity>
+                                    <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{dishCart.quantity}</Text>
+                                    <TouchableOpacity onPress={() => onPressAdded(index)}>
+                                        <Button  size={20} color={"#33c37d"}/>
+                                    </TouchableOpacity>
+>>>>>>> feature-design
                                 </View>
 
 
