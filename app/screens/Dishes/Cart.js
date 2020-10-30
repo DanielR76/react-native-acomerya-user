@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { StyleSheet, ScrollView, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from 'react-native'
-import { Image, Icon } from "react-native-elements";
+import { Image, Icon,Button } from "react-native-elements";
 import Dish from "./Dish"
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
@@ -117,16 +117,16 @@ export default function Cart(props) {
                                     <Text>${item.totalPrice + parseInt(item.price)}</Text>
                                 </View>
                                 <View style={{ marginTop: 10, position: "absolute", right: 10 }}>
-                                    <Icon onPress={() => deleteCartItem(index)} type="material-community" name="delete-outline" size={20} color={"#33c37d"}></Icon>
+                                    <Button onPress={() => deleteCartItem(index)}  size={20} color={"#33c37d"}/>
                                 </View>
 
                                 <View style={{ flexDirection: "row", alignItems: "center", right: 10 }}>
                                     <TouchableOpacity onPress={() => onPressRemove(index)}>
-                                        <Icon type="material-community" name="minus-circle-outline" size={20} color={"#33c37d"}></Icon>
+                                        <Button  size={20} color={"#33c37d"}/>
                                     </TouchableOpacity>
                                     <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{dishCart.quantity}</Text>
                                     <TouchableOpacity onPress={() => onPressAdded(index)}>
-                                        <Icon type="material-community" name="plus-circle-outline" size={20} color={"#33c37d"}></Icon>
+                                        <Button  size={20} color={"#33c37d"}/>
                                     </TouchableOpacity>
                                 </View>
                             </View>

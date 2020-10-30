@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Alert } from 'react-native';
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage, ScrollView } from 'react-native'
 import Loading from "../../components/Loading";
-import { Image, Icon } from "react-native-elements";
+import { Image, Icon,Button } from "react-native-elements";
 import Toast from "react-native-easy-toast";
 import { isLoading } from 'expo-font';
 import { firebaseapp } from "./../../utils/firebase";
@@ -166,11 +166,12 @@ export default function Dish(props) {
                                             <Text style={{ fontSize: 12 }}>{item.name}</Text>
                                             <Text style={{ marginTop: 5, fontSize: 12, position: "absolute", right: 45, bottom: 0 }}>{item.price}</Text>
                                             <View style={{ marginTop: 5, position: "absolute", right: 10 }}>
-                                                <Icon
+                                                <Button
                                                     onPress={() => addAdditionItem(index)}
-                                                    type="material-community"
+                                                    
                                                     name={item.isSelected ? "circle" : "circle-outline"} size={15}
-                                                    color={item.isSelected ? "#33c37d" : "orange"}></Icon>
+                                                    color={item.isSelected ? "#33c37d" : "orange"}
+                                                    />
                                             </View>
                                         </View>
                                     </View>

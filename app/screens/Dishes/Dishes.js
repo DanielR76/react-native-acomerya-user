@@ -5,9 +5,9 @@ import { firebaseapp } from "./../../utils/firebase";
 import firebase, { firestore } from "firebase/app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
-import { Image } from "react-native-elements";
+import { Image ,Icon} from "react-native-elements";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import Icon from 'react-native-vector-icons/Ionicons';
+//import Icon from 'react-native-vector-icons/Ionicons';
 
 var { height, width } = Dimensions.get("window");
 
@@ -116,7 +116,7 @@ function Dish(props) {
             <View style={{ marginTop: 5, position: "absolute", right: 0 }}>
                 <TouchableOpacity onPress={goDish}>
                     <Text >Agregar</Text>
-                    <Icon name="ios-add-circle" size={15} color={"white"}></Icon>
+                   
                 </TouchableOpacity>
             </View>
         </View>

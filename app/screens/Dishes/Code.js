@@ -42,10 +42,13 @@ export default function Code(props) {
 
         < View style={styles.view} >
             <View>
-                <Text>Digita el código para sincronizarte con el restaurante¡</Text><br></br>
+                <Text>Digita el código para sincronizarte con el restaurante¡</Text>
+                <View>
                 <Input
                     onChange={(e) => setCodeInput(e.nativeEvent.text)}
-                    placeholder="Digita aqui tu codigo" />
+                    placeholder="Digita aqui tu codigo" 
+                    />
+                 </View>
                 <Button title="Ver menu" onPress={getCode} style={styles.boton}>  </Button>
             </View>
             <View>

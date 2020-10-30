@@ -182,10 +182,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#ED923D",
   },
   containerButtonReservation: {
-    width: 295,
+    width: 220,
     height: 60,
-    marginLeft: 61,
-    padding: 24,
+    marginLeft: 100,
+    padding: 15,
     marginTop:-6,
   },
 });

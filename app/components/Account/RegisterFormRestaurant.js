@@ -43,6 +43,7 @@ export default function RegisterFormRestaurant(props) {
             phone: formData.phone,
             address: formData.address,
             email: formData.email,
+            password: formData.password,
             imagePath: [],
           });
           setLoading(false);
