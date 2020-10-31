@@ -2,12 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Alert } from 'react-native';
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage, ScrollView } from 'react-native'
 import Loading from "../../components/Loading";
-<<<<<<< HEAD
 import { Image } from "react-native-elements";
 import { Ionicons } from '@expo/vector-icons';
-=======
-import { Image, Icon,Button } from "react-native-elements";
->>>>>>> feature-design
 import Toast from "react-native-easy-toast";
 import { isLoading } from 'expo-font';
 import { firebaseapp } from "./../../utils/firebase";
