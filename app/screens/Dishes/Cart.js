@@ -15,7 +15,9 @@ var { height, width } = Dimensions.get("window");
 
 export default function Cart(props) {
     const { navigation, route } = props;
-    const [add, setAdd] = useState(1);
+
+    const [unitPriceDish, setUnitPriceDish] = useState([])
+
 
     useEffect(() => {
         initialStateValues
@@ -28,24 +30,19 @@ export default function Cart(props) {
         idUser: 'kwOZtSWxX9VdsXw0fVsSB30JVP43'/*firebase.auth().currentUser.uid*/,
         status: 'active',
         totalPrice: 0,
-        //priceUni:0,
-        //quantity: 1,
     }
-
     const [dishCart, setDishCart] = useState(initialStateValues)
     useFocusEffect(
         useCallback(() => {
             AsyncStorage.getItem('cart').then((cart) => {
                 if (cart !== null) {
                     const dishes = JSON.parse(cart)
-                    let total = []
+                    let total = 0
                     dishes.map((item, index) => {
-                        let suma = parseInt(item.price + item.priceAddition)
-                        //console.log(item.quantity)
-                        total = parseInt(total + suma)
-                        console.log(total)
+                        total = parseInt(item.priceAddition + total)
                     })
                     setDishCart({ ...dishCart, dishes: dishes, totalPrice: total })
+                    setUnitPriceDish({ ...dishCart })
                 }
             })
                 .catch((err) => {
@@ -61,7 +58,6 @@ export default function Cart(props) {
         })
         arr.splice(idx, 1)
         setDishCart({ ...dishCart, dishes: arr })
-
         AsyncStorage.getItem("cart").then(dataCart => {
             if (dataCart !== null) {
                 const cart = JSON.parse(dataCart)
@@ -71,7 +67,6 @@ export default function Cart(props) {
             }
         })
     }
-
 
     // useEffect(() => {
     //     deleteCartItem()
@@ -85,42 +80,38 @@ export default function Cart(props) {
     }
 
     const onChangeQual = (type, index) => {
-        // let mulQuan;
         let cantPrice
         const dataCarr = dishCart.dishes
         let cantd = dataCarr[index].quantity
-        const precioUnitario = dataCarr[index].price2
-        console.log(typeof precioUnitario)
         if (type) {
-            const precio = dataCarr[index].price
             cantd = cantd + 1
             dataCarr[index].quantity = cantd
-            //cantPrice = (precioUnitario * cantd)
-            //dataCarr[index].price = cantPrice
+            cantPrice = parseInt(cantd * unitPriceDish)
+            console.log(unitPriceDish)
+            dataCarr[index].priceAddition = cantPrice
             setDishCart({ ...dishCart, dishes: dataCarr })
         }
         else if (type == false && cantd >= 2) {
             cantd = cantd - 1
             dataCarr[index].quantity = cantd
+            const precio = dataCarr[index].price
+            cantPrice = (precioUnitario * cantd)
+            dataCarr[index].price = cantPrice
             setDishCart({ ...dishCart, dishes: dataCarr })
         }
         else if (type == false && cantd == 1) {
             // dataCarr.splice(index, 1)
             //setDishCart({ dishCart: dataCarr })
         }
+        AsyncStorage.getItem("cart").then(dataCart => {
+            if (dataCart !== null) {
+                const cart = JSON.parse(dataCart)
+                AsyncStorage.setItem("cart", JSON.stringify(dataCarr))
+            } else {
+                AsyncStorage.setItem('cart', JSON.stringify(dataCarr));
+            }
+        })
     }
-
-
-    const sumarPrecio = (index) => {
-        let precio = dishCart.dishes[index].price
-        let cantidad = dishCart.dishes[index].quantity
-        dishCart.dishes[index].forEach((element) => {
-            precio = (precio + dishCart.dishes[index].price)
-            console.log(precio)
-        });
-    }
-
-    console.log(dishCart)
 
     navigation.setOptions({ title: "Carrito" });
     return (
@@ -142,7 +133,7 @@ export default function Cart(props) {
                                 </View>
                                 <View style={styles.containerTextName}>
                                     <Text style={styles.textNameDishes} >{item.dishName}</Text>
-                                    <Text style={styles.text} > {(item.price + item.priceAddition)}</Text>
+                                    <Text style={styles.text} > {(item.priceAddition)}</Text>
                                 </View>
 
                                 <View style={{ marginTop: 5, flexDirection: "row" }}>
@@ -156,7 +147,21 @@ export default function Cart(props) {
                                         size={20} color={"#ffa500"}
                                     />
                                 </View>
-
+                                <View style={{ marginTop: 80, position: "absolute", flexDirection: "row", alignItems: "center", right: 10 }}>
+                                    <TouchableOpacity onPress={() => onChangeQual(false, index)}/*onPress={() => onPressRemove(index)}*/>
+                                        <Ionicons
+                                            name="ios-remove-circle"
+                                            size={20} color={"#ffa500"}
+                                        />
+                                    </TouchableOpacity>
+                                    <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{item.quantity}</Text>
+                                    <TouchableOpacity onPress={() => onChangeQual(true, index)}/*onPress={() => onPressAdded(index)}*/>
+                                        <Ionicons
+                                            name="ios-add-circle"
+                                            size={20} color={"#ffa500"}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
 
                             </View>
                         )
@@ -171,7 +176,13 @@ export default function Cart(props) {
                             <Text style={styles.textTouch}>¡Confirma tu orden!</Text>
                         </TouchableOpacity>
                     </View>
-
+                    <View>
+                        <Text style={{
+                            fontWeight: 'bold', fontSize: 14,
+                            marginTop: 15,
+                            marginLeft: 30,
+                        }}> {dishCart.totalPrice}</Text>
+                    </View>
                 </View>
             </View>
         </ScrollView >

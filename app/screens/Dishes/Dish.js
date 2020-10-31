@@ -27,18 +27,18 @@ export default function Dish(props) {
     useEffect(() => {
         getDishById(id)
         getAdditions()
-        addAdditionItem()
+        // addAdditionItem()
     }, [])
+
 
     const getDishById = async (id) => {
         const doc = await db.collection('dishDocument').doc(id).get()
+        setFinalDish({ ...doc.data(), /*price2: doc.data().price:*/ addition: [], priceAddition: doc.data().price, quantity: 1 })
         setDishes({ ...doc.data() })
-        setFinalDish({ ...doc.data(), price2: doc.data().price, addition: [], priceAddition: '', quantity: 1 })
         let ingrediente = [...doc.data().ingredient]
         let ingredientArr = ingrediente.map((name) => { return { name, isSelectedIngredient: false } })
         setDishIngredient(ingredientArr)
     }
-
     const goCart = () => {
         navigation.navigate("Cart",/*Option = { tabBarLabel: 'hhhhhh' },*/ {
         }
@@ -60,6 +60,7 @@ export default function Dish(props) {
             navigation.goBack();
         })
     }
+    //console.log(finalDish)
     const [additions, setAdditions] = useState([])
     const getAdditions = async () => {
         db.collection("additionalDocument").where("idRestaurant",
@@ -77,9 +78,6 @@ export default function Dish(props) {
                 setAdditions(state)
             })
     }
-
-    console.log(finalDish)
-    console.log(dishes)
     const addIngredientItem = (idx) => {
         let arr = dishIngredient.map((item, index) => {
             if (idx == index) {
@@ -109,21 +107,17 @@ export default function Dish(props) {
         arr.map((item) => {
             if (item.isSelected) {
                 trueAddition.push(item.name)
-                //totalPrice.push(item.price)
-                /*let priceAdit = item.price /*parseInt(item.price)*/;
                 totalPriceAddit = parseInt(totalPriceAddit + item.price)/*priceAdit/*parseInt(totalPriceAddit + priceAdit)*/;
             }
         })
-        setFinalDish({ ...finalDish, addition: trueAddition, priceAddition: totalPriceAddit })
-        //setFinalDish({ ...finalDish, addition: trueAddition, totalPriceAddit})
+        let totalPriceDish = finalDish.price + totalPriceAddit
+        setFinalDish({ ...finalDish, addition: trueAddition, priceAddition: totalPriceDish })
     }
-
-    //console.log(finalDish)
     navigation.setOptions({ title: "Agregar al carrito" });
-
     if (!dishes) return <Loading isVisible={true} text=" Cargando..." />
     return (
-        <ScrollView>
+
+        < ScrollView >
             <View >
                 <View style={styles.viewDishess}>
                     <Image
@@ -199,11 +193,11 @@ export default function Dish(props) {
                             fontWeight: 'bold', fontSize: 14,
                             marginTop: 15,
                             marginLeft: 30,
-                        }}>$ {finalDish.priceAddition + parseInt(finalDish.price)}</Text>
+                        }}>$ {finalDish.priceAddition}</Text>
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </ScrollView >
     )
 }
 const styles = StyleSheet.create({

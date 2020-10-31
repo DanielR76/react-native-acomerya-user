@@ -5,7 +5,7 @@ import { firebaseapp } from "./../../utils/firebase";
 import firebase, { firestore } from "firebase/app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
-import { Image ,Icon} from "react-native-elements";
+import { Image, Icon } from "react-native-elements";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 var { height, width } = Dimensions.get("window");
 
@@ -28,15 +28,12 @@ export default function Dishes(props) {
                         state.push({
                             ...doc.data(),
                             id: doc.id,
-                            price2: doc.data().price
                         })
                     })
                     setDishes(state)
                 })
-
         }, [])
     )
-    console.log(dishes)
     return (
         <View>
             {size(dishes) > 0 ? (
