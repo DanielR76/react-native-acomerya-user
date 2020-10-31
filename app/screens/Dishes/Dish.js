@@ -33,14 +33,14 @@ export default function Dish(props) {
 
     const getDishById = async (id) => {
         const doc = await db.collection('dishDocument').doc(id).get()
-        setFinalDish({ ...doc.data(), /*price2: doc.data().price:*/ addition: [], priceAddition: doc.data().price, quantity: 1 })
+        setFinalDish({ ...doc.data(), addition: [], priceAddition: doc.data().price, quantity: 1 })
         setDishes({ ...doc.data() })
         let ingrediente = [...doc.data().ingredient]
         let ingredientArr = ingrediente.map((name) => { return { name, isSelectedIngredient: false } })
         setDishIngredient(ingredientArr)
     }
     const goCart = () => {
-        navigation.navigate("Cart",/*Option = { tabBarLabel: 'hhhhhh' },*/ {
+        navigation.navigate("Cart", {
         }
         );
     }
@@ -60,6 +60,7 @@ export default function Dish(props) {
             navigation.goBack();
         })
     }
+
     //console.log(finalDish)
     const [additions, setAdditions] = useState([])
     const getAdditions = async () => {
@@ -111,7 +112,7 @@ export default function Dish(props) {
             }
         })
         let totalPriceDish = finalDish.price + totalPriceAddit
-        setFinalDish({ ...finalDish, addition: trueAddition, priceAddition: totalPriceDish })
+        setFinalDish({ ...finalDish, addition: trueAddition, priceAddition: totalPriceDish, price: totalPriceDish })
     }
     navigation.setOptions({ title: "Agregar al carrito" });
     if (!dishes) return <Loading isVisible={true} text=" Cargando..." />

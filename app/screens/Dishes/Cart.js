@@ -16,21 +16,19 @@ var { height, width } = Dimensions.get("window");
 export default function Cart(props) {
     const { navigation, route } = props;
 
-    const [unitPriceDish, setUnitPriceDish] = useState([])
-
-
-    useEffect(() => {
+    /* useEffect(() => {
         initialStateValues
-    }, [])
+    }, []) */
 
     const initialStateValues = {
         dishes: [],
         idRestaurant: 'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2',
-        table: 'mesa 4',
-        idUser: 'kwOZtSWxX9VdsXw0fVsSB30JVP43'/*firebase.auth().currentUser.uid*/,
+        table: 'mesa 10',
+        idUser: firebase.auth().currentUser.uid,
         status: 'active',
         totalPrice: 0,
     }
+
     const [dishCart, setDishCart] = useState(initialStateValues)
     useFocusEffect(
         useCallback(() => {
@@ -38,11 +36,10 @@ export default function Cart(props) {
                 if (cart !== null) {
                     const dishes = JSON.parse(cart)
                     let total = 0
-                    dishes.map((item, index) => {
+                    dishes.map((item) => {
                         total = parseInt(item.priceAddition + total)
                     })
                     setDishCart({ ...dishCart, dishes: dishes, totalPrice: total })
-                    setUnitPriceDish({ ...dishCart })
                 }
             })
                 .catch((err) => {
@@ -50,28 +47,6 @@ export default function Cart(props) {
                 })
         }, [],
         ))
-    const deleteCartItem = (idx) => {
-        let arr = dishCart.dishes.map((item, index) => {
-            if (idx == index) {
-            }
-            return { ...item }
-        })
-        arr.splice(idx, 1)
-        setDishCart({ ...dishCart, dishes: arr })
-        AsyncStorage.getItem("cart").then(dataCart => {
-            if (dataCart !== null) {
-                const cart = JSON.parse(dataCart)
-                AsyncStorage.setItem("cart", JSON.stringify(arr))
-            } else {
-                AsyncStorage.setItem('cart', JSON.stringify(arr));
-            }
-        })
-    }
-
-    // useEffect(() => {
-    //     deleteCartItem()
-    // }, [])
-
 
     //funcion que envia el pedido a la base de datos
     const addBD = () => {
@@ -79,38 +54,52 @@ export default function Cart(props) {
         AsyncStorage.removeItem("cart")
     }
 
-    const onChangeQual = (type, index) => {
-        let cantPrice
-        const dataCarr = dishCart.dishes
-        let cantd = dataCarr[index].quantity
-        if (type) {
-            cantd = cantd + 1
-            dataCarr[index].quantity = cantd
-            cantPrice = parseInt(cantd * unitPriceDish)
-            console.log(unitPriceDish)
-            dataCarr[index].priceAddition = cantPrice
-            setDishCart({ ...dishCart, dishes: dataCarr })
-        }
-        else if (type == false && cantd >= 2) {
-            cantd = cantd - 1
-            dataCarr[index].quantity = cantd
-            const precio = dataCarr[index].price
-            cantPrice = (precioUnitario * cantd)
-            dataCarr[index].price = cantPrice
-            setDishCart({ ...dishCart, dishes: dataCarr })
-        }
-        else if (type == false && cantd == 1) {
-            // dataCarr.splice(index, 1)
-            //setDishCart({ dishCart: dataCarr })
-        }
-        AsyncStorage.getItem("cart").then(dataCart => {
-            if (dataCart !== null) {
-                const cart = JSON.parse(dataCart)
-                AsyncStorage.setItem("cart", JSON.stringify(dataCarr))
-            } else {
-                AsyncStorage.setItem('cart', JSON.stringify(dataCarr));
+    //Eliminar plato del carrito
+    const deleteCartItem = (idx) => {
+        let arr = dishCart.dishes.map((item, index) => {
+            if (idx == index) {
             }
+            return { ...item }
         })
+        arr.splice(idx, 1)
+        let newTotal = calculateTotalPrice(arr)
+        console.log(newTotal)
+        setDishCart({ ...dishCart, dishes: arr, totalPrice: newTotal })
+        AsyncStorage.getItem("cart").then(dataCart => {
+            AsyncStorage.setItem("cart", JSON.stringify(arr))
+        })
+    }
+
+    //Aumentar o disminuir cantidad
+    const onChangeQual = (type, index) => {
+        let newPrice
+        let dataCart = dishCart.dishes
+        let amount = dataCart[index].quantity
+
+        if (type) {
+            amount = amount + 1
+        }
+        else if (type == false && amount > 1) {
+            amount = amount - 1
+        }
+
+        dataCart[index].quantity = amount
+        newPrice = parseInt(amount * dataCart[index].price)
+        dataCart[index].priceAddition = newPrice
+        let newTotal = calculateTotalPrice(dataCart)
+        console.log(newTotal)
+        setDishCart({ ...dishCart, dishes: dataCart, totalPrice: newTotal })
+        AsyncStorage.getItem("cart").then(data => {
+            AsyncStorage.setItem("cart", JSON.stringify(dataCart))
+        })
+    }
+
+    const calculateTotalPrice = (value) => {
+        let total = 0
+        value.map((item) => {
+            total = parseInt(item.priceAddition + total)
+        })
+        return total
     }
 
     navigation.setOptions({ title: "Carrito" });
