@@ -15,19 +15,20 @@ var { height, width } = Dimensions.get("window");
 
 export default function Cart(props) {
     const { navigation, route } = props;
-
-    /* useEffect(() => {
+    useEffect(() => {
         initialStateValues
-    }, []) */
+    }, [])
 
     const initialStateValues = {
         dishes: [],
-        idRestaurant: 'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2',
-        table: 'mesa 10',
+        idRestaurant: global.codeValue,
+        table: global.tableValue,
         idUser: firebase.auth().currentUser.uid,
         status: 'active',
         totalPrice: 0,
     }
+    console.log(initialStateValues.table)
+    console.log(initialStateValues.idRestaurant)
 
     const [dishCart, setDishCart] = useState(initialStateValues)
     useFocusEffect(
@@ -51,6 +52,7 @@ export default function Cart(props) {
     //funcion que envia el pedido a la base de datos
     const addBD = () => {
         db.collection("requestsDocument").doc().set(dishCart).then();
+        setDishCart({ ...initialStateValues })
         AsyncStorage.removeItem("cart")
     }
 

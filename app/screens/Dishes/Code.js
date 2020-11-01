@@ -13,12 +13,14 @@ export default function Code(props) {
     const [codeInput, setCodeInput] = useState("")
     const toastRef = useRef()
     const [code, setCode] = useState("")
-
+    const [table, setTable] = useState("")
+    //const [idRestaurant, setIdRestaurant] = useState()
 
 
     global.codeValue = code;
+    global.tableValue = table;
+
     const getCode = () => {
-        //let code
         if (!codeInput) {
             toastRef.current.show("No has ingresado ningun codigo")
         } else {
@@ -27,6 +29,8 @@ export default function Code(props) {
                 if (response.size) {
                     response.forEach((doc) => {
                         setCode(doc.data().idRestaurant);
+                        setTable(doc.data().table)
+
                     })
                     AsyncStorage.removeItem("cart")
                     navigation.navigate("Dishes", {
@@ -39,25 +43,24 @@ export default function Code(props) {
     }
 
     return (
-
-        < View style={styles.view} >
+        < View style={styles.view}>
             <View>
-                <Text>Digita el código para sincronizarte con el restaurante¡</Text>
+                <View>
+                    <Text>Digita el código para sincronizarte con el restaurante¡</Text>
+                </View>
                 <View>
                     <Input
                         onChange={(e) => setCodeInput(e.nativeEvent.text)}
                         placeholder="Digita aqui tu codigo" />
                 </View>
                 <View style={{ marginTop: 50 }}>
+                    <Button style={{ backgroundColor: "#ED923D" }} title="Ver menu" onPress={getCode}>  </Button>
                 </View>
-                <Button style={{ backgroundColor: "#ED923D" }} title="Ver menu" onPress={getCode}>  </Button>
+                <View>
+                    <Toast ref={toastRef} position="center" opacity={0.9} />
+                </View>
             </View>
-            <View>
-                <Toast ref={toastRef} position="center" opacity={0.9} />
-            </View>
-
         </View >
-
     );
 }
 const styles = StyleSheet.create({
