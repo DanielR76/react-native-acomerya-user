@@ -15,10 +15,7 @@ export default function Code(props) {
     const [code, setCode] = useState("")
     const [table, setTable] = useState("")
     //const [idRestaurant, setIdRestaurant] = useState()
-
-
-    global.codeValue = code;
-    global.tableValue = table;
+    const [exit, setExit] = useState(true)
 
     const getCode = () => {
         if (!codeInput) {
@@ -28,13 +25,13 @@ export default function Code(props) {
             db.collection("codesDocument").where("code", "==", parseInt(codeInput)).get().then((response) => {
                 if (response.size) {
                     response.forEach((doc) => {
-                        setCode(doc.data().idRestaurant);
-                        setTable(doc.data().table)
-
+                        AsyncStorage.setItem('idRestaurant', doc.data().idRestaurant)
+                        AsyncStorage.setItem('table', doc.data().table)
                     })
                     AsyncStorage.removeItem("cart")
                     navigation.navigate("Dishes", {
                     });
+                    setExit(false)
                 } else {
                     toastRef.current.show("Por favor valida el codigo ingresado")
                 }
@@ -42,24 +39,36 @@ export default function Code(props) {
         }
     }
 
+    const exitCode = () => {
+        AsyncStorage.removeItem("cart")
+        AsyncStorage.removeItem("idRestaurant")
+        AsyncStorage.removeItem("table")
+        setExit(true)
+    }
+
     return (
-        < View style={styles.view}>
-            <View>
+        <View>
+            {  exit ? (
+                < View style={styles.view}>
+                    <View>
+                        <Text>Digita el código para sincronizarte con el restaurante¡</Text>
+                    </View>
+                    <View>
+                        <Input
+                            onChange={(e) => setCodeInput(e.nativeEvent.text)}
+                            placeholder="Digita aqui tu codigo" />
+                    </View>
+                    <View style={{ marginTop: 50 }}>
+                        <Button title="Ver menu" onPress={getCode} color="#ED923D"></Button>
+                    </View>
+                    <View>
+                        <Toast ref={toastRef} position="center" opacity={0.9} />
+                    </View>
+                </View>
+            ) :
                 <View>
-                    <Text>Digita el código para sincronizarte con el restaurante¡</Text>
-                </View>
-                <View>
-                    <Input
-                        onChange={(e) => setCodeInput(e.nativeEvent.text)}
-                        placeholder="Digita aqui tu codigo" />
-                </View>
-                <View style={{ marginTop: 50 }}>
-                    <Button style={{ backgroundColor: "#ED923D" }} title="Ver menu" onPress={getCode}>  </Button>
-                </View>
-                <View>
-                    <Toast ref={toastRef} position="center" opacity={0.9} />
-                </View>
-            </View>
+                    <Button style={{ backgroundColor: "#ED923D" }} title="Salir" onPress={exitCode}>  </Button>
+                </View>}
         </View >
     );
 }
@@ -86,9 +95,8 @@ const styles = StyleSheet.create({
 
     },
     boton: {
-        width: 10,
-        height: 10,
-        // marginTop: 20,
+        width: 2000,
+        height: 30,
         marginLeft: 25,
         borderRadius: 10,
         padding: 20,

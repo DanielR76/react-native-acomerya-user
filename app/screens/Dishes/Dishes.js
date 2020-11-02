@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { firebaseapp } from "./../../utils/firebase";
 import firebase, { firestore } from "firebase/app";
@@ -11,29 +11,36 @@ var { height, width } = Dimensions.get("window");
 
 export default function Dishes(props) {
     const { navigation, route } = props;
-    //const { code } = route.params;
+    const [idRestaurant, setIdRestaurant] = useState("")
 
+
+    useFocusEffect(
+        useCallback(() => {
+            var idRes
+            AsyncStorage.getItem('idRestaurant').then(idRestaurant => {
+                setIdRestaurant(idRestaurant)
+                getDishesById(idRestaurant)
+            })
+        }, [])
+    )
 
 
     //funcion que permite traer todos los platos de un restaurante en especifico
     const [dishes, setDishes] = useState([])
-    useFocusEffect(
-        useCallback(() => {
-            var code = global.codeValue
-            db.collection("dishDocument").where("idRestaurant",
-                "==", code /*'ZooU6ULsozSJ1Y3ijHkD7eAJZjM2'*/)
-                .onSnapshot(querySnapshot => {
-                    const state = []
-                    querySnapshot.forEach((doc) => {
-                        state.push({
-                            ...doc.data(),
-                            id: doc.id,
-                        })
+    const getDishesById = async (idRest) => {
+        await db.collection("dishDocument").where("idRestaurant",
+            "==", idRest)
+            .onSnapshot(querySnapshot => {
+                const state = []
+                querySnapshot.forEach((doc) => {
+                    state.push({
+                        ...doc.data(),
+                        id: doc.id,
                     })
-                    setDishes(state)
                 })
-        }, [])
-    )
+                setDishes(state)
+            })
+    }
     return (
         <View>
             {size(dishes) > 0 ? (
