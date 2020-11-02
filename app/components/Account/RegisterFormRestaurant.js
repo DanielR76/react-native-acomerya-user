@@ -94,20 +94,20 @@ export default function RegisterFormRestaurant(props) {
         placeholder="Contraseña"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "password")}
-        //    password="true"
-        //  SecureTextEntry="true"
+        password={true}
+        secureTextEntry={true}
       />
       <Input
         placeholder="Repetir contraseña"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "repeatPassword")}
-        // password="true"
-        // SecureTextEntry="true"
+        password={true}
+        secureTextEntry={true}
       />
 
       <Button
-        title="Unirse"
-        containerstyle={styles.btnContainerStyles}
+        title="Registrarse"
+        containerStyle={styles.btnContainerStyles}
         buttonStyle={styles.btnRegister}
         onPress={onSubmit}
       />
@@ -138,11 +138,12 @@ const styles = StyleSheet.create({
   },
 
   btnContainerStyles: {
-    marginTop: 80,
-    width: "80%",
+    marginTop: 40,
+    width: "50%",
   },
   btnRegister: {
     backgroundColor: "#ED923D",
+    width: "100%",
   },
   txTitleReg: {
     //color: 'black',

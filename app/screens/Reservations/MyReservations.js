@@ -24,7 +24,7 @@ export default function MyReservations() {
         const resultRestaurants = [];
             db.collection("reservationDocument")
            .where("idUser", "==", firebase.auth().currentUser.uid)
-          //.orderBy("quantity", "desc")
+        //  .orderBy("quantity", "desc")
          // .limit(limitRestaurants)
          .onSnapshot((response) => {
             setStartRestaurants(response.docs[response.docs.length - 1]);

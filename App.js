@@ -50,14 +50,14 @@ export default function App() {
       ) : (
           <Tab.Navigator>
             <Tab.Screen
+              name="perfil"
+              component={PerfilStack}
+              options={{ title: "Perfil" }}
+            />
+            <Tab.Screen
               name="restaurants"
               component={RestaurantsStack}
               options={{ title: "Restaurantes" }}
-            />
-            <Tab.Screen
-              name="perfil"
-              component={PerfilStack}
-              options={{ title: "perfil" }}
             />
             <Tab.Screen
               name="MyReservations"
@@ -77,7 +77,7 @@ export default function App() {
             <Tab.Screen
               name="Cart"
               component={Cart}
-              options={{ title: "carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
+              options={{ title: "Carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
             />
           </Tab.Navigator>
         )}

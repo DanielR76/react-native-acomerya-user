@@ -107,7 +107,7 @@ export default function Restaurant(props) {
     return (
       <Button
         title="Reservar"
-        buttonStyle={styles.buttonReservation}
+        //buttonStyle={styles.buttonReservation}
         onPress={() =>
           navigation.navigate("Reservation", {
             idUser,
@@ -179,7 +179,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonReservation: {
+    width: "35%",
+    marginLeft:100,
+    marginTop: 40,
+    borderRadius: 0,
     backgroundColor: "#ED923D",
+    borderTopWidth: 1,
+    borderTopColor: "#e3e3e3",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e3e3e3",
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   containerButtonReservation: {
     width: 220,
@@ -187,5 +197,7 @@ const styles = StyleSheet.create({
     marginLeft: 100,
     padding: 15,
     marginTop:-6,
+    //backgroundColor: "orange",
+    borderRadius: 10,
   },
 });
