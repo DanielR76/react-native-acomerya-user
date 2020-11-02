@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   viewRestaurantsImage: {
-    marginLeft: 22,
+    marginLeft: 18,
   },
   imageRestaurant: {
     width: 370,

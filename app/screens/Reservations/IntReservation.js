@@ -7,7 +7,7 @@ import EditReservation from "../../components/MyReservations/EditReservation";
 export default function Reservation(props) {
   const toastRef = useRef();
   const { route } = props;
-  const {date1,quantity,summary,id,status,nameRestaurant} = route.params;
+  const {date1,quantity,summary,id,status,nameRestaurant,imageRestaurant} = route.params;
   const date = date1
 
   return (
@@ -18,7 +18,7 @@ export default function Reservation(props) {
         style={styles.logo}
       />
       <View style={styles.viewForm}>
-        <EditReservation toastRef={toastRef} date = {date} quantity={quantity} summary={summary} id  = {id} status= {status} nameRestaurant={nameRestaurant}/>
+        <EditReservation toastRef={toastRef} date = {date} quantity={quantity} summary={summary} id  = {id} status= {status} nameRestaurant={nameRestaurant} imageRestaurant = {imageRestaurant}/>
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </KeyboardAwareScrollView>

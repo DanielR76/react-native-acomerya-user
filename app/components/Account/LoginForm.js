@@ -78,10 +78,11 @@ export default function LoginForm(props) {
         placeholder="Contraseña"
         containerStyle={styles.inputForm}
         onChange={(e) => onChange(e, "password")}
+        password={true}
+        secureTextEntry={true}
       />
-     
       <Button
-        tittle="Iniciar sesion"
+        title="Continuar"
         containerStyle={styles.btnContainerLogin}
         buttonStyle={styles.btnLogin}
         onPress={onSubmit}
@@ -113,16 +114,20 @@ const styles = StyleSheet.create({
   },
   btnContainerLogin: {
     marginTop: 100,
-    width: "50%",
+    width: "60%",
     height: 200,
   },
   btnLogin: {
      backgroundColor: "#ED923D",
+     width: "100%",
+     height: 30,
+     borderRadius:10,
   },
   txTitle: {
     //color: 'black',
     fontWeight: "bold",
     fontSize: 24,
+ 
   },
   iconRight: {
     color: "#c1c1c1",

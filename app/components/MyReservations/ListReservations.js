@@ -44,7 +44,7 @@ function Restaurant(props) {
   const { idRestaurant,quantity,summary, idUser, imageRestaurant, nameRestaurant,status,date,id} = restaurant.item;
   const fecha = date.toDate().toString()
   const date1 = date.toDate()
-  
+  const fecha2 = date.toDate()
  
   const goRestaurant = () => {
     navigation.navigate("EditReservation", {
@@ -56,6 +56,7 @@ function Restaurant(props) {
       quantity,
       summary,
       status,
+      imageRestaurant,
     });
   };
 
@@ -77,7 +78,7 @@ function Restaurant(props) {
         <View>
           <View style={styles.containerTextName}>
             <Text style={styles.textNameRestaurant}>{nameRestaurant}</Text>
-            <Text style={styles.textFecha}>{fecha}</Text>
+            <Text style={styles.textFecha}>{`${fecha2.getDate()}/${fecha2.getMonth()}/${fecha2.getFullYear()} - ${fecha2.getHours()}:${fecha2.getMinutes()}`}</Text>
           </View>
 
            {status == "pendiente" ? (
@@ -120,7 +121,7 @@ function FooterList(props) {
   } else {
     return (
       <View style={styles.notFoundRestaurants}>
-        <Text> No quedan reservas por cargar</Text>
+        <Text></Text>
       </View>
     );
   }

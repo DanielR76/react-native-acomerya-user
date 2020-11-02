@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Input, Icon, Button } from "react-native-elements";
+import { StyleSheet, View, Text,ScrollView,ActivityIndicator } from "react-native";
+import { Input, Icon, Button,Image } from "react-native-elements";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
@@ -23,7 +23,7 @@ export default function CreateReservation(props) {
 
   const showMode = (currentMode) => {
     setShow(true);
-    setMode(currentMode);
+    setMode(currentMode); 
   };
 
   const showDatepicker = () => {
@@ -62,29 +62,42 @@ export default function CreateReservation(props) {
     setLoading(false);
     navigation.navigate("restaurants");
   };
-
   const onChange1 = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
-   
+
   };
   const onChange = (e, type) => {
     setFormData({ ...formData, [type]: e.nativeEvent.text });
   };
-
+  //const fecha = date.getMinutes()
+  const fecha2= date
   return (
+   
     <View style={styles.formContainer1}>
-      <Text style={styles.txTitleRegs}>{`¡Reserva Ya!`}</Text>
-       <View style={styles.containerPinkReservation}>
+     <View style={styles.containerPinkReservation}>
+     <Text style={styles.txTitleReservation}>{`¡Tu reserva!`}</Text>
+     <View style={styles.viewRestaurantsImage}>
+           <Image
+            resizeMode={"cover"}
+            PlaceholderContent={<ActivityIndicator color="fff" />}
+            source={
+              imageRestaurant
+                ? { uri: imageRestaurant }
+                : require("../../../assets/favicon.png")
+            }
+            style={styles.imageRestaurant}
+          />
+     </View>
       <Text style={styles.txTitleReg}>{nameRestaurant}</Text>
       <View style={styles.txContainerDate}>
-      <Fontisto  name="date" size={45} color="orange" onPress={showDatepicker}  />
-      <Text style={styles.txTitleDate}>Fecha</Text>
+      <Fontisto  name="date" size={45} color="black" onPress={showDatepicker}/>
+      <Text style={styles.txTitleDate}>{`${fecha2.getDate()}/${fecha2.getMonth()}/${fecha2.getFullYear()}`}</Text>
       </View>
       <View style={styles.txContainerHour} >
-      <Ionicons  name="md-time" size={45} color="orange"  onPress={showTimepicker} />
-      <Text style={styles.txTitleDate}>Hora</Text>
+      <Ionicons  name="md-time" size={45} color="black"  onPress={showTimepicker} />
+      <Text style={styles.txTitleHour}>{`${fecha2.getHours()}:${fecha2.getMinutes()}`}</Text>
       </View>
       {show && (
         <DateTimePicker
@@ -94,34 +107,33 @@ export default function CreateReservation(props) {
           is24Hour={true}
           display="default"
           onChange={onChange1}
-
         />
       )}
       <View style={styles.txContainerBtnCantidad}>
-        
       <Input
-        placeholder="Cantidad"
-        containerstyle={styles.inputCantidad}
-        buttonStyle={styles.inputCantidad}
+        placeholder="# Personas"
+       // containerstyle={styles.inputCantidad}
+       // buttonStyle={styles.inputCantidad}
         onChange={(e) => onChange(e, "quantity")}
       />
-         </View>
+       </View>
         <View style={styles.txContainerBtnObservacion}>
       <AutoGrowingTextInput
-        placeholder="Observaciones"
+        placeholder="Observaciones: (Ejemplo: Cumpleaños, Boda, Bautizo, si desea alguna decoración, etc...)"
         containerstyle={styles.inputObservaciones}
         buttonStyle={styles.inputObservaciones}
         onChange={(e) => onChange(e, "summary")}
       />
        </View>
-      <Button
+       <Button
         title="Confirmar"
         containerstyle={styles.btnContainerStyles}
         buttonStyle={styles.btnReservation}
         onPress={onSubmit}
       />
       <Loading isVisible={loading} text="Creando Reserva" />
-      </View>
+    </View>
+      
     </View>
   );
 }
@@ -133,32 +145,46 @@ function defaultFormValue() {
   };
 }
 const styles = StyleSheet.create({
+  txTitleReservation: {
+    fontSize: 24,
+    width: 160,
+    height: 50,
+    marginLeft: 70,
+    marginTop: -5,
+    textAlign: "center",
+   // textDecorationLine: "underline",
+  },
+  imageRestaurant: {
+    width: 330,
+    height: 150,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
   formContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
+    flex: 18,
+    backgroundColor: "#fff",    
   },
   inputCantidad: {
     width: "100%",
     marginTop: 20,
+    marginLeft: 90,
   },
   inputObservaciones: {
     width: "100%",
     marginTop: 70,
-    textDecorationLine: "underline",
+   // textDecorationLine: "underline",
   },
 
   btnContainerStyles: {
-    marginTop: 80,
+    marginTop: 10,
     width: "80%",
   },
   
   btnReservation: {
     width: "35%",
     marginLeft:100,
-    marginTop: 95,
-    borderRadius: 0,
+    marginTop: 13,
+    borderRadius: 10,
     backgroundColor: "#ED923D",
     borderTopWidth: 1,
     borderTopColor: "#e3e3e3",
@@ -170,66 +196,77 @@ const styles = StyleSheet.create({
   txTitleReg: {
     fontSize: 24,
     width: 250,
-    height: 90,
+    height: 80,
     marginLeft: 40,
-    marginTop: 1,
+    marginTop: 15,
     textAlign: "center",
     textDecorationLine: "underline",
   },
   txTitleDate: {
     fontSize: 20,
-    width: 70,
-    height: 35,
-    marginLeft: 45,
-    marginTop: -38,
-    textAlign: "center",
+    width: 100,
+    height: 25,
+    marginLeft: 55,
+    marginTop: -35,
+  },
+  txTitleHour: {
+    fontSize: 20,
+    width: 100,
+    height: 25,
+    marginLeft: 60,
+    marginTop: -35,
+  },
+  txContainerDate: {
+    width: 150,
+    height: 45,
+    marginLeft: 13,
+    marginTop: -30,
+    //backgroundColor: "orange",
+    borderRadius: 10,
+  },
+  txContainerHour: {
+    width: 120,
+    height: 45,
+    marginLeft: 190,
+    marginTop: -40,
+    //backgroundColor: "white",
+    borderRadius: 10,
   },
   txContainerBtnCantidad: {
-    fontSize: 23,
-    width: 100,
+    //fontSize: 23,
+    width: 120,
     height: 35,
-    marginLeft: 5,
+    marginLeft: 12,
     marginTop: 50,
     textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
+    backgroundColor: "white",
+    borderRadius: 5,
+  },
+  txContainerIconQuantity: {
+    //fontSize: 23,
+    width: 20,
+    height: 0,
+    marginLeft: 5,
+    marginTop: 10,
+    textAlign: "center",
+    
   },
   txContainerBtnObservacion: {
     fontSize: 23,
-    width: 150,
-    height: 35,
+    width: 300,
+    height: 150,
     marginLeft: 15,
-    marginTop: 20,
+    marginTop: 40,
     textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
+    backgroundColor: "white",
+    borderRadius: 10,
     
   },
-  txContainerDate: {
-    fontSize: 23,
-    width: 70,
-    height: 35,
-    marginLeft: 20,
-    marginTop: -10,
-    textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
-  },
-  txContainerHour: {
-    fontSize: 23,
-    width: 70,
-    height: 35,
-    marginLeft: 160,
-    marginTop: -35,
-    textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
-  },
   containerPinkReservation: {
-    width: 370,
-    height: 450,
-    marginLeft: -15,
-    marginTop: -140,
+    width: 380,
+    height: 670,
+    marginLeft: -22,
+    marginTop: -150,
     borderRadius: 10,
     padding: 20,
     backgroundColor: "#FFF6F6",

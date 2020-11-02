@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text,YellowBox } from "react-native";
-import { Input, Icon, Button   } from "react-native-elements";
+import { StyleSheet, View, Text,YellowBox,ActivityIndicator } from "react-native";
+import { Input, Icon, Button,Image } from "react-native-elements";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
@@ -24,7 +24,6 @@ export default function CreateReservation(props) {
   const [values, setValues] = useState({...props})
   const navigation = useNavigation();
   
-
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
@@ -69,7 +68,7 @@ export default function CreateReservation(props) {
     setLoading(false);
     navigation.navigate("restaurants");
   }; 
-  console.log(values)
+
   const onChange1 = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
@@ -79,19 +78,31 @@ export default function CreateReservation(props) {
   const onChange = (e, name) => {
     setValues({ ...values, [name]: e.nativeEvent.text });
    };
-
+   const fecha2= values.date
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.txTitleReservation}>{`¡Tu reserva!`}</Text>
+      
       <View style={styles.containerPinkReservation}>
+      <Text style={styles.txTitleReservation}>{`¡Tu reserva!`}</Text>
+            <Image
+            resizeMode={"cover"}
+            PlaceholderContent={<ActivityIndicator color="fff" />}
+            source={
+              values.imageRestaurant
+                ? { uri: values.imageRestaurant }
+                : require("../../../assets/favicon.png")
+            }
+            style={styles.imageRestaurant}
+          />
+
       <Text style={styles.txTitleReg}>{values.nameRestaurant}</Text>
       <View style={styles.txContainerDate}>
-      <Fontisto  name="date" size={45} color="orange" onPress={showDatepicker}  />
-      <Text style={styles.txTitleDate}>Fecha</Text>
+      <Fontisto  name="date" size={45} color="black" onPress={showDatepicker}  />
+      <Text style={styles.txTitleDate}>{`${fecha2.getDate()}/${fecha2.getMonth()}/${fecha2.getFullYear()}`}</Text>
       </View>
       <View style={styles.txContainerHour} >
-      <Ionicons  name="md-time" size={45} color="orange"  onPress={showTimepicker} />
-      <Text style={styles.txTitleDate}>Hora</Text>
+      <Ionicons  name="md-time" size={45} color="black"  onPress={showTimepicker} />
+      <Text style={styles.txTitleHour}>{`${fecha2.getHours()}:${fecha2.getMinutes()}`}</Text>
       </View>
       {show && (
         <DateTimePicker
@@ -135,7 +146,6 @@ export default function CreateReservation(props) {
          ) : (
           <Text>{''}</Text>
          )}
-
          {values.status == "pendiente" ? (
          <View style={styles.ButtsonViewContainer}>
        <Button
@@ -155,6 +165,13 @@ export default function CreateReservation(props) {
 }
 
 const styles = StyleSheet.create({
+  imageRestaurant: {
+    marginTop:20,
+    width: 330,
+    height: 150,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
   formContainer: {
     flex: 1,
     alignItems: "center",
@@ -195,67 +212,68 @@ const styles = StyleSheet.create({
   },
   txTitleReservation: {
     fontSize: 24,
-    width: 0,
-    height: 0,
-    marginLeft: 40,
-    marginTop: -80,
+    width: 170,
+    height: 50,
+    marginLeft: 70,
+    marginTop: -5,
     textAlign: "center",
    // textDecorationLine: "underline",
   },
   txTitleDate: {
     fontSize: 20,
-    width: 70,
-    height: 35,
-    marginLeft: 45,
-    marginTop: -38,
-    textAlign: "center",
+    width: 100,
+    height: 25,
+    marginLeft: 55,
+    marginTop: -35,
+  },
+  txTitleHour: {
+    fontSize: 20,
+    width: 100,
+    height: 25,
+    marginLeft: 60,
+    marginTop: -35,
+  },
+  txContainerDate: {
+    width: 150,
+    height: 45,
+    marginLeft: 13,
+    marginTop: -30,
+    //backgroundColor: "orange",
+    borderRadius: 10,
+  },
+  txContainerHour: {
+    width: 120,
+    height: 45,
+    marginLeft: 190,
+    marginTop: -40,
+    //backgroundColor: "white",
+    borderRadius: 10,
   },
   txContainerBtnCantidad: {
-    fontSize: 23,
-    width: 150,
+    width: 120,
     height: 35,
-    marginLeft: 5,
-    marginTop: 50,
+    marginLeft: 12,
+    marginTop: 15,
     textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
+    backgroundColor: "white",
+    borderRadius: 5,
   },
   txContainerBtnObservacion: {
     fontSize: 23,
-    width: 150,
-    height: 35,
+    width: 300,
+    height: 150,
     marginLeft: 15,
-    marginTop: 20,
+    marginTop: 25,
     textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
+    backgroundColor: "white",
+    borderRadius: 10,
     
   },
-  txContainerDate: {
-    fontSize: 23,
-    width: 70,
-    height: 35,
-    marginLeft: 20,
-    marginTop: -10,
-    textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
-  },
-  txContainerHour: {
-    fontSize: 23,
-    width: 70,
-    height: 35,
-    marginLeft: 160,
-    marginTop: -35,
-    textAlign: "center",
-    //backgroundColor: "white",
-    borderRadius: 40,
-  },
   containerPinkReservation: {
-    width: 370,
-    height: 480,
+    width: 380,
+    height: 740,
     marginLeft: 5,
-    marginTop: -70,
+    marginTop: -160,
     borderRadius: 10,
     padding: 20,
     backgroundColor: "#FFF6F6",
@@ -263,13 +281,13 @@ const styles = StyleSheet.create({
   btnContainerStyles: {
     marginTop: 100,
     width: "20%",
-    height: 80,
+    height: 50,
   },
   btnRegister: {
     width: "35%",
     height: 50,
     marginLeft:100,
-    marginTop: 70,
+    marginTop: 20,
     backgroundColor: "green",
   },
   btnCanceled: {
