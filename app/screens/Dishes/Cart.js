@@ -193,15 +193,13 @@ export default function Cart(props) {
                 ) : (
                         <View>
                             <View style={{ alignItems: 'center', alignContent: 'center', marginTop: 50 }}>
-                                <Image
-                                    style={{ width: width - 20, height: width / 2 }}
-                                    resizeMode='contain'
-                                    PlaceholderContent={<ActivityIndicator color="fff" />}
-                                    source={require("./../../../assets/img/carritoVacio.jpg")}
+                                <Ionicons
+                                    name="ios-cart"
+                                    size={100} color={"gray"}
                                 />
                                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                     <View style={{ height: 20 }} />
-                                    <Text style={{ fontSize: 23, color: "gray" }}>Tu carrito de Compras esta Vacìo</Text>
+                                    <Text style={{ fontSize: 23 }}>Tu carrito de compras esta vacío</Text>
                                     <View style={{ height: 10 }} />
                                     <Text style={{ fontSize: 18, color: "gray" }}>Elige tu plato favorito</Text>
                                 </View>
@@ -209,8 +207,19 @@ export default function Cart(props) {
                         </View>
                     )}
             </View>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                }}
+            >
+                <Text>Hello World!</Text>
+
+            </Modal>
         </ScrollView >
-        //</View>
 
     )
 }

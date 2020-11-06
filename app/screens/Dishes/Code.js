@@ -1,12 +1,13 @@
 import React, { useState, useCallback, useRef } from "react";
-// import { View, Text } from "react-native";
-import { StyleSheet, View, Text, AsyncStorage, Dimensions } from "react-native";
+import { StyleSheet, View, Text, AsyncStorage, Dimensions, Modal } from "react-native";
 import { Button, Input, Image } from "react-native-elements";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import Toast from "react-native-easy-toast";
+import { Ionicons } from '@expo/vector-icons';
+
 
 var { height, width } = Dimensions.get("window");
 
@@ -17,8 +18,8 @@ export default function Code(props) {
     const toastRef = useRef()
     const [code, setCode] = useState("")
     const [table, setTable] = useState("")
-    //const [idRestaurant, setIdRestaurant] = useState()
     const [exit, setExit] = useState(true)
+    const [modalVisible, setModalVisible] = useState(false);
 
     const getCode = () => {
         if (!codeInput) {
@@ -41,7 +42,6 @@ export default function Code(props) {
             });
         }
     }
-
     const exitCode = () => {
         AsyncStorage.removeItem("cart")
         AsyncStorage.removeItem("idRestaurant")
@@ -54,10 +54,9 @@ export default function Code(props) {
             {  exit ? (
                 < View>
                     <View style={{ alignItems: 'center', alignContent: 'center', marginTop: 50 }}>
-                        <Image
-                            style={{ width: width - 20, height: width / 2 }}
-                            resizeMode='contain'
-                            source={require("./../../../assets/img/QR.png")}
+                        <Ionicons
+                            name="ios-barcode"
+                            size={100} color={"black"}
                         />
                     </View>
                     <View style={{ flex: 10, padding: 10, marginTop: 20 }}>
@@ -81,8 +80,9 @@ export default function Code(props) {
 
             ) :
                 <View>
-                    <Button style={{ backgroundColor: "#ED923D" }} title="Salir" onPress={exitCode}>  </Button>
-                </View>}
+                    <Button style={{ backgroundColor: "#ffa500" }} title="Salir" onPress={exitCode}>  </Button>
+                </View>
+            }
         </View >
     );
 }
