@@ -28,14 +28,10 @@ export default function ListReservation(props) {
           ListFooterComponent={<FooterList isLoading={isLoading} />}
         />
       ) : (
-        <View>
-          <Text style={styles.textNoReservations} >No tienes reservas aún, reserva dirigiendote a la sección de restaurantes!</Text>
-          <Image
-                  source={require('../../../assets/icon/MyReservations.png')}
-                  style={{width: 105, height: 105, marginLeft:150 }}
-                />
+        <View style={styles.loaderRestaurants}>
+          <ActivityIndicator size="large" />
+          <Text>Cargando Reservas</Text>
         </View>
-        
       )}
     </SafeAreaView>
   );
@@ -198,15 +194,6 @@ const styles = StyleSheet.create({
     marginTop: -120,
     //textAlign: "center",
     fontSize: 14,
-    fontWeight: "bold",
-  },
-  textNoReservations: {
-    width: 250,
-    height: 100,
-    marginLeft: 90,
-    marginTop: 250,
-    //textAlign: "center",
-    fontSize: 20,
     fontWeight: "bold",
   },
   textFecha: {

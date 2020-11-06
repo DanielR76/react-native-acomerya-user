@@ -35,9 +35,7 @@ export default function App() {
     });
   }, []);
 
-
   return (
-
     <NavigationContainer>
       {!LoginIn ? (
         <Tab.Navigator>

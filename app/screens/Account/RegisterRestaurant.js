@@ -10,9 +10,10 @@ export default function RegisterRestaurant() {
   return (
     <KeyboardAwareScrollView>
       <Image
-                  source={require('../../../assets/icon/acomerya-logo-name.png')}
-                  style={{width: 250, height: 250, marginLeft: 80,}}
-       />
+        source={require("../../../assets/icon/acomerya-logo-name.svg")}
+        resizeMode="contain"
+        style={styles.logo}
+      />
       <View style={styles.viewForm}>
         <RegisterFormRestaurant toastRef={toastRef} />
       </View>
