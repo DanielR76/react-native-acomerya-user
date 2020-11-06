@@ -9,11 +9,10 @@ export default function Register() {
 
   return (
     <KeyboardAwareScrollView>
-      <Image
-        source={require("../../../assets/icon/acomerya-logo-name.svg")}
-        resizeMode="contain"
-        style={styles.logo}
-      />
+     <Image
+                  source={require('../../../assets/icon/acomerya-logo-name.png')}
+                  style={{width: 250, height: 250, marginLeft: 80,}}
+       />
       <View style={styles.viewForm}>
         <RegisterForm toastRef={toastRef} />
       </View>

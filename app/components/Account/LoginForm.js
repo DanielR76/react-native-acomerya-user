@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 80,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 100,
+    marginTop: 15,
     marginRight: 80,
     marginLeft: 80,
   },
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
   },
   txTitle: {
     //color: 'black',
+
     fontWeight: "bold",
     fontSize: 24,
  

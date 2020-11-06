@@ -10,6 +10,10 @@ export default function Login() {
   return (
     <ScrollView>
       <View styles={styles.viewContainer}>
+      <Image
+                  source={require('../../../assets/icon/acomerya-logo-name.png')}
+                  style={{width: 250, height: 250, marginLeft: 80,}}
+       />
         <LoginForm toastRef={toastRef} />
         <CreateAccountClient />
         <CreateAccountRestaurant />
@@ -59,15 +63,17 @@ const styles = StyleSheet.create({
   btnRegisterClient: {
     color: "#ED923D",
     fontWeight: "bold",
+    fontSize: 18,
     marginTop: -120,
-    marginLeft: 170,
+    marginLeft: 146,
     marginRight: 50,
   },
   btnRegisterRestaurant: {
     color: "black",
+    fontSize: 16,
     fontWeight: "bold",
     marginTop: 30,
-    marginLeft: 105,
+    marginLeft: 80,
     marginRight: 50,
   },
 });

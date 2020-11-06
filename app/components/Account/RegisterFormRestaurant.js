@@ -60,8 +60,9 @@ export default function RegisterFormRestaurant(props) {
   };
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.txTitleReg}>{`¡Danos tus datos!`}</Text>
-
+      
+      <Text style={styles.txTitle}>{`¡Estupendo!`}</Text>
+      <Text style={styles.txTitle2}>{`Envianos los datos de tu restaurante!`}</Text>
       <Input
         placeholder="Nombre del restaurante"
         containerstyle={styles.inputForm}
@@ -79,14 +80,14 @@ export default function RegisterFormRestaurant(props) {
       />
 
       <Input
-        placeholder="Dirección"
+        placeholder="Dirección del restaurante"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "address")}
         // password="true"
         // SecureTextEntry="true"
       />
       <Input
-        placeholder="Correo electronico"
+        placeholder="Correo electronico del restaurante"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "email")}
       />
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
   inputForm: {
     width: "100%",
@@ -145,9 +146,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ED923D",
     width: "100%",
   },
-  txTitleReg: {
+  txTitle: {
     //color: 'black',
     fontWeight: "bold",
-    fontSize: 24,
+    fontSize: 20,
+  },
+  txTitle2: {
+    //color: 'black',
+    //fontWeight: "bold",
+    fontSize: 18,
   },
 });
