@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { StyleSheet, ScrollView, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from 'react-native'
+import { StyleSheet, ScrollView, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage, Button } from 'react-native'
 import { Image } from "react-native-elements";
 import Dish from "./Dish"
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
-import { size } from "lodash";
 import "firebase/firestore";
 import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
+import { size } from "lodash";
 
 const db = firebase.firestore(firebaseapp);
 
@@ -16,9 +16,8 @@ var { height, width } = Dimensions.get("window");
 export default function Cart(props) {
     const { navigation, route } = props;
 
-
     // useEffect(() => {
-
+    //     AsyncStorage.removeItem("cart")
     // }, [])
 
     const initialStateValues = {
@@ -30,7 +29,7 @@ export default function Cart(props) {
         totalPrice: 0,
         date: new Date().getDate()
     }
-
+    // const [addition, setAddition] = useState([])
     const [dishCart, setDishCart] = useState(initialStateValues)
     useFocusEffect(
         useCallback(() => {
@@ -48,8 +47,7 @@ export default function Cart(props) {
                         })
                     })
 
-
-
+                    //console.log(additionss)
                 }
             })
                 .catch((err) => {
@@ -58,15 +56,12 @@ export default function Cart(props) {
         }, [],
         ))
 
-    console.log(dishCart)
-
     //funcion que envia el pedido a la base de datos
     const addBD = () => {
         db.collection("requestsDocument").doc().set(dishCart).then();
         setDishCart({ ...initialStateValues })
         AsyncStorage.removeItem("cart")
     }
-
     //Eliminar plato del carrito
     const deleteCartItem = (idx) => {
         let arr = dishCart.dishes.map((item, index) => {
@@ -76,31 +71,26 @@ export default function Cart(props) {
         })
         arr.splice(idx, 1)
         let newTotal = calculateTotalPrice(arr)
-        console.log(newTotal)
         setDishCart({ ...dishCart, dishes: arr, totalPrice: newTotal })
         AsyncStorage.getItem("cart").then(dataCart => {
             AsyncStorage.setItem("cart", JSON.stringify(arr))
         })
     }
-
     //Aumentar o disminuir cantidad
     const onChangeQual = (type, index) => {
         let newPrice
         let dataCart = dishCart.dishes
         let amount = dataCart[index].quantity
-
         if (type) {
             amount = amount + 1
         }
         else if (type == false && amount > 1) {
             amount = amount - 1
         }
-
         dataCart[index].quantity = amount
         newPrice = parseInt(amount * dataCart[index].price)
         dataCart[index].priceAddition = newPrice
         let newTotal = calculateTotalPrice(dataCart)
-        console.log(newTotal)
         setDishCart({ ...dishCart, dishes: dataCart, totalPrice: newTotal })
         AsyncStorage.getItem("cart").then(data => {
             AsyncStorage.setItem("cart", JSON.stringify(dataCart))
@@ -114,80 +104,114 @@ export default function Cart(props) {
         })
         return total
     }
-
-    navigation.setOptions({ title: "Carrito" });
+    console.log(dishCart)
+    //navigation.setOptions({ title: "Carrito" });
     return (
         <ScrollView>
             <View>
                 {
                     dishCart.dishes.map((item, index) => {
                         return (
-                            <View key={index} style={styles.viewDishes}>
-                                <View style={styles.viewDishesImage}>
-                                    <Image
-                                        //style={{ width: width / 3, height: width / 3, }}
-                                        style={styles.imageDish}
-                                        resizeMode="cover"
-                                        PlaceholderContent={<ActivityIndicator color="fff" />}
-                                        source={item.imagePath ? { uri: item.imagePath } : require("./../../../assets/img/imgj.jpg")
-                                        }
-                                    />
-                                </View>
-                                <View style={styles.containerTextName}>
-                                    <Text style={styles.textNameDishes} >{item.dishName}</Text>
-                                    <Text style={styles.text} > {(item.priceAddition)}</Text>
-                                </View>
-
-                                <View style={{ marginTop: 5, flexDirection: "row" }}>
-                                    <Text style={{ fontWeight: 'bold' }}>Adiciones</Text>
-                                    <Text style={styles.textAddit} >{item.addition}</Text>
-                                </View>
-                                <View style={{ marginTop: 50, position: "absolute", right: 10 }}>
-                                    <Ionicons
-                                        onPress={() => deleteCartItem(index)}
-                                        name="ios-trash"
-                                        size={20} color={"#ffa500"}
-                                    />
-                                </View>
-                                <View style={{ marginTop: 80, position: "absolute", flexDirection: "row", alignItems: "center", right: 10 }}>
-                                    <TouchableOpacity onPress={() => onChangeQual(false, index)}/*onPress={() => onPressRemove(index)}*/>
-                                        <Ionicons
-                                            name="ios-remove-circle"
-                                            size={20} color={"#ffa500"}
+                            <View key={index} style={{ flex: 1 }} /*style={styles.viewDishes}*/>
+                                <View style={{ width: width - 20, margin: 10, marginTop: 5, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
+                                    <View style={{ width: width - 20, flexDirection: 'row', }}>
+                                        <Image
+                                            style={{ width: width / 3, height: width / 3 }}
+                                            // style={styles.imageDish}
+                                            resizeMode="contain"
+                                            PlaceholderContent={<ActivityIndicator color="fff" />}
+                                            source={item.imagePath ? { uri: item.imagePath } : require("./../../../assets/img/imgj.jpg")
+                                            }
                                         />
-                                    </TouchableOpacity>
-                                    <Text style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>{item.quantity}</Text>
-                                    <TouchableOpacity onPress={() => onChangeQual(true, index)}/*onPress={() => onPressAdded(index)}*/>
-                                        <Ionicons
-                                            name="ios-add-circle"
-                                            size={20} color={"#ffa500"}
-                                        />
-                                    </TouchableOpacity>
-                                </View>
+                                        <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
+                                            <View>
+                                                <Text style={{ fontWeight: "bold", fontSize: 20 }}>{item.dishName}</Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                <Text> {(item.priceAddition)}</Text>
 
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    <TouchableOpacity onPress={() => onChangeQual(false, index)}>
+                                                        <Ionicons
+                                                            name="ios-remove-circle"
+                                                            size={30} color={"#ffa500"}
+                                                        />
+                                                    </TouchableOpacity>
+                                                    <Text style={{ paddingHorizontal: 8, fontWeight: 'bold' }}>{item.quantity}</Text>
+                                                    <TouchableOpacity onPress={() => onChangeQual(true, index)}>
+                                                        <Ionicons
+                                                            name="ios-add-circle"
+                                                            size={30} color={"#ffa500"}
+                                                        />
+                                                    </TouchableOpacity>
+                                                    <View style={{ position: 'relative', marginLeft: 20 }}>
+                                                        <Ionicons
+                                                            onPress={() => deleteCartItem(index)}
+                                                            name="ios-trash"
+                                                            size={30} color={"#ffa500"}
+                                                        />
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'space-between' }}>
+                                        <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10 }}> Ingredientes</Text>
+                                        <View>
+                                            <Text> {(item.ingredient).join(' , ')}</Text>
+                                        </View>
+                                        <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10 }}> Adiciones</Text>
+                                        <View>
+                                            <Text> {(item.addition).join(' , ')}</Text>
+                                        </View>
+                                    </View>
+                                </View>
                             </View>
+
                         )
                     })
                 }
-                <View style={{ marginTop: 20, flexDirection: "row" }}>
-                    <View>
-                        <TouchableOpacity
-                            onPress={addBD}
-                            style={styles.viewTouch}
-                        >
-                            <Text style={styles.textTouch}>¡Confirma tu orden!</Text>
-                        </TouchableOpacity>
+                <View style={{ height: 20 }} />
+                {size(dishCart.dishes) > 0 ? (
+                    <View style={{ marginTop: 20, flexDirection: "row" }}>
+                        <View>
+                            <TouchableOpacity
+                                onPress={addBD}
+                                style={styles.viewTouch}
+                            >
+                                <Text style={styles.textTouch}>¡Confirma tu orden!</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <Text style={{
+                                fontWeight: 'bold', fontSize: 14,
+                                marginTop: 15,
+                                marginLeft: 30,
+                            }}> {dishCart.totalPrice}</Text>
+                        </View>
                     </View>
-                    <View>
-                        <Text style={{
-                            fontWeight: 'bold', fontSize: 14,
-                            marginTop: 15,
-                            marginLeft: 30,
-                        }}> {dishCart.totalPrice}</Text>
-                    </View>
-                </View>
+                ) : (
+                        <View>
+                            <View style={{ alignItems: 'center', alignContent: 'center', marginTop: 50 }}>
+                                <Image
+                                    style={{ width: width - 20, height: width / 2 }}
+                                    resizeMode='contain'
+                                    PlaceholderContent={<ActivityIndicator color="fff" />}
+                                    source={require("./../../../assets/img/carritoVacio.jpg")}
+                                />
+                                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <View style={{ height: 20 }} />
+                                    <Text style={{ fontSize: 23, color: "gray" }}>Tu carrito de Compras esta Vacìo</Text>
+                                    <View style={{ height: 10 }} />
+                                    <Text style={{ fontSize: 18, color: "gray" }}>Elige tu plato favorito</Text>
+                                </View>
+                            </View>
+                        </View>
+                    )}
             </View>
         </ScrollView >
+        //</View>
+
     )
 }
 const styles = StyleSheet.create({
@@ -199,6 +223,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 35,
         backgroundColor: "#FFF6F6",
+        //backgroundColor: 'transparent'
         //flexDirection: "row",
     }
     , viewDishesImage: {
@@ -236,23 +261,19 @@ const styles = StyleSheet.create({
         fontSize: 14,
     }
     , viewTouch: {
-        width: 200,
-        height: 10,
-        // marginTop: 20,
-        marginLeft: 25,
-        borderRadius: 10,
-        padding: 20,
         backgroundColor: "#ED923D",
+        width: width - 120,
+        alignItems: 'center',
+        padding: 16,
+        borderRadius: 10,
+        // marginLeft: 25,
     }
     , textTouch: {
-        //width: 200,
-        //height: 10,
-        marginLeft: 18,
-        marginTop: -13,
-        //textAlign: "center",
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: "bold",
         color: "white",
+        //marginLeft: 18,
+        //marginTop: -13,
     }
 
 })

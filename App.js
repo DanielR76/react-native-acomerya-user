@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import RestaurantsStack from "./app/navigations/RestaurantsStack";
 import DishStack from "./app/navigations/DishStack";
 import CodeStack from "./app/navigations/CodeStack";
-import Cart from "./app/screens/Dishes/Cart"
+//import Cart from "./app/screens/Dishes/Cart"
 import Code from "./app/screens/Dishes/Code"
 import AccountStack from "./app/navigations/AccountStack";
 import PerfilStack from "./app/navigations/ProfileStack";
@@ -13,6 +13,7 @@ import * as firebase from "firebase/app";
 import ReservationStack from "./app/navigations/ReservationStack";
 import { decode, encode } from "base-64";
 import Dishes from './app/screens/Dishes/Dishes'
+import CartStack from "./app/navigations/CartStack";
 
 
 if (!global.btoa) {
@@ -76,7 +77,7 @@ export default function App() {
             />
             <Tab.Screen
               name="Cart"
-              component={Cart}
+              component={CartStack}
               options={{ title: "Carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
             />
           </Tab.Navigator>

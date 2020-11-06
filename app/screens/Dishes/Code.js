@@ -1,12 +1,15 @@
 import React, { useState, useCallback, useRef } from "react";
 // import { View, Text } from "react-native";
-import { StyleSheet, View, Text, AsyncStorage } from "react-native";
-import { Button, Input, Container } from "react-native-elements";
+import { StyleSheet, View, Text, AsyncStorage, Dimensions } from "react-native";
+import { Button, Input, Image } from "react-native-elements";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import Toast from "react-native-easy-toast";
+
+var { height, width } = Dimensions.get("window");
+
 
 export default function Code(props) {
     const navigation = useNavigation();
@@ -49,22 +52,33 @@ export default function Code(props) {
     return (
         <View>
             {  exit ? (
-                < View style={styles.view}>
-                    <View>
-                        <Text>Digita el código para sincronizarte con el restaurante¡</Text>
+                < View>
+                    <View style={{ alignItems: 'center', alignContent: 'center', marginTop: 50 }}>
+                        <Image
+                            style={{ width: width - 20, height: width / 2 }}
+                            resizeMode='contain'
+                            source={require("./../../../assets/img/QR.png")}
+                        />
                     </View>
-                    <View>
+                    <View style={{ flex: 10, padding: 10, marginTop: 20 }}>
+                        <View>
+                            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Digita el código para sincronizarte con el restaurante¡</Text>
+                        </View>
+                    </View>
+                    <View style={{ height: 20, width: 300, marginTop: 20, alignContent: 'center', alignItems: 'center' }}>
                         <Input
                             onChange={(e) => setCodeInput(e.nativeEvent.text)}
-                            placeholder="Digita aqui tu codigo" />
-                    </View>
-                    <View style={{ marginTop: 50 }}>
-                        <Button title="Ver menu" onPress={getCode} color="#ED923D"></Button>
+                            placeholder="Digita aqui tu codigo"
+                        />
+                        <View style={{ marginTop: 80 }}>
+                            <Button title="Ver menu" onPress={getCode} buttonStyle={styles.btnLogin} />
+                        </View>
                     </View>
                     <View>
                         <Toast ref={toastRef} position="center" opacity={0.9} />
                     </View>
                 </View>
+
             ) :
                 <View>
                     <Button style={{ backgroundColor: "#ED923D" }} title="Salir" onPress={exitCode}>  </Button>
@@ -106,5 +120,11 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         fontWeight: 'bold',
         color: '#000'
+    }
+    , btnLogin: {
+        backgroundColor: "#ED923D",
+        width: "100%",
+        height: 30,
+        borderRadius: 10,
     }
 });

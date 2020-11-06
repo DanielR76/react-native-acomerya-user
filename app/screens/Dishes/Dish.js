@@ -11,7 +11,8 @@ import firebase, { firestore } from "firebase/app";
 import "firebase/firestore";
 import { parseInt } from 'lodash';
 const db = firebase.firestore(firebaseapp);
-const screenWidth = Dimensions.get("window").width;
+
+var { height, width } = Dimensions.get("window");
 
 export default function Dish(props) {
     const { navigation, route } = props;
@@ -33,7 +34,7 @@ export default function Dish(props) {
 
     const getDishById = async (id) => {
         const doc = await db.collection('dishDocument').doc(id).get()
-        setFinalDish({ ...doc.data(), addition: [], priceAddition: doc.data().price, quantity: 1 })
+        setFinalDish({ ...doc.data(), addition: [], ingredient: [], priceAddition: doc.data().price, quantity: 1 })
         setDishes({ ...doc.data() })
         let ingrediente = [...doc.data().ingredient]
         let ingredientArr = ingrediente.map((name) => { return { name, isSelectedIngredient: false } })
@@ -61,7 +62,6 @@ export default function Dish(props) {
         })
     }
 
-    //console.log(finalDish)
     const [additions, setAdditions] = useState([])
     const getAdditions = async () => {
         db.collection("additionalDocument").where("idRestaurant",
@@ -94,7 +94,7 @@ export default function Dish(props) {
         })
         setFinalDish({ ...finalDish, ingredient: trueIngredient })
     }
-
+    const [addition4, setAddition4] = useState([])
     const addAdditionItem = (idx) => {
         let arr = additions.map((item, index) => {
             if (idx == index) {
@@ -117,86 +117,86 @@ export default function Dish(props) {
     navigation.setOptions({ title: "Agregar al carrito" });
     if (!dishes) return <Loading isVisible={true} text=" Cargando..." />
     return (
-
         < ScrollView >
-            <View >
-                <View style={styles.viewDishess}>
+            <View style={{ flex: 1 }}>
+                <View style={{ width: width - 20, margin: 10, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
                     <Image
-                        style={{ height: 200, width: 200, borderRadius: 10 }}
+                        //style={{ height: 200, width: 200, borderRadius: 10 }}
+                        style={{ width: width - 10, height: width / 3 }}
                         resizeMode="contain"
                         PlaceholderContent={<ActivityIndicator color="fff" />}
                         source={dishes.imagePath ? { uri: dishes.imagePath } : require("../../../assets/img/imgj.jpg")
                         }
                     />
-                </View>
-                <View>
-                    <Text style={{ fontSize: 20, fontWeight: "bold" }}>{dishes.dishName}</Text>
-                    <Text style={{ fontSize: 15, }}>{dishes.description}</Text>
-                    <Text style={{ fontSize: 15, }}>$ {finalDish.price}</Text>
-                </View>
+                    <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
+                        <View>
+                            <Text style={{ fontSize: 20, fontWeight: "bold" }}>{dishes.dishName}</Text>
+                            <Text style={{ fontSize: 15, }}>{dishes.description}</Text>
+                            <Text style={{ fontSize: 15, }}>$ {finalDish.price}</Text>
+                        </View>
+                        <View >
+                            <Text style={{ fontSize: 12, color: "black", fontWeight: "bold" }}>Ingredientes</Text>
+                            <View style={{ padding: 10, flexDirection: 'row', marginLeft: 10 }}>
+                                {
+                                    dishIngredient.map((item, index) => {
+                                        return (
+                                            <TouchableOpacity onPress={() => addIngredientItem(index)} key={index} style={[/*styles.touchIngredient,*/ item.isSelectedIngredient ? styles.touchIngredientSelect : styles.touchIngredientNoselect]}>
 
-                <View style={{ flex: 1, justifyContent: "center", }}>
-                    <Text style={{ fontSize: 12, color: "black", fontWeight: "bold" }}>Ingredientes</Text>
-                    <View>
-                        {
-                            dishIngredient.map((item, index) => {
-                                return (
-                                    <TouchableOpacity onPress={() => addIngredientItem(index)} key={index} style={[/*styles.touchIngredient,*/ item.isSelectedIngredient ? styles.touchIngredientSelect : styles.touchIngredientNoselect]}>
-                                        <View>
-                                            <View style={{ flex: 1, }}>
-                                                <Text style={{ fontSize: 12 }} >{item.name}</Text>
+                                                <View >
+                                                    <Text style={{ fontSize: 12 }} >{item.name}</Text>
+                                                </View>
+
+                                            </TouchableOpacity>
+                                        )
+                                    })
+                                }
+                            </View>
+                        </View>
+                        <View /*style={{ flex: 1, justifyContent: "center", }}*/>
+                            <Text style={{ fontSize: 12, color: "black", fontWeight: "bold" }}>Adiciones</Text>
+                            <View style={{ padding: 10 }}>
+                                {
+                                    additions.map((item, index) => {
+                                        return (
+                                            <View key={index} style={{ marginTop: 5, marginLeft: 10, marginRight: 10, paddingVertical: 10, borderRadius: 10, backgroundColor: "#FFFFFF" }}>
+                                                <View>
+                                                    <Text style={{ fontSize: 12, marginLeft: 10 }}>{item.name}</Text>
+                                                    <Text style={{ marginTop: 5, fontSize: 12, position: "absolute", right: 65, bottom: 0 }}>{item.price}</Text>
+                                                    <View style={{ position: "absolute", right: 10, bottom: -6 }}>
+                                                        <Ionicons
+                                                            onPress={() => addAdditionItem(index)}
+                                                            name={item.isSelected ? "ios-checkmark-circle" : "md-checkmark-circle-outline"}
+                                                            size={30}
+                                                            color={item.isSelected ? "#ffa500" : "#ffa500"}
+                                                        />
+                                                    </View>
+                                                </View>
                                             </View>
-                                        </View>
-                                    </TouchableOpacity>
-                                )
-                            })
-                        }
+                                        )
+                                    })}
+                            </View>
+                        </View>
                     </View>
-                </View>
-                <View style={{ flex: 1, justifyContent: "center" }}>
-                    <Text style={{ fontSize: 12, color: "black", fontWeight: "bold" }}>Adiciones</Text>
-                    <View>
-                        {
-                            additions.map((item, index) => {
-                                return (
-                                    <View key={index} style={{ marginTop: 5, marginLeft: 10, marginRight: 10, paddingVertical: 5, paddingHorizontal: 10, borderRadius: 12, backgroundColor: "#FFFFFF", borderColor: "#ff8000", alignContent: "center" }}>
-                                        <View>
-                                            <Text style={{ fontSize: 12 }}>{item.name}</Text>
-                                            <Text style={{ marginTop: 5, fontSize: 12, position: "absolute", right: 45, bottom: 0 }}>{item.price}</Text>
-                                            <View style={{ marginTop: 5, position: "absolute", right: 10 }}>
-                                                <Ionicons
-                                                    onPress={() => addAdditionItem(index)}
-                                                    name={item.isSelected ? "ios-checkmark-circle" : "md-checkmark-circle-outline"}
-                                                    size={20}
-                                                    color={item.isSelected ? "#ffa500" : "#ffa500"}
-                                                />
-                                            </View>
-                                        </View>
-                                    </View>
-                                )
-                            })}
+
+                    <View style={{ marginTop: 20, flexDirection: "row", marginTop: 20 }}>
+                        <View>
+                            <TouchableOpacity
+                                style={styles.viewTouch}
+                                onPress={addCart}
+                            >
+                                <Text style={styles.textTouch}> Agregar al Carrito </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <Text style={{
+                                fontWeight: 'bold', fontSize: 14,
+                                marginTop: 15,
+                                marginLeft: 30,
+                            }}>$ {finalDish.priceAddition}</Text>
+                        </View>
                     </View>
                 </View>
 
-
-
-                <View style={{ marginTop: 20, flexDirection: "row", marginTop: 20 }}>
-                    <View>
-                        <TouchableOpacity
-                            style={styles.viewTouch}
-                            onPress={addCart}
-                        >
-                            <Text style={styles.textTouch}> Agregar al Carrito </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <Text style={{
-                            fontWeight: 'bold', fontSize: 14,
-                            marginTop: 15,
-                            marginLeft: 30,
-                        }}>$ {finalDish.priceAddition}</Text>
-                    </View>
-                </View>
             </View>
         </ScrollView >
     )
