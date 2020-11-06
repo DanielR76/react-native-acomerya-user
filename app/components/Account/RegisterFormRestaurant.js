@@ -60,7 +60,8 @@ export default function RegisterFormRestaurant(props) {
   };
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.txTitleReg}>{`¡Danos tus datos!`}</Text>
+      <Text style={styles.txTitle}>{`¡Estupendo!`}</Text>
+      <Text style={styles.txTitle1}>{`¡Envianos los datos de tu restaurante!`}</Text>
 
       <Input
         placeholder="Nombre del restaurante"
@@ -79,14 +80,14 @@ export default function RegisterFormRestaurant(props) {
       />
 
       <Input
-        placeholder="Dirección"
+        placeholder="Dirección del restaurante"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "address")}
         // password="true"
         // SecureTextEntry="true"
       />
       <Input
-        placeholder="Correo electronico"
+        placeholder="Correo electronico del restaurante"
         containerstyle={styles.inputForm}
         onChange={(e) => onChange(e, "email")}
       />
@@ -144,10 +145,16 @@ const styles = StyleSheet.create({
   btnRegister: {
     backgroundColor: "#ED923D",
     width: "100%",
+    marginTop: -20,
   },
-  txTitleReg: {
+  txTitle: {
     //color: 'black',
     fontWeight: "bold",
     fontSize: 24,
+  },
+  txTitle1: {
+    //color: 'black',
+    //fontWeight: "bold",
+    fontSize: 18,
   },
 });

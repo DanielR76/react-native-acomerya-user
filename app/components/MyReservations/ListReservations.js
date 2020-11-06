@@ -7,8 +7,8 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   SafeAreaView,
+  Image
 } from "react-native";
-import { Image } from "react-native-elements";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 export default function ListReservation(props) {
@@ -29,8 +29,13 @@ export default function ListReservation(props) {
         />
       ) : (
         <View style={styles.loaderRestaurants}>
-          <ActivityIndicator size="large" />
-          <Text>Cargando Reservas</Text>
+         
+          <Text style={styles.textNoReservations}>No tienes reservas aun!</Text>
+          <Image
+        source={require("../../../assets/icon/MyReservations.png")}
+        resizeMode="contain"
+        style={styles.logo}
+      />
         </View>
       )}
     </SafeAreaView>
@@ -128,9 +133,13 @@ function FooterList(props) {
 }
 const styles = StyleSheet.create({
   loaderRestaurants: {
-    marginTop: 10,
+    marginTop: 80,
     marginBottom: 10,
     alignItems: "center",
+  },
+  textNoReservations: {
+    fontSize:20,
+    //width: 40,
   },
   viewRestaurants: {
     width: 340,

@@ -10,7 +10,7 @@ export default function Register() {
   return (
     <KeyboardAwareScrollView>
       <Image
-        source={require("../../../assets/icon/acomerya-logo-name.svg")}
+        source={require("../../../assets/icon/acomerya-logo-name.png")}
         resizeMode="contain"
         style={styles.logo}
       />
@@ -24,7 +24,7 @@ export default function Register() {
 const styles = StyleSheet.create({
   logo: {
     width: "100%",
-    height: 151,
+    height: 300,
     marginTop: 20,
   },
   viewForm: {
