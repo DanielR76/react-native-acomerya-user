@@ -51,8 +51,7 @@ export default function Dishes(props) {
                 />
             ) : (
                     <View style={styles.loaderDishes}>
-                        <ActivityIndicator size="large"></ActivityIndicator>
-                        <Text> Cargando menu</Text>
+                        <Text> Por favor dirigete a la pantalla de codigo</Text>
                     </View>
                 )}
         </View>
@@ -73,25 +72,46 @@ function Dish(props) {
 
 
     return (
-        <View style={styles.viewDishes}>
-            <View style={styles.viewDishesImage}>
+        <View style={{ flex: 1 }}>
+            <View style={{ width: width - 20, margin: 10, marginTop: 5, backgroundColor: '#FFF6F6', flexDirection: 'row', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
                 <Image
-                    resizeMode="cover"
+                    style={{ width: width / 3, height: width / 3 }}
+                    resizeMode='contain'
                     PlaceholderContent={<ActivityIndicator color="fff" />}
-                    style={styles.vimageDishes}
                     source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
                     }
                 />
-            </View>
-            <View style={styles.containerTextName}>
-                <Text style={styles.textNameDishes}>{dishName}</Text>
-                <Text style={styles.text}>{description.substr(0, 60)}...</Text>
-                <Text style={styles.text}>$ {price}</Text>
-            </View>
-            <View>
-                <TouchableOpacity onPress={goDish} style={styles.viewTouch}>
-                    <Text style={styles.textTouch}>Agregar</Text>
-                </TouchableOpacity>
+                <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
+                    <View>
+                        <Text style={{ fontWeight: "bold", fontSize: 20 }}>{dishName}</Text>
+                        <Text>{description.substr(0, 30)}...</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}></View>
+                        <Text>$ {price}</Text>
+                    </View>
+                </View>
+                <View>
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <TouchableOpacity onPress={goDish} style={{
+                        width: 75,
+                        height: 30,
+                        marginTop: 100,
+                        marginLeft: -50,
+                        borderRadius: 10,
+                        padding: 3,
+                        backgroundColor: "#ED923D",
+                    }}>
+                        <Text style={{ //width: 200,
+                            //height: 10,
+                            marginLeft: 10,
+                            //marginTop: 3,
+                            //textAlign: "center",
+                            fontSize: 14,
+                            fontWeight: "bold",
+                            color: "white",
+                        }}>Agregar</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )

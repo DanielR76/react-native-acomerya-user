@@ -1,16 +1,27 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Cart from "../screens/Cart";
+import Cart from "../screens/Dishes/Cart"
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
 export default function CartStack() {
-
     return (
-        // <Stack.Navigator>
-        //     <Stack.Screen name="Cart" component={Cart} options={{ title: "Carrito " }} />
-        // </Stack.Navigator>
-        <Text>cart</Text>
+        <Stack.Navigator screenOptions={{
+            headerStyle: {
+                backgroundColor: '#efd3d3'
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                fontFamily: 'Roboto'
+
+            }
+        }}>
+            <Stack.Screen
+                name="Cart"
+                component={Cart}
+                options={{ title: "Mi carrito. " }}
+            />
+        </Stack.Navigator>
     )
 }
 
