@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 80,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 100,
+    marginTop: 20,
     marginRight: 80,
     marginLeft: 80,
   },
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   btnContainerLogin: {
-    marginTop: 100,
+    marginTop: 50,
     width: "60%",
     height: 200,
   },

@@ -11,11 +11,11 @@ export default function Reservation(props) {
 
   return (
     <KeyboardAwareScrollView>
-      <Image
+     {/*  <Image
         source={require("../../../assets/icon/acomerya-logo-name.svg")}
         resizeMode="contain"
         style={styles.logo}
-      />
+      /> */}
       <View style={styles.viewForm}>
         <CreateReservation toastRef={toastRef} idUser={idUser} nameRestaurant = {nameRestaurant} imageRestaurant={imageRestaurant} />
       </View>
