@@ -111,7 +111,32 @@ export default function App() {
             <Tab.Screen
               name="Cart"
               component={CartStack}
-              options={{ title: "Carrito", /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
+              options={{ title: "Carrito",
+              tabBarIcon: ({ tintColor }) => (
+                <Image
+                  source={require('./assets/icon/Car.png')}
+                  style={{width: 35, height: 35,  tintColor: tintColor}}
+                />
+              )
+              /*tabBarLabel:'prueba'tabBarVisible: false*/ }}
+            />
+             <Tab.Screen
+              name="perfil"
+              component={PerfilStack}
+              options={{ title: "Perfil", 
+              /* tabBarIcon: ({ color, size }) => (
+                <Ionicons name="ios-home" size={size} color={color} />
+              ) */
+              
+              tabBarIcon: ({ tintColor }) => (
+                <Image
+                  source={require('./assets/icon/Profile.png')}
+                  style={{width: 35, height: 35,  tintColor: tintColor}}
+                />
+              )
+            }
+            
+            }
             />
           </Tab.Navigator>
         )}
