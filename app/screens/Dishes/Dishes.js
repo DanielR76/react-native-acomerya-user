@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { LinearGradient } from 'expo-linear-gradient';
 import { firebaseapp } from "./../../utils/firebase";
 import firebase, { firestore } from "firebase/app";
 import "firebase/firestore"; const db = firebase.firestore(firebaseapp);
 import { size } from "lodash";
 import { Image, Icon } from "react-native-elements";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
+
 var { height, width } = Dimensions.get("window");
 
 export default function Dishes(props) {
@@ -41,6 +44,12 @@ export default function Dishes(props) {
                 setDishes(state)
             })
     }
+
+    const goCode = () => {
+        navigation.navigate("Code", {
+        }
+        );
+    };
     return (
         <View>
             {size(dishes) > 0 ? (
@@ -51,7 +60,17 @@ export default function Dishes(props) {
                 />
             ) : (
                     <View style={styles.loaderDishes}>
-                        <Text> Por favor dirigete a la pantalla de codigo</Text>
+                        <View style={{ marginTop: width / 2, margin: 20 }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> Enlazate con tu restaurante.</Text>
+                        </View>
+                        <View style={{ marginTop: 1, alignContent: 'center' }}>
+                            <TouchableOpacity onPress={() => goCode()}>
+                                <Ionicons
+                                    name="ios-barcode"
+                                    size={150} color={"black"}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 )}
         </View>
@@ -84,7 +103,7 @@ function Dish(props) {
                 <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
                     <View>
                         <Text style={{ fontWeight: "bold", fontSize: 20 }}>{dishName}</Text>
-                        <Text>{description.substr(0, 30)}...</Text>
+                        <Text>{description.substr(0, 60)}...</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}></View>
                         <Text>$ {price}</Text>
                     </View>
@@ -92,24 +111,19 @@ function Dish(props) {
                 <View>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={goDish} style={{
-                        width: 75,
-                        height: 30,
-                        marginTop: 100,
-                        marginLeft: -50,
-                        borderRadius: 10,
-                        padding: 3,
-                        backgroundColor: "#ED923D",
-                    }}>
-                        <Text style={{ //width: 200,
-                            //height: 10,
-                            marginLeft: 10,
-                            //marginTop: 3,
-                            //textAlign: "center",
-                            fontSize: 14,
-                            fontWeight: "bold",
-                            color: "white",
-                        }}>Agregar</Text>
+                    <TouchableOpacity onPress={goDish}>
+                        <LinearGradient
+                            start={{ x: 1, y: 0 }} //here we are defined x as start position
+                            end={{ x: 0, y: 0 }} //here we can define axis but as end position
+                            colors={['#FF3838', '#ED923D']}
+                            style={{ padding: 3, width: 75, height: 30, marginTop: 100, borderRadius: 8 }}>
+                            <Text style={{ //width: 200,
+
+                                fontSize: 14,
+                                color: "#fff",
+                                backgroundColor: 'transparent',
+                            }}>Agregar</Text>
+                        </LinearGradient>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -8,8 +8,6 @@ export default function CarouselImages(props) {
     const renderItem = ({ item }) => {
         return <Image style={{ height, widht }} source={{ uri: item }} />
     }
-    //console.log(item.imagePath);
-
     return (
         <Carousel
             layout={"default"}

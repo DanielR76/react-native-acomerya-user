@@ -8,13 +8,13 @@ export default function CartStack() {
     return (
         <Stack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: '#efd3d3'
+                backgroundColor: 'white'
             },
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                fontFamily: 'Roboto'
+            // headerTitleStyle: {
+            //     fontWeight: 'bold',
+            //     fontFamily: 'Roboto'
 
-            }
+            // }
         }}>
             <Stack.Screen
                 name="Cart"

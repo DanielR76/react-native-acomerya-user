@@ -9,11 +9,11 @@ export default function RequestOnYourTableStack() {
   return (
     <Stack.Navigator screenOptions={{
       headerStyle: {
-        backgroundColor: '#efd3d3'
+        backgroundColor: 'white'
       },
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      }
+      // headerTitleStyle: {
+      //   fontWeight: 'bold'
+      // }
     }}>
       <Stack.Screen
         name="Dishes"
