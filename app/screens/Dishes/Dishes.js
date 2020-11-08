@@ -26,13 +26,11 @@ export default function Dishes(props) {
             })
         }, [])
     )
-
-
     //funcion que permite traer todos los platos de un restaurante en especifico
     const [dishes, setDishes] = useState([])
     const getDishesById = async (idRest) => {
         await db.collection("dishDocument").where("idRestaurant",
-            "==", idRest)
+            "==", idRest).where("status", "==", true)
             .onSnapshot(querySnapshot => {
                 const state = []
                 querySnapshot.forEach((doc) => {
@@ -94,18 +92,23 @@ function Dish(props) {
         <View style={{ flex: 1 }}>
             <View style={{ width: width - 20, margin: 10, marginTop: 5, backgroundColor: '#FFF6F6', flexDirection: 'row', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
                 <Image
-                    style={{ width: width / 3, height: width / 3 }}
-                    resizeMode='contain'
+                    style={{ width: width / 3, height: width / 3, resizeMode: "contain", justifyContent: "space-around", borderRadius: 20, margin: 5, backgroundColor: "transparent" }}
+                    //resizeMode='contain'
                     PlaceholderContent={<ActivityIndicator color="fff" />}
                     source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
                     }
                 />
-                <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
+                <View style={{ flex: 1, backgroundColor: 'transparent', padding: 1, justifyContent: "space-between" }}>
                     <View>
-                        <Text style={{ fontWeight: "bold", fontSize: 20 }}>{dishName}</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 5 }}>{dishName}</Text>
                         <Text>{description.substr(0, 60)}...</Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}></View>
-                        <Text>$ {price}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                            <Image
+                                source={require('../../../assets/icon/Money.png')}
+                                style={{ width: width / 15, height: width / 15 }}
+                            />
+                            <Text style={{ fontSize: 15, marginLeft: 5 }}>{price}</Text>
+                        </View>
                     </View>
                 </View>
                 <View>
@@ -118,10 +121,10 @@ function Dish(props) {
                             colors={['#FF3838', '#ED923D']}
                             style={{ padding: 3, width: 75, height: 30, marginTop: 100, borderRadius: 8 }}>
                             <Text style={{ //width: 200,
-
                                 fontSize: 14,
                                 color: "#fff",
                                 backgroundColor: 'transparent',
+                                alignSelf: 'center'
                             }}>Agregar</Text>
                         </LinearGradient>
                     </TouchableOpacity>

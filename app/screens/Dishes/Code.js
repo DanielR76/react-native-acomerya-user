@@ -43,7 +43,6 @@ export default function Code(props) {
             db.collection("codesDocument").where("code", "==", parseInt(codeInput)).get().then((response) => {
                 if (response.size) {
                     response.forEach((doc) => {
-
                         AsyncStorage.setItem('idRestaurant', doc.data().idRestaurant)
                         AsyncStorage.setItem('table', doc.data().table)
                     })
@@ -124,7 +123,7 @@ export default function Code(props) {
                                         alignSelf: 'center'
                                     }}>
                                     Ver menu
-        </Text>
+                                </Text>
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
@@ -134,17 +133,21 @@ export default function Code(props) {
                 </View>
 
             ) :
-                <View>
-
-                    <View>
-                        <View style={{ marginTop: 20 }}>
-                            <Button style={{ backgroundColor: "#ffa500" }} title="Salir" onPress={exitCode}>  </Button>
-                        </View>
-
+                <View style={styles.loaderDishes}>
+                    <View style={{ marginTop: width / 2, margin: 20, alignItems: 'center' }}>
+                        <Text style={{ alignSelf: 'center', fontWeight: "bold", fontSize: 20 }}>¿Deseas desenlazarte del restaurante? </Text>
                     </View>
-
+                    <View style={{ marginTop: 1, alignContent: 'center' }}>
+                        <TouchableOpacity onPress={exitCode}>
+                            <Ionicons
+                                name="ios-exit"
+                                size={150} color={"gray"}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ marginTop: 20 }}>
+                    </View>
                 </View>
-
             }
         </View >
     );
@@ -190,5 +193,10 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 10,
         alignSelf: 'center'
+    }
+    , loaderDishes: {
+        marginTop: 10,
+        marginBottom: 10,
+        alignItems: "center",
     }
 });

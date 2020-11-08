@@ -124,7 +124,7 @@ export default function Dish(props) {
             <View style={{ flex: 1 }}>
                 <View style={{ width: width - 20, margin: 12, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
                     <Image
-                        style={{ width: width - 10, height: width / 3, margin: 10 }}
+                        style={{ width: width - 10, height: width / 3, margin: 5, overflow: 'hidden', borderRadius: 10 }}
                         resizeMode="contain"
                         PlaceholderContent={<ActivityIndicator color="fff" />}
                         source={dishes.imagePath ? { uri: dishes.imagePath } : require("../../../assets/img/imgj.jpg")
@@ -148,7 +148,7 @@ export default function Dish(props) {
                                 <Text style={{ fontSize: 18, color: "black", fontWeight: "bold" }}>Ingredientes </Text>
                                 <Text style={{ fontSize: 15, color: "black" }}>(Seleccionar ingredientes )</Text>
                             </View>
-                            <View style={{ padding: 10, flexDirection: 'row', marginLeft: 10 }}>
+                            <View style={{ padding: 10, flexDirection: 'row', marginLeft: 10, flexWrap: 'wrap' }}>
                                 {
                                     dishIngredient.map((item, index) => {
                                         return (
@@ -170,20 +170,22 @@ export default function Dish(props) {
                                     additions.map((item, index) => {
                                         return (
                                             <View key={index} style={{ flexDirection: 'row', borderRadius: 10, backgroundColor: "#FFFFFF", margin: 3, height: 40, alignItems: 'center' }}>
-                                                <Text style={{ fontSize: 15, marginLeft: 10 }}>{item.name}</Text>
-                                                <View style={{ flexDirection: 'row', position: 'absolute', right: 80 }}>
+                                                <View style={{ width: "60%" }}>
+                                                    <Text style={{ fontSize: 15, marginLeft: 10 }}>{item.name}</Text>
+                                                </View>
+                                                <View style={{ flexDirection: 'row', position: 'absolute', right: 50, width: "25%" }}>
                                                     <Image
                                                         source={require('../../../assets/icon/Money.png')}
-                                                        style={{ width: width / 13, height: width / 13 }}
+                                                        style={{ width: width / 15, height: width / 15, marginLeft: 5 }}
                                                     />
-                                                    <Text style={{ fontSize: 15 /*, position: "absolute", bottom: 0*/ }}>{item.price}</Text>
+                                                    <Text style={{ fontSize: 15 }}>{item.price}</Text>
                                                 </View>
-                                                <View style={{ position: "absolute", right: 10, }}>
+                                                <View style={{ position: "absolute", right: 5, width: "10%" }}>
                                                     <Ionicons
                                                         onPress={() => addAdditionItem(index)}
                                                         name={item.isSelected ? "ios-checkmark-circle" : "md-checkmark-circle-outline"}
                                                         size={30}
-                                                        color={item.isSelected ? "#ffa500" : "#ffa500"}
+                                                        color={item.isSelected ? "#F4AD7B" : "#F4AD7B"}
                                                     />
                                                 </View>
                                             </View>
@@ -269,26 +271,28 @@ const styles = StyleSheet.create({
         marginBottom: 10
     }
     , touchIngredientSelect: {
-        marginTop: 5,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
+        margin: 5,
+        paddingVertical: 12,
+        paddingHorizontal: 12,
         borderRadius: 12,
         alignContent: "center",
-        backgroundColor: "#ffa500",
+        backgroundColor: "#F4AD7B",
         borderColor: "#ff8000",
+
     }
     , touchIngredientNoselect: {
-        marginTop: 5,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
+        margin: 5,
+        paddingVertical: 12,
+        paddingHorizontal: 12,
         borderRadius: 12,
         borderColor: "#ff8000",
         alignContent: "center",
         backgroundColor: "white",
     }
     , viewTouch: {
-        width: 200,
-        height: 10,
+        width: 250,
+        height: 20,
+        margin: 10,
         // marginTop: 20,
         borderRadius: 10,
         padding: 20,

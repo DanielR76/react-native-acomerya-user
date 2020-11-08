@@ -27,7 +27,6 @@ export default function Cart(props) {
                 setIdRestaurant(idRestaurant)
                 getRestaurantById(idRestaurant)
             })
-
             if (size(dishCart.dishes) == 0) {
                 setDishCart({ ...initialStateValues })
             }
@@ -132,7 +131,6 @@ export default function Cart(props) {
             AsyncStorage.setItem("cart", JSON.stringify(dataCart))
         })
     }
-
     const calculateTotalPrice = (value) => {
         let total = 0
         value.map((item) => {
@@ -140,26 +138,36 @@ export default function Cart(props) {
         })
         return total
     }
-
-
-
     //navigation.setOptions({ title: "Carrito" });
     return (
-
         <ScrollView>
             <View>
                 {size(dishCart.dishes) > 0 ? (
-
                     <View>
                         <View>
                             {
                                 restaurant.map((item, index) => {
                                     return (
-                                        <View>
+                                        <View key={index} style={{
+                                            display: "flex",
+                                            justifyContent: "space-around",
+                                            alignItems: "center",
+                                            textAlign: "center",
+                                            marginTop: 10
+                                        }}>
+                                            <View style={{ marginTop: 5, alignSelf: 'center' }}>
+                                                <Text style={{ fontWeight: "bold", fontSize: 20 }}>{item.nameRestaurant}</Text>
+                                            </View>
                                             <Image
-                                                style={{ width: width - 10, height: width / 2 }}
+                                                style={{
+                                                    /*width: width - 13, height: width / 3,*/
+                                                    resizeMode: "stretch",
+                                                    height: 125,
+                                                    width: 250,
+                                                    marginTop: 8
+                                                }}
                                                 // style={styles.imageDish}
-                                                resizeMode="contain"
+                                                //resizeMode='stretch'
                                                 // PlaceholderContent={<ActivityIndicator color="fff" />}
                                                 source={{ uri: (item.imagePath).toString() }}
                                             />
@@ -173,44 +181,51 @@ export default function Cart(props) {
                             dishCart.dishes.map((item, index) => {
                                 return (
                                     <View key={index} style={{ flex: 1 }} /*style={styles.viewDishes}*/>
-                                        <View style={{ width: width - 20, margin: 10, marginTop: 5, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
-                                            <View style={{ width: width - 20, flexDirection: 'row', }}>
+                                        <View style={{ width: width - 20, margin: 10, marginTop: 15, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
+                                            <View style={{ width: width - 20, flexDirection: "row", justifyContent: "space-around" }}>
                                                 <Image
-                                                    style={{ width: width / 3, height: width / 3 }}
+                                                    style={{ width: width / 3, height: width / 3, resizeMode: "contain", margin: 5 }}
                                                     // style={styles.imageDish}
-                                                    resizeMode="contain"
+                                                    // resizeMode="center"
                                                     PlaceholderContent={<ActivityIndicator color="fff" />}
                                                     source={item.imagePath ? { uri: item.imagePath } : require("./../../../assets/img/imgj.jpg")
                                                     }
                                                 />
                                                 <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
                                                     <View>
-                                                        <Text style={{ fontWeight: "bold", fontSize: 20 }}>{item.dishName}</Text>
+                                                        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 5 }}>{item.dishName}</Text>
+                                                        <Text style={{ fontSize: 15, margin: 5 }}>{item.description}</Text>
+                                                    </View>
+                                                    <View style={{ position: 'absolute', right: 5 }}>
+                                                        <Ionicons
+                                                            onPress={() => deleteCartItem(index)}
+                                                            name="ios-trash"
+                                                            size={30} color={"#F4AD7B"}
+                                                        />
                                                     </View>
                                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                                        <Text> {(item.priceAddition)}</Text>
-
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                            <Image
+                                                                source={require('../../../assets/icon/Money.png')}
+                                                                style={{ width: width / 15, height: width / 15, marginLeft: 5 }}
+                                                            />
+                                                            <Text style={{ fontSize: 15 }}> {(item.priceAddition)}</Text>
+                                                        </View>
                                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                             <TouchableOpacity onPress={() => onChangeQual(false, index)}>
                                                                 <Ionicons
                                                                     name="ios-remove-circle"
-                                                                    size={30} color={"#ffa500"}
+                                                                    size={30} color={"#F4AD7B"}
                                                                 />
                                                             </TouchableOpacity>
                                                             <Text style={{ paddingHorizontal: 8, fontWeight: 'bold' }}>{item.quantity}</Text>
                                                             <TouchableOpacity onPress={() => onChangeQual(true, index)}>
                                                                 <Ionicons
                                                                     name="ios-add-circle"
-                                                                    size={30} color={"#ffa500"}
+                                                                    size={30} color={"#F4AD7B"}
                                                                 />
                                                             </TouchableOpacity>
-                                                            <View style={{ position: 'relative', marginLeft: 20 }}>
-                                                                <Ionicons
-                                                                    onPress={() => deleteCartItem(index)}
-                                                                    name="ios-trash"
-                                                                    size={30} color={"#ffa500"}
-                                                                />
-                                                            </View>
+
                                                         </View>
                                                     </View>
                                                 </View>
@@ -219,7 +234,7 @@ export default function Cart(props) {
                                                 <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'space-between' }}>
                                                     <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10 }}> Ingredientes</Text>
                                                     <View>
-                                                        <Text> {(item.ingredient).join(' , ')}</Text>
+                                                        <Text> {(item.ingredient).join(', ')}</Text>
                                                     </View>
                                                 </View>
                                             ) : (
@@ -230,7 +245,7 @@ export default function Cart(props) {
                                                 <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'space-between' }}>
                                                     <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10 }}> Adiciones</Text>
                                                     <View>
-                                                        <Text> {(item.addition).join(' , ')}</Text>
+                                                        <Text> {(item.addition).join(', ')}</Text>
                                                     </View>
 
                                                 </View>
