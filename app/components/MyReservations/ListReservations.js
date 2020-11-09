@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { size } from "lodash";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from 'expo-linear-gradient';
 export default function ListReservation(props) {
   const { restaurants, handleLoadMore, isLoading } = props;
   const navigation = useNavigation();
@@ -88,25 +89,85 @@ function Restaurant(props) {
 
            {status == "pendiente" ? (
              <View style={styles.viewContainerPending}>
-          <Text  style={styles.textStatus}>Reserva {status}</Text>
+          <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#ED923D', '#FF3838']}
+        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+            alignSelf:"center"
+          }}>
+         Reserva {status}
+        </Text>
+      </LinearGradient>
               </View>
           )
           : (status == "rechazado")?
           (
             <View style={styles.viewContainerRejected}>
-            <Text  style={styles.textStatus}>Reserva {status}</Text>
+            <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#F38888', '#D3454D']}
+        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+            alignSelf:"center"
+          }}>
+         Reserva {status}
+        </Text>
+      </LinearGradient>
             </View>
           )
           : (status == "aceptado")?
           (
             <View style={styles.viewContainerStateAcepted}>
-            <Text  style={styles.textStatus}>Reserva {status}</Text>
+            <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#54E57D', '#4C9B3F']}
+        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+            alignSelf:"center"
+          }}>
+         Reserva {status}
+        </Text>
+      </LinearGradient>
             </View>
           )
           :
           (
             <View style={styles.viewContainerStateCanceled}>
-            <Text  style={styles.textStatus}>Reserva {status}</Text>
+           <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#DADADA', '#989696']}
+        style={{  borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+            alignSelf:"center"
+          }}>
+         Reserva {status}
+        </Text>
+      </LinearGradient>
             </View>
           )
           } 
@@ -142,77 +203,73 @@ const styles = StyleSheet.create({
     //width: 40,
   },
   viewRestaurants: {
-    width: 340,
-    height: 150,
+    width: 321,
+    height: 145,
     marginTop: 20,
-    marginLeft: 25,
-    borderRadius: 10,
+    marginLeft: 40,
+    borderBottomRightRadius:37,
+    borderTopRightRadius: 20,
     padding: 35,
     backgroundColor: "#FFF6F6",
   },
   viewContainerStateAcepted: {
     width: 318,
     height: 15,
-    marginTop: -50,
-    marginLeft: -15,
+    marginTop: -73,
+    marginLeft: -35,
     borderRadius: 10,
     padding: 15,
-    backgroundColor: "#63C852",
+    //backgroundColor: "#ED923D",
   },
   viewContainerRejected: {
     width: 318,
     height: 15,
-    marginTop: -50,
-    marginLeft: -15,
+    marginTop: -73,
+    marginLeft: -35,
     borderRadius: 10,
     padding: 15,
-    backgroundColor: "#D3454D",
+    //backgroundColor: "#ED923D",
   },
   viewContainerPending: {
     width: 318,
     height: 15,
-    marginTop: -50,
-    marginLeft: -15,
+    marginTop: -73,
+    marginLeft: -35,
     borderRadius: 10,
     padding: 15,
-    backgroundColor: "#ED923D",
+    //backgroundColor: "#ED923D",
   },
   viewContainerStateCanceled: {
     width: 318,
     height: 15,
-    marginTop: -50,
-    marginLeft: -15,
+    marginTop: -73,
+    marginLeft: -35,
     borderRadius: 10,
     padding: 15,
-    backgroundColor: "#BDB4B4",
+    //backgroundColor: "#ED923D",
   },
   viewRestaurantsImage: {
-    marginLeft: -15,
-    marginTop: -15,
+    marginLeft: -34,
+    marginTop: -17,
   },
   imageRestaurant: {
-    width: 150,
-    height: 100,
-    borderRadius: 10,
-    overflow: "hidden",
+    width: "55%",
+    height: "100%",
+    borderTopRightRadius: 10,
   },
   textNameRestaurant: {
     width: 183,
     height: 25,
-    marginLeft: 126,
+    marginLeft: 105,
     marginTop: -120,
-    //textAlign: "center",
     fontSize: 14,
     fontWeight: "bold",
   },
   textFecha: {
     width: 130,
     height: 35,
-    marginLeft: 125,
-    //marginTop: -200,
-    //textAlign: "center",
+    marginLeft: 105,
     fontSize: 14,
-   // fontWeight: "bold",
   },
   textStatus: {
     width: 200,

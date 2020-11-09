@@ -23,13 +23,12 @@ export default function RegisterRestaurant() {
 }
 const styles = StyleSheet.create({
   logo: {
-    width: "100%",
-    height: 300,
-    marginTop: 20,
-    marginLeft: 14,
+    width: "50%",
+    height: 200,
+    alignSelf: "center",
   },
   viewForm: {
-    marginRight: 40,
-    marginLeft: 40,
+    paddingRight: 40,
+    paddingLeft: 40,
   },
 });

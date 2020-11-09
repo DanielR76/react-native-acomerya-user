@@ -208,7 +208,7 @@ export default function Cart(props) {
                     )}
             </View>
 
-            <Modal
+         {/*    <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
@@ -218,7 +218,7 @@ export default function Cart(props) {
             >
                 <Text>Hello World!</Text>
 
-            </Modal>
+            </Modal> */}
         </ScrollView >
 
     )

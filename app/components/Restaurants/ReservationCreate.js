@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text,ScrollView,ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text,ScrollView,ActivityIndicator,Modal,TouchableOpacity } from "react-native";
 import { Input, Icon, Button,Image } from "react-native-elements";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { LinearGradient } from 'expo-linear-gradient';
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import {Ionicons,Fontisto} from '@expo/vector-icons'
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
+import uuid from 'uuid-random';
 import "firebase/firestore";
 const db = firebase.firestore(firebaseapp);
 
 export default function CreateReservation(props) {
   const { toastRef,  idUser ,nameRestaurant,imageRestaurant} = props;
+  const [modalVisible, setModalVisible] = useState(false);
   const [formData, setFormData] = useState(defaultFormValue());
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
@@ -53,7 +56,7 @@ export default function CreateReservation(props) {
       name:firebase.auth().currentUser.email,
       date: date,
       quantity: formData.quantity,
-      requestNumber: "5",
+      requestNumber: uuid(),
       status: "pendiente",
       summary: formData.summary,
       nameRestaurant: nameRestaurant,
@@ -74,11 +77,9 @@ export default function CreateReservation(props) {
   //const fecha = date.getMinutes()
   const fecha2= date
   return (
-   
-    <View style={styles.formContainer1}>
-     <View style={styles.containerPinkReservation}>
-     <Text style={styles.txTitleReservation}>{`¡Tu reserva!`}</Text>
-     <View style={styles.viewRestaurantsImage}>
+    <View style={styles.formContainerNameImage}>     
+      <Text style={styles.txTitleReservation}>{`¡Reserva Ya!`}</Text>
+      <View style={styles.viewRestaurantsImage}>
            <Image
             resizeMode={"cover"}
             PlaceholderContent={<ActivityIndicator color="fff" />}
@@ -90,6 +91,9 @@ export default function CreateReservation(props) {
             style={styles.imageRestaurant}
           />
      </View>
+  
+     <View style={styles.containerPinkReservation}>
+         
       <Text style={styles.txTitleReg}>{nameRestaurant}</Text>
       <View style={styles.txContainerDate}>
       <Fontisto  name="date" size={45} color="black" onPress={showDatepicker}/>
@@ -125,12 +129,26 @@ export default function CreateReservation(props) {
         onChange={(e) => onChange(e, "summary")}
       />
        </View>
-       <Button
-        title="Confirmar"
-        containerstyle={styles.btnContainerStyles}
-        buttonStyle={styles.btnReservation}
-        onPress={onSubmit}
-      />
+       <TouchableOpacity
+      onPress={onSubmit} 
+      >
+          <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#FF3838', '#ED923D']}
+        style={{ borderRadius:25,padding: 10, paddingTop:5, marginLeft:55, paddingLeft:50,borderRadius: 5 , marginTop:10, width:170, height:30}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+          }}>
+          Confirmar
+        </Text>
+      </LinearGradient>
+      </TouchableOpacity>
+      
       <Loading isVisible={loading} text="Creando Reserva" />
     </View>
       
@@ -145,23 +163,35 @@ function defaultFormValue() {
   };
 }
 const styles = StyleSheet.create({
+  viewBody: {
+    flex: 18,
+    backgroundColor: "#fff",
+  },
   txTitleReservation: {
     fontSize: 24,
     width: 160,
     height: 50,
-    marginLeft: 70,
-    marginTop: -5,
+    marginLeft: -20,
+    alignSelf:"center",
+    marginTop: 10,
     textAlign: "center",
    // textDecorationLine: "underline",
   },
   imageRestaurant: {
     width: 330,
-    height: 150,
+    height: 190,
     borderRadius: 10,
     overflow: "hidden",
   },
-  formContainer: {
-    flex: 18,
+  formContainer3: {
+    flex: 40,
+    //backgroundColor: "#fff",    
+  },
+  formContainerNameImage: {
+   // flex: 40,
+   marginLeft:-40,
+   width: 420,
+   height: 750,
     backgroundColor: "#fff",    
   },
   inputCantidad: {
@@ -171,7 +201,7 @@ const styles = StyleSheet.create({
   },
   inputObservaciones: {
     width: "100%",
-    marginTop: 70,
+    marginTop: 40,
    // textDecorationLine: "underline",
   },
 
@@ -179,27 +209,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: "80%",
   },
-  
-  btnReservation: {
-    width: "35%",
-    marginLeft:100,
-    marginTop: 13,
-    borderRadius: 10,
-    backgroundColor: "#ED923D",
-    borderTopWidth: 1,
-    borderTopColor: "#e3e3e3",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e3e3e3",
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
   txTitleReg: {
     fontSize: 24,
     width: 250,
     height: 80,
-    marginLeft: 40,
+    marginLeft: 5,
     marginTop: 15,
     textAlign: "center",
+    alignSelf:"center",
     textDecorationLine: "underline",
   },
   txTitleDate: {
@@ -213,16 +230,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width: 100,
     height: 25,
-    marginLeft: 60,
-    marginTop: -35,
+    marginLeft: 55,
+    marginTop: -38,
   },
   txContainerDate: {
     width: 150,
     height: 45,
-    marginLeft: 13,
+    marginLeft: -5,
     marginTop: -30,
     //backgroundColor: "orange",
     borderRadius: 10,
+    
   },
   txContainerHour: {
     width: 120,
@@ -231,14 +249,16 @@ const styles = StyleSheet.create({
     marginTop: -40,
     //backgroundColor: "white",
     borderRadius: 10,
+    alignSelf:"center",
   },
   txContainerBtnCantidad: {
     //fontSize: 23,
     width: 120,
     height: 35,
-    marginLeft: 12,
+    marginLeft: -5,
     marginTop: 50,
     textAlign: "center",
+    
     backgroundColor: "white",
     borderRadius: 5,
   },
@@ -249,26 +269,32 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginTop: 10,
     textAlign: "center",
-    
+    alignSelf:"center",
   },
   txContainerBtnObservacion: {
     fontSize: 23,
     width: 300,
     height: 150,
-    marginLeft: 15,
+    marginLeft: 5,
     marginTop: 40,
-    textAlign: "center",
+    //textAlign: "center",
+    alignSelf:"center",
     backgroundColor: "white",
     borderRadius: 10,
     
   },
   containerPinkReservation: {
-    width: 380,
-    height: 670,
-    marginLeft: -22,
-    marginTop: -150,
+    width: "80%",
+    height: 450,
+    marginTop: 30,
+    marginLeft:25,
+    justifyContent:"center",
     borderRadius: 10,
-    padding: 20,
+    padding: 24,
     backgroundColor: "#FFF6F6",
   },
+  viewRestaurantsImage:{
+    marginLeft:30,
+
+  }
 });

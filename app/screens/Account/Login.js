@@ -9,15 +9,15 @@ export default function Login() {
   const toastRef = useRef();
   return (
     <ScrollView>
-      <View styles={styles.viewContainer}>
+      <View style={styles.viewContainer}>
       <Image
         source={require("../../../assets/icon/acomerya-logo-name.png")}
         resizeMode="contain"
         style={styles.logo}
       />
         <LoginForm toastRef={toastRef} />
-        <CreateAccountClient />
         <CreateAccountRestaurant />
+        <CreateAccountClient />
       </View>
       <Toast ref={toastRef} position="center" opacity={0.9} />
     </ScrollView>
@@ -52,30 +52,26 @@ function CreateAccountRestaurant() {
 
 const styles = StyleSheet.create({
   logo: {
-    width: "100%",
-    height: 300,
-    marginTop: 20,
-    marginLeft: 15,
+    width: "50%",
+    height: 200,
+    alignSelf: "center",
   },
   viewContainer: {
-    marginRight: 80,
-    marginLeft: 80,
+   // backgroundColor:"white",
+   width:"100%",
+    alignSelf: "center",
+    height: 570,
   },
-
   btnRegisterClient: {
-    color: "#ED923D",
-    fontSize:20,
-    fontWeight: "bold",
-    marginTop: -120,
-    marginLeft: 140,
-    marginRight: 50,
+    marginTop:30,
+    fontSize:18,
+    height:"5%",
+    alignSelf: "center",
   },
   btnRegisterRestaurant: {
-    color: "black",
+    color:"#ED923D",
+   // height:"5%",
     fontSize:15,
-    fontWeight: "bold",
-    marginTop: 30,
-    marginLeft: 90,
-    marginRight: 50,
+    alignSelf: "center",
   },
 });

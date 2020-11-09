@@ -17,7 +17,7 @@ export default function RestaurantsStack() {
       <Stack.Screen
         name="Reservation"
         component={Reservation}
-        options={{ title: "reservas" }}
+        options={{ title: "Agenda tu reserva" }}
       />
     </Stack.Navigator>
   );
