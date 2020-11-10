@@ -82,8 +82,9 @@ export default function CreateReservation(props) {
   return (
     <View style={styles.formContainer}>
       
-      <View style={styles.containerPinkReservation}>
+     
       <Text style={styles.txTitleReservation}>{`¡Tu reserva!`}</Text>
+      <View style={styles.containerPinkReservation}>
             <Image
             resizeMode={"cover"}
             PlaceholderContent={<ActivityIndicator color="fff" />}
@@ -273,7 +274,7 @@ const styles = StyleSheet.create({
     width: 380,
     height: 740,
     marginLeft: 5,
-    marginTop: -160,
+    marginTop: -10,
     borderRadius: 10,
     padding: 20,
     backgroundColor: "#FFF6F6",
@@ -286,15 +287,15 @@ const styles = StyleSheet.create({
   btnRegister: {
     width: "35%",
     height: 50,
-    marginLeft:100,
-    marginTop: 20,
-    backgroundColor: "green",
+    marginLeft:30,
+    marginTop: 60,
+    backgroundColor: "#8bc34a",
   },
   btnCanceled: {
     width: "35%",
     height: 50,
-    marginLeft:100,
-    marginTop: 12,
-    backgroundColor: "red",
+    marginLeft:165,
+    marginTop: -50,
+    backgroundColor: "#C4C4C4",
   },
 });

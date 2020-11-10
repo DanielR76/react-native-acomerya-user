@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View,TouchableOpacity } from "react-native";
 import { Input, Icon, Button, Text } from "react-native-elements";
 import { isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import { validateEmail } from "../../utils/validations";
+import { LinearGradient } from 'expo-linear-gradient';
 import Loading from "../Loading";
+//import {TextField,FilledTextField,OutlinedTextField} from "react-native-material-textfield"
 import { firebaseapp } from "../../utils/firebase";
-import firebase, { firestore } from "firebase//app";
+import firebase, { firestore } from "firebase//app"; 
 import "firebase/firestore";
 const db = firebase.firestore(firebaseapp);
 
@@ -81,12 +83,25 @@ export default function LoginForm(props) {
         password={true}
         secureTextEntry={true}
       />
-      <Button
-        title="Continuar"
-        containerStyle={styles.btnContainerLogin}
-        buttonStyle={styles.btnLogin}
-        onPress={onSubmit}
-      />
+     <TouchableOpacity
+      onPress={onSubmit}
+      >
+          <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#FF3838', '#ED923D']}
+        style={{ borderRadius:25,padding: 10, paddingTop:5, alignItems: 'center', borderRadius: 5 , marginTop:35, width:170, height:30}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+          }}>
+          Continuar
+        </Text>
+      </LinearGradient>
+      </TouchableOpacity>
     
       <Loading isVisible={loading} text="iniciando sesion" />
       </View>
@@ -101,12 +116,11 @@ function defaultFormValue() {
 }
 const styles = StyleSheet.create({
   formContainer: {
-    flex: 80,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-    marginRight: 80,
-    marginLeft: 80,
+   // backgroundColor:"white",
+    alignItems: "center",  
+    paddingLeft: 50,
+    paddingRight:50,
+     height: "50%",
   },
   inputForm: {
     width: "100%",
@@ -125,9 +139,8 @@ const styles = StyleSheet.create({
   },
   txTitle: {
     //color: 'black',
-    fontWeight: "bold",
-    fontSize: 24,
- 
+    //fontWeight: "bold",
+    fontSize: 24, 
   },
   iconRight: {
     color: "#c1c1c1",

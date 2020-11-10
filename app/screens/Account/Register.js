@@ -23,9 +23,9 @@ export default function Register() {
 }
 const styles = StyleSheet.create({
   logo: {
-    width: "100%",
-    height: 300,
-    marginTop: 20,
+    width: "50%",
+    height: 200,
+    alignSelf: "center",
   },
   viewForm: {
     marginRight: 40,

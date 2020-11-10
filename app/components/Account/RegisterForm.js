@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text,TouchableOpacity } from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
 import { validateEmail } from "../../utils/validations";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../../components/Loading";
+import { LinearGradient } from 'expo-linear-gradient';
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
@@ -82,12 +83,25 @@ export default function RegisterForm(props) {
         password={true}
         secureTextEntry={true}
       />
-      <Button
-        title="Unirse"
-        containerStyle={styles.btnContainerStyles}
-        buttonStyle={styles.btnRegister}
-        onPress={onSubmit}
-      />
+      <TouchableOpacity
+      onPress={onSubmit}
+      >
+          <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#FF3838', '#ED923D']}
+        style={{borderRadius:25,padding: 10, paddingTop:5, alignItems: 'center', borderRadius: 5 , marginTop:70, width:170, height:30,}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+          }}>
+          Unirse
+        </Text>
+      </LinearGradient>
+      </TouchableOpacity>
       <Loading isVisible={loading} text="Creando cuenta" />
     </View>
   );
@@ -105,7 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: 60,
   },
   inputForm: {
     width: "100%",
@@ -122,8 +136,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   txTitleReg: {
-    fontWeight: "bold",
     fontSize: 24,
-    marginTop:10,
+    paddingTop:10  ,
   },
 });

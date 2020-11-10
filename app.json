@@ -25,7 +25,8 @@
     "android": {
       "permissions": [
         "CAMERA_ROLL"
-      ]
+      ],
+      "package": "com.acomerya.acomerya"
     },
     "description": ""
   }

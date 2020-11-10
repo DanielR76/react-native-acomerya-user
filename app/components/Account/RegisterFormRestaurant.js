@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text,TouchableOpacity } from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
 import { validateEmail } from "../../utils/validations";
 import { size, isEmpty } from "lodash";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Loading";
+import { LinearGradient } from 'expo-linear-gradient';
 import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
@@ -105,13 +106,25 @@ export default function RegisterFormRestaurant(props) {
         password={true}
         secureTextEntry={true}
       />
-
-      <Button
-        title="Registrarse"
-        containerStyle={styles.btnContainerStyles}
-        buttonStyle={styles.btnRegister}
-        onPress={onSubmit}
-      />
+      <TouchableOpacity
+      onPress={onSubmit}
+      >
+          <LinearGradient
+        // Button Linear Gradient
+        start={{x: 1, y: 0}} //here we are defined x as start position
+        end={{x: 0, y: 0}} //here we can define axis but as end position
+        colors={['#FF3838', '#ED923D']}
+        style={{ borderRadius:25,padding: 10, paddingTop:5, alignItems: 'center', borderRadius: 5 , marginTop:35, width:170, height:30}}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            fontSize: 15,
+            color: '#fff',
+          }}>
+          Registrarse
+        </Text>
+      </LinearGradient>
+      </TouchableOpacity>
       <Loading isVisible={loading} text="Creando cuenta" />
     </View>
   );
@@ -131,7 +144,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 0,
   },
   inputForm: {
     width: "100%",
