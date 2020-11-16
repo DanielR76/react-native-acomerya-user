@@ -8,10 +8,10 @@ export default function CarouselImages(props) {
   const renderItem = ({ item, index }) => {
     return (
       <ScrollView>
-         <Text style={styles.textPagination}>{"  <----------        ------------>"}</Text>
+         <Text style={styles.textPagination}>{""}</Text>
         <Image style={{ width, height }} source={{ uri: item.imagePath }} />
         <View style={styles.containerNameRestaurant}>
-         <Text style={styles.textPagination}>{"<----------        ------------>"}</Text>
+         <Text style={styles.textPagination}>{""}</Text>
          <Text style={styles.textNameRestaurant}>{item.dishName}</Text>
         </View>
       </ScrollView>
@@ -33,15 +33,17 @@ const styles = StyleSheet.create({
     width: 350,
     height: 25,
     marginLeft: 10,
+    marginTop:-25,
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "normal",
+    fontWeight: "bold",
   },
   textPagination: {
     marginLeft: 45,
     fontWeight: "bold",
     color: "#ED923D",
-    fontSize:25
+    fontSize:25,
   },
   containerNameRestaurant: {
     padding: 18,

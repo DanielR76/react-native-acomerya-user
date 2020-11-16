@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text,TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text,TouchableOpacity ,Dimensions} from "react-native";
 import { Input, Icon, Button } from "react-native-elements";
 import { validateEmail } from "../../utils/validations";
 import { size, isEmpty } from "lodash";
@@ -10,6 +10,7 @@ import { firebaseapp } from "../../utils/firebase";
 import firebase, { firestore } from "firebase//app";
 import "firebase/firestore";
 const db = firebase.firestore(firebaseapp);
+const screenWidth = Dimensions.get("window").width;
 
 export default function RegisterFormRestaurant(props) {
   const { toastRef } = props;
@@ -114,9 +115,10 @@ export default function RegisterFormRestaurant(props) {
         start={{x: 1, y: 0}} //here we are defined x as start position
         end={{x: 0, y: 0}} //here we can define axis but as end position
         colors={['#FF3838', '#ED923D']}
-        style={{ borderRadius:25,padding: 10, paddingTop:5, alignItems: 'center', borderRadius: 5 , marginTop:35, width:170, height:30}}>
+        style={{padding: 10, alignSelf: 'center', borderRadius: 10, width: screenWidth / 2, height: 40 ,marginTop:25, }}>
         <Text
           style={{
+            alignSelf:"center",
             backgroundColor: 'transparent',
             fontSize: 15,
             color: '#fff',
