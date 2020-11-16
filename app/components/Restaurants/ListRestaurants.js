@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   viewRestaurants: {
     marginTop: 24,
-    marginLeft:-13,
+    marginLeft:-10,
     borderRadius: 15,
     padding: 5,
     backgroundColor: "white",

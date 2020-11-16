@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Loading } from "../../components/Loading";
-import { Image,Button } from "react-native-elements";
+import { Image,Button } from "react-native-elements"; 
 import { useNavigation } from "@react-navigation/native";
 import Carousel from "../../components/Restaurants/Carousel";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -85,9 +85,6 @@ export default function Restaurant(props) {
             }
             style={styles.imageRestaurant}
           />
-      <View style={styles.containerTextNameRestaurant}>
-        <Text style={styles.textNameRestaurant}>{nameRestaurant}</Text>
-      </View>
       <View style={styles.containerInformationContact}>
         <Text style={styles.textInformationContact}>
           Información de contacto
@@ -120,14 +117,15 @@ export default function Restaurant(props) {
         start={{x: 1, y: 0}} //here we are defined x as start position
         end={{x: 0, y: 0}} //here we can define axis but as end position
         colors={['#FF3838', '#ED923D']}
-        style={{ borderRadius:25,padding: 10, paddingTop:5, marginLeft:18, alignItems: 'center', borderRadius: 5 , marginTop:10, width:170, height:30}}>
+        style={{padding: 10, alignSelf: 'center', borderRadius: 10, width: screenWidth / 2, height: 40 ,marginTop:25, }}>
         <Text
           style={{
+            alignSelf:"center",
             backgroundColor: 'transparent',
             fontSize: 15,
             color: '#fff',
           }}>
-          Reservar
+          Reserva ya
         </Text>
       </LinearGradient>
       </TouchableOpacity>
@@ -176,14 +174,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     backgroundColor: "#FFF6F6",
+    
   },
   textInformationContact: {
-    width: 183,
+    width: 220,
     height: 40,
-    marginLeft: 30,
+    marginLeft: 12,
     textAlign: "center",
-    fontSize: 16,
-    textDecorationLine: "underline",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   textInformationAddress: {
     width: 183,
@@ -221,7 +220,7 @@ const styles = StyleSheet.create({
   },
   containerButtonReservation: {
     width: 220,
-    height: 60,
+    height: 80,
     marginLeft: 85,
     padding: 15,
     marginTop:-6,

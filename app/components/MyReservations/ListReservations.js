@@ -15,6 +15,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 export default function ListReservation(props) {
   const { restaurants, handleLoadMore, isLoading } = props;
   const navigation = useNavigation();
+  const goImageRestaurant = () => {
+    navigation.navigate("restaurants", {
+    }
+    );
+  };
   return (
     <SafeAreaView>
       {size(restaurants) > 0 ? (
@@ -32,11 +37,13 @@ export default function ListReservation(props) {
         <View style={styles.loaderRestaurants}>
          
           <Text style={styles.textNoReservations}>No tienes reservas aun!</Text>
+          <TouchableOpacity onPress={() => goImageRestaurant()}>
           <Image
-        source={require("../../../assets/icon/MyReservations.png")}
-        resizeMode="contain"
-        style={styles.logo}
-      />
+            source={require("../../../assets/icon/MyReservations.png")}
+              resizeMode="contain"
+            style={styles.logo}
+         />
+         </TouchableOpacity>
         </View>
       )}
     </SafeAreaView>
@@ -94,7 +101,7 @@ function Restaurant(props) {
         start={{x: 1, y: 0}} //here we are defined x as start position
         end={{x: 0, y: 0}} //here we can define axis but as end position
         colors={['#ED923D', '#FF3838']}
-        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:14, width:320, height:30}}>
         <Text
           style={{
             backgroundColor: 'transparent',
@@ -115,7 +122,7 @@ function Restaurant(props) {
         start={{x: 1, y: 0}} //here we are defined x as start position
         end={{x: 0, y: 0}} //here we can define axis but as end position
         colors={['#F38888', '#D3454D']}
-        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:14, width:320, height:30}}>
         <Text
           style={{
             backgroundColor: 'transparent',
@@ -136,7 +143,7 @@ function Restaurant(props) {
         start={{x: 1, y: 0}} //here we are defined x as start position
         end={{x: 0, y: 0}} //here we can define axis but as end position
         colors={['#54E57D', '#4C9B3F']}
-        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        style={{ borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:14, width:320, height:30}}>
         <Text
           style={{
             backgroundColor: 'transparent',
@@ -157,7 +164,7 @@ function Restaurant(props) {
         start={{x: 1, y: 0}} //here we are defined x as start position
         end={{x: 0, y: 0}} //here we can define axis but as end position
         colors={['#DADADA', '#989696']}
-        style={{  borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:10, width:320, height:30}}>
+        style={{  borderBottomRightRadius:25,padding: 10, paddingTop:5, marginLeft:3, alignSelf:"center", marginTop:14, width:320, height:30}}>
         <Text
           style={{
             backgroundColor: 'transparent',
@@ -254,7 +261,7 @@ const styles = StyleSheet.create({
   },
   imageRestaurant: {
     width: "55%",
-    height: "100%",
+    height: "105%",
     borderTopRightRadius: 10,
   },
   textNameRestaurant: {

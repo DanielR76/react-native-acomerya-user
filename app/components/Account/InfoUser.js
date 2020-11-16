@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Avatar } from "react-native-elements";
+import UserAvatar from 'react-native-user-avatar';
+import { Avatar } from 'react-native-paper';
+import {MaterialIcons} from '@expo/vector-icons'
 
 export default function InfoUser(props) {
   const {
@@ -10,8 +12,14 @@ export default function InfoUser(props) {
   return (
     <View style={styles.viewUserInfo}>
       <View>
-        <Text>{email ? email : "Social Login"}</Text>
+    
+      <Avatar.Image size={150}  color= "white" source={require('../../../assets/icon/Profile.jpg')} />
+      <View>
+        <Text style={styles.containerEmail}>{email ? email : "Social Login"}</Text>
+        </View>
+        <MaterialIcons name="email" size={24} color="black" />
       </View>
+      
     </View>
   );
 }
@@ -27,6 +35,10 @@ const styles = StyleSheet.create({
   },
   userInfoAvatar: {
     marginRight: 20,
+  },
+  containerEmail: {
+    marginTop: 40,
+    fontSize:18,
   },
   displayName: {
     fontWeight: "bold",
