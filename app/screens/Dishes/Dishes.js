@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Dimensions, AsyncStorage, SafeAreaView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 import { firebaseapp } from "./../../utils/firebase";
@@ -49,7 +49,7 @@ export default function Dishes(props) {
         );
     };
     return (
-        <View>
+        <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 5 }}>
             {size(dishes) > 0 ? (
                 <FlatList
                     data={dishes}
@@ -90,14 +90,17 @@ function Dish(props) {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ width: width - 20, margin: 10, marginTop: 5, backgroundColor: '#FFF6F6', flexDirection: 'row', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
-                <Image
-                    style={{ width: width / 3, height: width / 3, resizeMode: "contain", justifyContent: "space-around", borderRadius: 20, margin: 5, backgroundColor: "transparent" }}
-                    //resizeMode='contain'
-                    PlaceholderContent={<ActivityIndicator color="fff" />}
-                    source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
-                    }
-                />
+            <View style={{ width: width - 20, margin: 10, backgroundColor: '#FFF6F6', flexDirection: 'row', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
+
+                <SafeAreaView>
+                    <Image
+                        style={{ height: width / 4, width: width / 3, margin: 5, resizeMode: 'contain' }}
+                        //resizeMode='stretch'
+                        PlaceholderContent={<ActivityIndicator color="fff" />}
+                        source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
+                        }
+                    />
+                </SafeAreaView>
                 <View style={{ flex: 1, backgroundColor: 'transparent', padding: 1, justifyContent: "space-between" }}>
                     <View>
                         <Text style={{ fontWeight: "bold", fontSize: 20, margin: 5 }}>{dishName}</Text>

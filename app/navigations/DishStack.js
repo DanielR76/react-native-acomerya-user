@@ -9,7 +9,7 @@ export default function RequestOnYourTableStack() {
   return (
     <Stack.Navigator screenOptions={{
       headerStyle: {
-        backgroundColor: 'white'
+        backgroundColor: '#FFF6F6'
       },
       // headerTitleStyle: {
       //   fontWeight: 'bold'
@@ -18,7 +18,7 @@ export default function RequestOnYourTableStack() {
       <Stack.Screen
         name="Dishes"
         component={Dishes}
-        options={{ title: "Selecciona tu plato. " }}
+        options={{ title: "Selecciona tu plato " }}
       />
       <Stack.Screen
         name="Dish"

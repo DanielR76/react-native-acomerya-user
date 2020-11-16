@@ -8,7 +8,7 @@ export default function CartStack() {
     return (
         <Stack.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: 'white'
+                backgroundColor: '#FFF6F6'
             },
             // headerTitleStyle: {
             //     fontWeight: 'bold',
@@ -19,7 +19,7 @@ export default function CartStack() {
             <Stack.Screen
                 name="Cart"
                 component={Cart}
-                options={{ title: "Mi carrito. " }}
+                options={{ title: "Mi carrito " }}
             />
         </Stack.Navigator>
     )

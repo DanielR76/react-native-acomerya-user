@@ -97,6 +97,10 @@ export default function Cart(props) {
         AsyncStorage.removeItem("cart")
         setModalVisible(!modalVisible);
     }
+
+    const btnCancelar = () => {
+        setModalVisible(!modalVisible);
+    }
     //Eliminar plato del carrito
     const deleteCartItem = (idx) => {
         let arr = dishCart.dishes.map((item, index) => {
@@ -141,7 +145,7 @@ export default function Cart(props) {
     //navigation.setOptions({ title: "Carrito" });
     return (
         <ScrollView>
-            <View>
+            <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 5 }}>
                 {size(dishCart.dishes) > 0 ? (
                     <View>
                         <View>
@@ -232,7 +236,7 @@ export default function Cart(props) {
                                             </View>
                                             {size(item.ingredient) > 0 ? (
                                                 <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'space-between' }}>
-                                                    <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10 }}> Ingredientes</Text>
+                                                    <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10, alignSelf: 'center' }}> Ingredientes</Text>
                                                     <View>
                                                         <Text> {(item.ingredient).join(', ')}</Text>
                                                     </View>
@@ -243,7 +247,7 @@ export default function Cart(props) {
 
                                             {size(item.addition) > 0 ? (
                                                 <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'space-between' }}>
-                                                    <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10 }}> Adiciones</Text>
+                                                    <Text style={{ fontWeight: "bold", fontSize: 17, marginEnd: 10, alignSelf: 'center' }}> Adiciones</Text>
                                                     <View>
                                                         <Text> {(item.addition).join(', ')}</Text>
                                                     </View>
@@ -253,12 +257,9 @@ export default function Cart(props) {
                                                     <View></View>
                                                 )}
                                         </View>
-
                                     </View>
-
                                 )
                             }
-
                             )
                         }
 
@@ -329,15 +330,48 @@ export default function Cart(props) {
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
 
-                            <TouchableHighlight
-                                /*style={{ ...styles.openButton, backgroundColor: "#2196F3" }}*/
-                                onPress={() => {
-                                    removeAsyn()
-                                    // setModalVisible(!modalVisible);
-                                }}
-                            >
-                                <Text style={styles.modalText}>Tu pedido se ha enviado!</Text>
+                            <TouchableHighlight >
+                                <Text style={styles.modalText}>¿Deseas enviar este pedido?</Text>
                             </TouchableHighlight>
+                            <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
+
+                                <TouchableOpacity
+                                    onPress={() => btnCancelar()}
+                                    style={{ padding: 10, alignSelf: 'flex-start', borderRadius: 10, width: width / 4, height: 40, margin: 5, backgroundColor: 'gray' }}
+                                >
+                                    <Text
+                                        style={{
+                                            backgroundColor: 'transparent',
+                                            fontSize: 15,
+                                            color: '#fff',
+                                            alignSelf: 'center'
+                                        }}>
+                                        Cancelar
+                                      </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        removeAsyn()
+                                        // setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <LinearGradient
+                                        start={{ x: 1, y: 0 }} //here we are defined x as start position
+                                        end={{ x: 0, y: 0 }} //here we can define axis but as end position
+                                        colors={['#FF3838', '#ED923D']}
+                                        style={{ padding: 10, alignSelf: 'flex-start', borderRadius: 10, width: width / 4, height: 40, margin: 5 }}>
+                                        <Text
+                                            style={{
+                                                backgroundColor: 'transparent',
+                                                fontSize: 15,
+                                                color: '#fff',
+                                                alignSelf: 'center'
+                                            }}>
+                                            ACeptar
+                                      </Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </Modal>

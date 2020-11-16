@@ -10,7 +10,8 @@ import { isLoading } from 'expo-font';
 import { firebaseapp } from "./../../utils/firebase";
 import firebase, { firestore } from "firebase/app";
 import "firebase/firestore";
-import { parseInt } from 'lodash';
+import { size } from "lodash";
+//import { parseInt } from 'lodash';
 const db = firebase.firestore(firebaseapp);
 
 var { height, width } = Dimensions.get("window");
@@ -25,6 +26,10 @@ export default function Dish(props) {
     const [isSelectedIngredient, setIsSelectedIngredient] = useState();
     const [finalDish, setFinalDish] = useState();
     const [dishIngredient, setDishIngredient] = useState([])
+    const [isDisabled, setIsDisabled] = useState(true)
+
+
+
 
     useEffect(() => {
         getDishById(id)
@@ -87,14 +92,22 @@ export default function Dish(props) {
             if (idx == index) {
                 item.isSelectedIngredient = !item.isSelectedIngredient
             }
+            //item.isSelectedIngredient = setIsDisabled(!isDisabled)
+
             return { ...item }
         })
         let trueIngredient = []
         arr.map((item) => {
             if (item.isSelectedIngredient) {
                 trueIngredient.push(item.name)
+                // setIsDisabled(false)
             }
         })
+        if (size(trueIngredient) > 0) {
+            setIsDisabled(false)
+        } else {
+            setIsDisabled(true)
+        }
         setFinalDish({ ...finalDish, ingredient: trueIngredient })
     }
     //const [addition4, setAddition4] = useState([])
@@ -122,14 +135,38 @@ export default function Dish(props) {
     return (
         < ScrollView >
             <View style={{ flex: 1 }}>
-                <View style={{ width: width - 20, margin: 12, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
-                    <Image
-                        style={{ width: width - 10, height: width / 3, margin: 5, overflow: 'hidden', borderRadius: 10 }}
-                        resizeMode="contain"
-                        PlaceholderContent={<ActivityIndicator color="fff" />}
-                        source={dishes.imagePath ? { uri: dishes.imagePath } : require("../../../assets/img/imgj.jpg")
-                        }
-                    />
+                <View style={{ width: width - 20, margin: 12, backgroundColor: 'white', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flex: 1,
+                        margin: 10
+                    }}>
+                        <Image
+                            style={{
+                                // width: width / 2, height: width / 3,
+                                // borderWidth: 1,
+                                // overflow: 'hidden',
+                                // borderBottomWidth: 1,
+                                // borderTopLeftRadius: 20,
+                                // borderTopWidth: 1,
+                                // borderLeftWidth: 1,
+                                // borderRightWidth: 1,
+                                // borderRadius: 20,
+                                // borderColor: 'red',
+                                // resizeMode: 'contain',
+                                // alignSelf: 'flex-start'
+                                width: 200,
+                                height: 200,
+                                borderRadius: 200 / 2,
+                                resizeMode: 'cover'
+                            }}
+                            //resizeMode='cover'
+                            PlaceholderContent={<ActivityIndicator color="fff" />}
+                            source={dishes.imagePath ? { uri: dishes.imagePath } : require("../../../assets/img/imgj.jpg")
+                            }
+                        />
+                    </View>
                     <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
                         <View style={{ margin: 10, alignItems: 'center' }}>
                             <Text style={{ fontSize: 20, fontWeight: "bold" }}>{dishes.dishName}</Text>
@@ -169,7 +206,7 @@ export default function Dish(props) {
                                 {
                                     additions.map((item, index) => {
                                         return (
-                                            <View key={index} style={{ flexDirection: 'row', borderRadius: 10, backgroundColor: "#FFFFFF", margin: 3, height: 40, alignItems: 'center' }}>
+                                            <View key={index} style={{ flexDirection: 'row', borderRadius: 10, /*backgroundColor: "#FFFFFF",*/ margin: 3, height: 40, alignItems: 'center', borderColor: '#ff8000', borderBottomWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1 }}>
                                                 <View style={{ width: "60%" }}>
                                                     <Text style={{ fontSize: 15, marginLeft: 10 }}>{item.name}</Text>
                                                 </View>
@@ -197,7 +234,9 @@ export default function Dish(props) {
 
                     <View style={{ flexDirection: "row", margin: 30 }}>
                         <TouchableOpacity
+                            disabled={isDisabled}
                             onPress={addCart}
+                            style={isDisabled ? styles.disabled : styles.enabled}
                         >
                             <LinearGradient
                                 start={{ x: 1, y: 0 }} //here we are defined x as start position
@@ -277,7 +316,11 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         alignContent: "center",
         backgroundColor: "#F4AD7B",
-        borderColor: "#ff8000",
+        borderColor: '#ff8000',
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1
 
     }
     , touchIngredientNoselect: {
@@ -285,9 +328,13 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 12,
         borderRadius: 12,
-        borderColor: "#ff8000",
         alignContent: "center",
         backgroundColor: "white",
+        borderColor: '#ff8000',
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1
     }
     , viewTouch: {
         width: 250,
@@ -310,6 +357,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center'
     }
-
+    , enabled: {
+        opacity: 1,
+    },
+    disabled: {
+        opacity: 0.3,
+    }
 }
 )
