@@ -147,7 +147,7 @@ export default function Cart(props) {
         <ScrollView>
             <View>
                 {size(dishCart.dishes) > 0 ? (
-                    <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 5 }}>
+                    <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 10 }}>
                         <View>
                             {
                                 restaurant.map((item, index) => {
@@ -185,7 +185,7 @@ export default function Cart(props) {
                             dishCart.dishes.map((item, index) => {
                                 return (
                                     <View key={index} style={{ flex: 1 }} /*style={styles.viewDishes}*/>
-                                        <View style={{ width: width - 20, margin: 10, marginTop: 15, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
+                                        <View style={{ margin: 10, marginTop: 15, backgroundColor: '#FFF6F6', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
                                             <View style={{ width: width - 20, flexDirection: "row", justifyContent: "space-around" }}>
                                                 <Image
                                                     style={{ width: width / 3, height: width / 3, resizeMode: "contain", margin: 5 }}
@@ -200,7 +200,7 @@ export default function Cart(props) {
                                                         <Text style={{ fontWeight: "bold", fontSize: 20, margin: 5 }}>{item.dishName}</Text>
                                                         <Text style={{ fontSize: 15, margin: 5 }}>{item.description}</Text>
                                                     </View>
-                                                    <View style={{ position: 'absolute', right: 5 }}>
+                                                    <View style={{ position: 'absolute', right: 25 }}>
                                                         <Ionicons
                                                             onPress={() => deleteCartItem(index)}
                                                             name="ios-trash"
@@ -215,7 +215,7 @@ export default function Cart(props) {
                                                             />
                                                             <Text style={{ fontSize: 15 }}> {(item.priceAddition)}</Text>
                                                         </View>
-                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', right: 15 }}>
                                                             <TouchableOpacity onPress={() => onChangeQual(false, index)}>
                                                                 <Ionicons
                                                                     name="ios-remove-circle"
@@ -366,7 +366,7 @@ export default function Cart(props) {
                                                 color: '#fff',
                                                 alignSelf: 'center'
                                             }}>
-                                            ACeptar
+                                            Aceptar
                                       </Text>
                                     </LinearGradient>
                                 </TouchableOpacity>
