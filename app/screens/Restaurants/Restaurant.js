@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   textInformationAddress: {
-    width: 183,
+    width: 190,
     height: 40,
     marginLeft: 30,
     textAlign: "center",
