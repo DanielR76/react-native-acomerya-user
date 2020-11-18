@@ -135,7 +135,7 @@ export default function Dish(props) {
     return (
         < ScrollView >
             <View style={{ flex: 1 }}>
-                <View style={{ width: width - 20, margin: 12, backgroundColor: 'white', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
+                <View style={{ margin: 5, backgroundColor: 'white', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
                     <View style={styles.viewRestaurants}>
                         <Image
                             resizeMode='cover'
@@ -340,14 +340,15 @@ const styles = StyleSheet.create({
     disabled: {
         opacity: 0.3,
     }, imageRestaurant: {
-        width: 200,
-        height: 100,
-        borderTopRightRadius: 10,
+        width: 250,
+        height: 125,
+        alignSelf: 'center'
     }, viewRestaurants: {
-        margin: 20,
-        borderBottomRightRadius: 37,
-        borderTopRightRadius: 20,
-        padding: 35,
+        margin: 10,
+        padding: 1,
+        alignSelf: 'center',
+        alignItems: 'center',
+        alignContent: 'center'
         // backgroundColor: "#FFF6F6",
     }
 }

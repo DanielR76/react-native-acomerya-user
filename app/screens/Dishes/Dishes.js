@@ -90,24 +90,20 @@ function Dish(props) {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ width: width - 20, margin: 10, backgroundColor: '#FFF6F6', flexDirection: 'row', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
-
-                <SafeAreaView style={{
-                    borderBottomRightRadius: 37,
-                    borderTopRightRadius: 20,
-                }}>
+            <View style={{ margin: 10, backgroundColor: '#FFF6F6', flexDirection: 'row', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
+                <View>
                     <Image
                         //style={{ height: width / 4, width: width / 3, margin: 5, resizeMode: 'contain' }}
-                        style={{ height: width / 4, width: width / 3, borderTopRightRadius: 10, margin: 5 }}
+                        style={{ height: width / 4, width: width / 3, margin: 5 }}
                         resizeMode={"cover"}
                         PlaceholderContent={<ActivityIndicator color="fff" />}
                         source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
                         }
                     />
-                </SafeAreaView>
+                </View>
                 <View style={{ flex: 1, backgroundColor: 'transparent', padding: 1, justifyContent: "space-between" }}>
                     <View>
-                        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 5 }}>{dishName}</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 20, margin: 2 }}>{dishName}</Text>
                         <Text>{description.substr(0, 60)}...</Text>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
                             <Image
@@ -121,12 +117,12 @@ function Dish(props) {
                 <View>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={goDish}>
+                    <TouchableOpacity onPress={goDish} style={{ margin: 8 }}>
                         <LinearGradient
                             start={{ x: 1, y: 0 }} //here we are defined x as start position
                             end={{ x: 0, y: 0 }} //here we can define axis but as end position
                             colors={['#FF3838', '#ED923D']}
-                            style={{ padding: 3, width: 75, height: 30, marginTop: 100, borderRadius: 8 }}>
+                            style={{ padding: 1, width: 75, height: 30, marginTop: 120, borderRadius: 8 }}>
                             <Text style={{ //width: 200,
                                 fontSize: 14,
                                 color: "#fff",
