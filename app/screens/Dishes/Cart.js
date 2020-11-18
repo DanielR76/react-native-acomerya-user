@@ -330,11 +330,11 @@ export default function Cart(props) {
                         <View style={styles.modalView}>
 
                             <TouchableHighlight >
-                                <Text style={styles.modalText}>¿Deseas enviar este pedido?</Text>
+                                <Text style={styles.modalText}> ¡Felicidades! Tu pedido ha sido enviado</Text>
                             </TouchableHighlight>
                             <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
 
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => btnCancelar()}
                                     style={{ padding: 10, alignSelf: 'flex-start', borderRadius: 10, width: width / 4, height: 40, margin: 5, backgroundColor: 'gray' }}
                                 >
@@ -347,7 +347,7 @@ export default function Cart(props) {
                                         }}>
                                         Cancelar
                                       </Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                                 <TouchableOpacity
                                     onPress={() => {
                                         removeAsyn()
