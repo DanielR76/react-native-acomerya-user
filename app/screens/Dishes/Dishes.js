@@ -49,7 +49,7 @@ export default function Dishes(props) {
         );
     };
     return (
-        <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 5 }}>
+        <View style={{ borderRadius: 10, margin: 5 }}>
             {size(dishes) > 0 ? (
                 <FlatList
                     data={dishes}
@@ -92,10 +92,14 @@ function Dish(props) {
         <View style={{ flex: 1 }}>
             <View style={{ width: width - 20, margin: 10, backgroundColor: '#FFF6F6', flexDirection: 'row', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
 
-                <SafeAreaView>
+                <SafeAreaView style={{
+                    borderBottomRightRadius: 37,
+                    borderTopRightRadius: 20,
+                }}>
                     <Image
-                        style={{ height: width / 4, width: width / 3, margin: 5, resizeMode: 'contain' }}
-                        //resizeMode='stretch'
+                        //style={{ height: width / 4, width: width / 3, margin: 5, resizeMode: 'contain' }}
+                        style={{ height: width / 4, width: width / 3, borderTopRightRadius: 10, margin: 5 }}
+                        resizeMode={"cover"}
                         PlaceholderContent={<ActivityIndicator color="fff" />}
                         source={imagePath ? { uri: imagePath } : require("../../../assets/img/imgj.jpg")
                         }

@@ -136,35 +136,13 @@ export default function Dish(props) {
         < ScrollView >
             <View style={{ flex: 1 }}>
                 <View style={{ width: width - 20, margin: 12, backgroundColor: 'white', borderBottomWidth: 2, borderColor: "#cccccc", paddingBottom: 10, borderRadius: 10 }}>
-                    <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flex: 1,
-                        margin: 10
-                    }}>
+                    <View style={styles.viewRestaurants}>
                         <Image
-                            style={{
-                                // width: width / 2, height: width / 3,
-                                // borderWidth: 1,
-                                // overflow: 'hidden',
-                                // borderBottomWidth: 1,
-                                // borderTopLeftRadius: 20,
-                                // borderTopWidth: 1,
-                                // borderLeftWidth: 1,
-                                // borderRightWidth: 1,
-                                // borderRadius: 20,
-                                // borderColor: 'red',
-                                // resizeMode: 'contain',
-                                // alignSelf: 'flex-start'
-                                width: 200,
-                                height: 200,
-                                borderRadius: 200 / 2,
-                                resizeMode: 'cover'
-                            }}
-                            //resizeMode='cover'
+                            resizeMode='cover'
                             PlaceholderContent={<ActivityIndicator color="fff" />}
                             source={dishes.imagePath ? { uri: dishes.imagePath } : require("../../../assets/img/imgj.jpg")
                             }
+                            style={styles.imageRestaurant}
                         />
                     </View>
                     <View style={{ flex: 1, backgroundColor: 'transparent', padding: 10, justifyContent: "space-between" }}>
@@ -265,7 +243,6 @@ export default function Dish(props) {
                         </View>
                     </View>
                 </View>
-
             </View>
         </ScrollView >
     )
@@ -362,6 +339,16 @@ const styles = StyleSheet.create({
     },
     disabled: {
         opacity: 0.3,
+    }, imageRestaurant: {
+        width: 200,
+        height: 100,
+        borderTopRightRadius: 10,
+    }, viewRestaurants: {
+        margin: 20,
+        borderBottomRightRadius: 37,
+        borderTopRightRadius: 20,
+        padding: 35,
+        // backgroundColor: "#FFF6F6",
     }
 }
 )

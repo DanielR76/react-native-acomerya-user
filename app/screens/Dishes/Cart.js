@@ -145,9 +145,9 @@ export default function Cart(props) {
     //navigation.setOptions({ title: "Carrito" });
     return (
         <ScrollView>
-            <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 5 }}>
+            <View>
                 {size(dishCart.dishes) > 0 ? (
-                    <View>
+                    <View style={{ backgroundColor: 'white', borderRadius: 10, margin: 5 }}>
                         <View>
                             {
                                 restaurant.map((item, index) => {
@@ -263,7 +263,7 @@ export default function Cart(props) {
                             )
                         }
 
-                        <View style={{ marginTop: 20, flexDirection: "row", marginLeft: 20 }}>
+                        <View style={{ margin: 20, flexDirection: "row" }}>
                             <View>
                                 <TouchableOpacity
                                     onPress={addBD}
@@ -299,8 +299,6 @@ export default function Cart(props) {
                         </View>
 
                     </View>
-
-
                 ) : (
                         <View style={{ alignItems: 'center', alignContent: 'center', marginTop: 150 }}>
                             <Ionicons
@@ -317,6 +315,7 @@ export default function Cart(props) {
                     )
 
                 }
+
             </View>
             <View style={styles.centeredView}>
                 <Modal
